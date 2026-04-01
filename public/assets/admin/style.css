@@ -93,7 +93,6 @@ body {
     min-height: 100vh;
     width: 100%;
     background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
-    animation: dashboardFadeIn 0.6s ease-out;
     position: relative;
     overflow-x: hidden;
 }
@@ -199,11 +198,10 @@ body {
     cursor: pointer;
     padding: 0.625rem;
     border-radius: var(--radius-md);
-    transition: all var(--transition);
+    transition: background var(--transition), transform var(--transition);
     display: flex;
     align-items: center;
     justify-content: center;
-    backdrop-filter: blur(10px);
 }
 
 .toggle-btn:hover {
@@ -497,7 +495,6 @@ body {
     position: sticky;
     top: 0;
     z-index: var(--z-sticky);
-    backdrop-filter: blur(10px);
     border-bottom: 1px solid var(--gray-200);
 }
 
@@ -820,7 +817,6 @@ body {
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     overflow: hidden;
-    backdrop-filter: blur(20px);
     border: 1px solid rgba(255, 255, 255, 0.18);
 }
 
@@ -835,7 +831,6 @@ body {
             transparent 30%,
             rgba(255, 255, 255, 0.5) 50%,
             transparent 70%);
-    animation: liquidRotate 8s linear infinite;
     opacity: 0.6;
 }
 
@@ -851,7 +846,6 @@ body {
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
-    animation: liquidBorder 6s ease-in-out infinite;
 }
 
 @keyframes liquidRotate {
@@ -884,7 +878,7 @@ body {
 }
 
 .stat-card:hover .stat-icon::before {
-    animation: liquidRotate 4s linear infinite;
+    opacity: 0.8;
 }
 
 .stat-icon.blue {
@@ -985,8 +979,6 @@ body {
     right: 0;
     height: 4px;
     background: linear-gradient(90deg, var(--primary) 0%, var(--primary-light) 50%, var(--primary) 100%);
-    background-size: 200% 100%;
-    animation: shimmer 3s linear infinite;
     opacity: 0;
     transition: opacity var(--transition);
 }
@@ -1315,7 +1307,6 @@ button:active::after {
     position: fixed;
     inset: 0;
     background: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(4px);
     z-index: var(--z-modal);
     align-items: center;
     justify-content: center;
@@ -1408,7 +1399,7 @@ button:active::after {
     width: 200%;
     height: 200%;
     background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-    animation: mobileBtnShimmer 3s linear infinite;
+    opacity: 0;
 }
 
 @keyframes mobileBtnShimmer {
@@ -1452,7 +1443,6 @@ button:active::after {
     position: fixed;
     inset: 0;
     background: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(4px);
     z-index: 1025;
     opacity: 0;
     transition: opacity 0.3s ease;
@@ -1940,7 +1930,7 @@ html {
 /* Card hover effects */
 .stat-card,
 .table-card {
-    will-change: transform;
+    transition: transform var(--transition), box-shadow var(--transition);
 }
 
 /* Improved transitions */
