@@ -363,17 +363,7 @@
             pointer-events: none
         }
 
-        /* Green Shape Below Hero */
-        .green-shape-bottom {
-            width: 100%;
-            height: 200px;
-            background: linear-gradient(180deg, #0a3d24 0%, #166534 50%, #0d3d29 100%);
-            position: relative;
-            margin-top: -90px;
-            padding: 0;
-            overflow: hidden;
-            z-index: 1;
-        }
+
 
 
 
@@ -406,10 +396,6 @@
 
         /* Tablet responsive */
         @media (max-width: 768px) {
-            .green-shape-bottom {
-                display: none;
-            }
-
             body #home.hero,
             #home,
             section#home.hero {
@@ -519,10 +505,6 @@
 
         /* Mobile portrait */
         @media (max-width: 480px) {
-            .green-shape-bottom {
-                display: none;
-            }
-
             body #home.hero,
             #home,
             section#home.hero {
@@ -810,4 +792,3 @@
         })();
     </script>
 </section>
-<div class="green-shape-bottom"></div>
