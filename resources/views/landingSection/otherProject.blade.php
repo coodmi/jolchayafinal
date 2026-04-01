@@ -1096,6 +1096,18 @@
                             const ctaText = escapeHtml(project.cta_text || 'বিস্তারিত জানুন');
                             const ctaLink = escapeAttr(project.cta_link || '#contact');
                             
+                            // Normalize CTA link — add https:// if it's a bare domain/path
+                            let normalizedCtaLink = project.cta_link || '#contact';
+                            if (normalizedCtaLink && 
+                                !normalizedCtaLink.startsWith('http') && 
+                                !normalizedCtaLink.startsWith('/') && 
+                                !normalizedCtaLink.startsWith('#') &&
+                                !normalizedCtaLink.startsWith('mailto:') &&
+                                !normalizedCtaLink.startsWith('tel:')) {
+                                normalizedCtaLink = 'https://' + normalizedCtaLink;
+                            }
+                            const safeCtaLink = escapeAttr(normalizedCtaLink);
+                            
                             // Get image URL - fix if needed
                             let imageUrl = project.image_url || null;
                             if (!imageUrl && project.image_path) {
@@ -1139,7 +1151,7 @@
                             card.setAttribute('data-description', escapeAttr(project.description || ''));
                             card.setAttribute('data-image', escapedImageUrl);
                             card.setAttribute('data-cta-text', escapeAttr(project.cta_text || ''));
-                            card.setAttribute('data-cta-link', ctaLink);
+                            card.setAttribute('data-cta-link', safeCtaLink);
                             
                             // Add click handler to card
                             card.addEventListener('click', function() {

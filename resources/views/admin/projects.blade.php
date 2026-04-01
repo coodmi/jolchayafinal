@@ -414,54 +414,46 @@
             // ==================== CUSTOM MODAL FUNCTIONS ====================
             
             window.showProjectModal = function(options) {
-                const overlay = document.getElementById('projectConfirmOverlay');
-                const modal = document.getElementById('projectConfirmModal');
-                const icon = document.getElementById('projectModalIcon');
-                const title = document.getElementById('projectModalTitle');
-                const body = document.getElementById('projectModalBody');
-                const footer = document.getElementById('projectModalFooter');
-                
-                // Set icon and color based on type
-                const types = {
-                    success: { icon: '<i class="fas fa-check"></i>', bg: '#d1fae5', color: '#065f46', title: 'সফল' },
-                    error: { icon: '<i class="fas fa-times"></i>', bg: '#fee2e2', color: '#991b1b', title: 'ত্রুটি' },
-                    warning: { icon: '<i class="fas fa-exclamation"></i>', bg: '#fef3c7', color: '#92400e', title: 'সতর্কতা' },
-                    confirm: { icon: '<i class="fas fa-exclamation"></i>', bg: '#fee2e2', color: '#b91c1c', title: 'নিশ্চিত করুন' }
-                };
-                
-                const style = types[options.type] || types.confirm;
-                
-                icon.innerHTML = style.icon;
-                icon.style.background = style.bg;
-                icon.style.color = style.color;
-                title.textContent = options.title || style.title;
-                body.textContent = options.message;
-                
-                // Create buttons
-                footer.innerHTML = '';
-                if (options.showCancel !== false) {
+                // For confirm type, use the real modal
+                if (options.type === 'confirm') {
+                    const overlay = document.getElementById('projectConfirmOverlay');
+                    const modal = document.getElementById('projectConfirmModal');
+                    const icon = document.getElementById('projectModalIcon');
+                    const title = document.getElementById('projectModalTitle');
+                    const body = document.getElementById('projectModalBody');
+                    const footer = document.getElementById('projectModalFooter');
+                    icon.innerHTML = '<i class="fas fa-exclamation"></i>';
+                    icon.style.background = '#fee2e2'; icon.style.color = '#b91c1c';
+                    title.textContent = options.title || 'নিশ্চিত করুন';
+                    body.textContent = options.message;
+                    footer.innerHTML = '';
                     const cancelBtn = document.createElement('button');
                     cancelBtn.textContent = options.cancelText || 'না';
                     cancelBtn.style.cssText = 'padding:10px 16px; background:#e5e7eb; color:#111827; border:none; border-radius:8px; font-weight:600; cursor:pointer;';
-                    cancelBtn.onclick = () => {
-                        closeProjectModal();
-                        if (options.onCancel) options.onCancel();
-                    };
+                    cancelBtn.onclick = () => { closeProjectModal(); if (options.onCancel) options.onCancel(); };
                     footer.appendChild(cancelBtn);
+                    const confirmBtn = document.createElement('button');
+                    confirmBtn.textContent = options.confirmText || 'হ্যাঁ, মুছুন';
+                    confirmBtn.style.cssText = 'padding:10px 16px; background:#ef4444; color:#fff; border:none; border-radius:8px; font-weight:600; cursor:pointer;';
+                    confirmBtn.onclick = () => { closeProjectModal(); if (options.onConfirm) options.onConfirm(); };
+                    footer.appendChild(confirmBtn);
+                    overlay.style.display = 'block';
+                    modal.style.display = 'flex';
+                    return;
                 }
-                
-                const confirmBtn = document.createElement('button');
-                confirmBtn.textContent = options.confirmText || 'ঠিক আছে';
-                const btnColor = options.type === 'error' ? '#ef4444' : (options.type === 'success' ? '#059669' : '#7c3aed');
-                confirmBtn.style.cssText = `padding:10px 16px; background:${btnColor}; color:#fff; border:none; border-radius:8px; font-weight:600; cursor:pointer;`;
-                confirmBtn.onclick = () => {
-                    closeProjectModal();
-                    if (options.onConfirm) options.onConfirm();
-                };
-                footer.appendChild(confirmBtn);
-                
-                overlay.style.display = 'block';
-                modal.style.display = 'flex';
+
+                // For success/error/warning — use centered toast
+                const typeMap = { success: 'success', error: 'error', warning: 'warning' };
+                const toastType = typeMap[options.type] || 'info';
+                if (window.showToast) {
+                    window.showToast(toastType, options.title, options.message, 4000);
+                } else if (window.showSuccess && options.type === 'success') {
+                    window.showSuccess(options.message, options.title);
+                } else if (window.showError && options.type === 'error') {
+                    window.showError(options.message, options.title);
+                }
+                // Fire onConfirm immediately for non-confirm types
+                if (options.onConfirm) setTimeout(options.onConfirm, 100);
             };
             
             window.closeProjectModal = function() {
@@ -895,7 +887,8 @@
 
                     <div class="project-form-group">
                         <label>CTA বাটন লিংক</label>
-                        <input type="text" class="project-cta-link-input" value="${project.cta_link || ''}" placeholder="https://..." />
+                        <input type="text" class="project-cta-link-input" value="${project.cta_link || ''}" placeholder="https://example.com অথবা #contact" />
+                        <small style="color:#6b7280; font-size:12px;">বাহ্যিক লিংকের জন্য https:// দিয়ে শুরু করুন। পেজের সেকশনের জন্য #contact ব্যবহার করুন।</small>
                         </div>
 
                     <div class="project-form-group">
