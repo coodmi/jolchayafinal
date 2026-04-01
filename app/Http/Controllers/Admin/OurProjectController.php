@@ -45,6 +45,7 @@ class OurProjectController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
+            'images' => 'nullable|array',
             'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
             'cta_text' => 'nullable|string|max:100',
             'cta_link' => 'nullable|string|max:500',
@@ -71,7 +72,9 @@ class OurProjectController extends Controller
         // Handle multiple images
         $extraImages = [];
         if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $img) {
+            $files = $request->file('images');
+            if (!is_array($files)) $files = [$files];
+            foreach ($files as $img) {
                 try {
                     $extraImages[] = $img->store('projects', 'public');
                 } catch (\Exception $e) {}
@@ -125,6 +128,8 @@ class OurProjectController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
+            'images' => 'nullable|array',
+            'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
             'cta_text' => 'nullable|string|max:100',
             'cta_link' => 'nullable|string|max:500',
             'order' => 'nullable|integer',
@@ -153,7 +158,9 @@ class OurProjectController extends Controller
         // Handle multiple images
         if ($request->hasFile('images')) {
             $extraImages = $project->images ?? [];
-            foreach ($request->file('images') as $img) {
+            $files = $request->file('images');
+            if (!is_array($files)) $files = [$files];
+            foreach ($files as $img) {
                 try {
                     $extraImages[] = $img->store('projects', 'public');
                 } catch (\Exception $e) {}
