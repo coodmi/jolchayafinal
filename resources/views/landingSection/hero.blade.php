@@ -138,7 +138,7 @@
             content: "";
             position: absolute;
             inset: 0;
-            background: linear-gradient(135deg, rgba(13, 61, 41, .75) 0%, rgba(0, 0, 0, .55) 100%);
+            background: linear-gradient(135deg, rgba(13, 61, 41, .45) 0%, rgba(0, 0, 0, .3) 100%);
             z-index: 0
         }
 
@@ -146,7 +146,7 @@
             content: "";
             position: absolute;
             inset: 0;
-            background: radial-gradient(circle at center, transparent 0%, rgba(0, 0, 0, .3) 100%);
+            background: radial-gradient(circle at center, transparent 0%, rgba(0, 0, 0, .15) 100%);
             z-index: 0
         }
 
