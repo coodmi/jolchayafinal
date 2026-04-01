@@ -691,17 +691,16 @@
                     if (it.video_url) {
                         const poster = it.image_url || (it.image_path ? `/storage/${it.image_path}` : '');
                         mediaHTML = `
-                            <div class="sm-image">
-                                <video poster="${poster}" muted loop playsinline draggable="false">
+                            <div class="sm-image" style="background-image:url('${poster}'); background-size:cover; background-position:center;">
+                                <video style="width:100%;height:100%;object-fit:cover;opacity:0.01;" poster="${poster}" muted loop playsinline draggable="false">
                                     <source src="${it.video_url}" type="video/mp4">
-                                    Your browser does not support the video tag.
                                 </video>
                             </div>
                         `;
                     } else if (it.image_url) {
-                        mediaHTML = `<div class="sm-image"><img src="${it.image_url}" alt="${it.title || 'Image'}" draggable="false" /></div>`;
+                        mediaHTML = `<div class="sm-image" style="background-image:url('${it.image_url}'); background-size:cover; background-position:center;"></div>`;
                     } else if (it.image_path) {
-                        mediaHTML = `<div class="sm-image"><img src="${it.image_path}" alt="${it.title || 'Image'}" draggable="false" /></div>`;
+                        mediaHTML = `<div class="sm-image" style="background-image:url('${it.image_path}'); background-size:cover; background-position:center;"></div>`;
                     } else {
                         // Fallback icon only if no image
                         const icons = ['<i class="fas fa-building"></i>', '<i class="fas fa-home"></i>', '<i class="fas fa-city"></i>', '<i class="fas fa-landmark"></i>'];
