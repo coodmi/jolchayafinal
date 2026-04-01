@@ -13,6 +13,7 @@ class OurProject extends Model
         'title',
         'description',
         'image_path',
+        'images',
         'cta_text',
         'cta_link',
         'order',
@@ -24,6 +25,7 @@ class OurProject extends Model
     protected $casts = [
         'is_active' => 'boolean',
         'order' => 'integer',
+        'images' => 'array',
     ];
 
     /**

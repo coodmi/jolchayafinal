@@ -892,24 +892,42 @@
                         </div>
 
                     <div class="project-form-group">
-                        <label>প্রজেক্ট ইমেজ আপলোড করুন</label>
+                        <label>প্রজেক্ট ইমেজ (মেইন) আপলোড করুন</label>
                         ${project.image_url ? `
                             <div style="margin-top: 10px; margin-bottom: 10px; padding: 12px; background: #f0fdf4; border: 2px solid #86efac; border-radius: 8px;">
                                 <small style="color: #166534; font-weight: 600; display: block; margin-bottom: 8px;"><i class="fas fa-check"></i> বর্তমান ইমেজ সংরক্ষিত আছে</small>
-                                <small style="color: #059669; font-size: 12px; display: block; margin-bottom: 8px; word-break: break-all;">Path: ${project.image_url}</small>
                                 <img src="${project.image_url}" class="project-card-image-preview" 
                                      style="display: block !important; width: 100%; max-height: 200px; object-fit: cover; border-radius: 8px; border: 2px solid #86efac;" 
-                                     onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" />
+                                     onerror="this.style.display='none';" />
                                 <div style="display: none; padding: 20px; background: #fee2e2; color: #991b1b; border-radius: 6px; text-align: center;">
                                     ⚠️ ইমেজ লোড করতে ব্যর্থ - নতুন ইমেজ আপলোড করুন
                     </div>
                         </div>
                         ` : ''}
                         <input type="file" class="project-image-input" accept="image/*" onchange="previewProjectCardImage(this)" />
-                        <small style="display: block; margin-top: 5px; color: #6b7280; font-size: 13px;">
-                            <i class="fas fa-camera"></i> ${project.image_url ? 'নতুন ইমেজ আপলোড করুন (ঐচ্ছিক) - পুরাতন ইমেজ রাখা হবে' : 'সর্বোচ্চ ফাইল সাইজ: 5MB | প্রস্তাবিত সাইজ: 1500x900px'}
+                        <small style="display: block; margin-top: 6px; padding: 8px 10px; background: #fffbeb; border: 1px solid #fcd34d; border-radius: 6px; color: #92400e; font-size: 12px;">
+                            📐 প্রস্তাবিত রেজোলিউশন: <strong>৯০০×৪০০ পিক্সেল</strong> | সর্বোচ্চ ফাইল সাইজ: <strong>৫ MB</strong> | ফরম্যাট: JPG, PNG, WEBP
                         </small>
                         <div class="project-image-preview-container"></div>
+                        </div>
+
+                    <div class="project-form-group">
+                        <label>অতিরিক্ত ইমেজ (স্লাইডার) — একাধিক নির্বাচন করুন</label>
+                        ${(project.images && project.images.length > 0) ? `
+                            <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:10px;">
+                                ${project.images.map((img, i) => `
+                                    <div style="position:relative;">
+                                        <img src="/storage/${img}" style="width:80px; height:60px; object-fit:cover; border-radius:6px; border:2px solid #86efac;" onerror="this.style.display='none'" />
+                                        <button type="button" onclick="removeExtraImage(this, '${img}', ${project.id})" style="position:absolute; top:-6px; right:-6px; background:#ef4444; color:#fff; border:none; border-radius:50%; width:18px; height:18px; font-size:10px; cursor:pointer; line-height:1;">×</button>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        ` : ''}
+                        <input type="file" class="project-extra-images-input" accept="image/*" multiple onchange="previewExtraImages(this)" />
+                        <small style="display: block; margin-top: 6px; padding: 8px 10px; background: #fffbeb; border: 1px solid #fcd34d; border-radius: 6px; color: #92400e; font-size: 12px;">
+                            📐 প্রস্তাবিত রেজোলিউশন: <strong>৯০০×৪০০ পিক্সেল</strong> | সর্বোচ্চ ফাইল সাইজ: <strong>৫ MB প্রতিটি</strong> | একাধিক ছবি একসাথে নির্বাচন করুন
+                        </small>
+                        <div class="project-extra-images-preview" style="display:flex; gap:8px; flex-wrap:wrap; margin-top:8px;"></div>
                         </div>
 
                     <button class="project-save-btn" onclick="saveOurProject(this)" style="margin-top: 15px;">
@@ -945,7 +963,7 @@
                         showProjectModal({
                             type: 'warning',
                             title: 'ফাইল সাইজ বড়',
-                            message: 'ফাইলের আকার ৫ এমবি এর কম হতে হবে।',
+                            message: `ফাইলের আকার ${(file.size/1024/1024).toFixed(2)}MB। সর্বোচ্চ ৫MB অনুমোদিত।`,
                             confirmText: 'ঠিক আছে',
                             showCancel: false
                         });
@@ -959,6 +977,45 @@
                     };
                     reader.readAsDataURL(file);
                 }
+            };
+
+            // Preview extra images
+            window.previewExtraImages = function(input) {
+                const card = input.closest('.project-card');
+                const previewContainer = card.querySelector('.project-extra-images-preview');
+                if (!previewContainer) return;
+                previewContainer.innerHTML = '';
+                Array.from(input.files).forEach(file => {
+                    if (file.size > 5 * 1024 * 1024) {
+                        showProjectModal({ type: 'warning', title: 'ফাইল বড়', message: `${file.name}: সর্বোচ্চ ৫MB অনুমোদিত।`, confirmText: 'ঠিক আছে', showCancel: false });
+                        return;
+                    }
+                    const reader = new FileReader();
+                    reader.onload = e => {
+                        const img = document.createElement('img');
+                        img.src = e.target.result;
+                        img.style.cssText = 'width:80px;height:60px;object-fit:cover;border-radius:6px;border:2px solid #86efac;';
+                        previewContainer.appendChild(img);
+                    };
+                    reader.readAsDataURL(file);
+                });
+            };
+
+            // Remove extra image
+            window.removeExtraImage = async function(btn, imgPath, projectId) {
+                if (!confirm('এই ছবিটি মুছে ফেলবেন?')) return;
+                try {
+                    const res = await fetch(`/admin/our-projects/${projectId}/remove-image`, {
+                        method: 'POST',
+                        headers: { 'X-CSRF-TOKEN': csrfToken, 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ image_path: imgPath })
+                    });
+                    const result = await res.json();
+                    if (result.success) {
+                        btn.closest('div').remove();
+                        if (window.showSuccess) window.showSuccess('ছবি মুছে ফেলা হয়েছে');
+                    }
+                } catch(e) {}
             };
 
             // Save project
@@ -975,6 +1032,12 @@
                 const imageInput = card.querySelector('.project-image-input');
                 if (imageInput.files && imageInput.files[0]) {
                     formData.append('image', imageInput.files[0]);
+                }
+
+                // Extra images for slider
+                const extraInput = card.querySelector('.project-extra-images-input');
+                if (extraInput && extraInput.files && extraInput.files.length > 0) {
+                    Array.from(extraInput.files).forEach(f => formData.append('images[]', f));
                 }
 
                 // Validate

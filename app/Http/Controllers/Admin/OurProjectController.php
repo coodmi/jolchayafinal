@@ -45,6 +45,7 @@ class OurProjectController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
+            'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
             'cta_text' => 'nullable|string|max:100',
             'cta_link' => 'nullable|string|max:500',
             'order' => 'nullable|integer',
@@ -67,6 +68,19 @@ class OurProjectController extends Controller
             }
         }
 
+        // Handle multiple images
+        $extraImages = [];
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $img) {
+                try {
+                    $extraImages[] = $img->store('projects', 'public');
+                } catch (\Exception $e) {}
+            }
+        }
+        if (!empty($extraImages)) {
+            $data['images'] = $extraImages;
+        }
+
         try {
             $project = OurProject::create($data);
             $project->refresh();
@@ -84,6 +98,7 @@ class OurProjectController extends Controller
                     'description' => $project->description ?? '',
                     'image_url' => $project->image_url ?? null,
                     'image_path' => $project->image_path ?? null,
+                    'images' => $project->images ?? [],
                     'cta_text' => $project->cta_text ?? 'বিস্তারিত জানুন',
                     'cta_link' => $project->cta_link ?? '#contact',
                     'order' => $project->order ?? 0,
@@ -135,6 +150,17 @@ class OurProjectController extends Controller
             }
         }
 
+        // Handle multiple images
+        if ($request->hasFile('images')) {
+            $extraImages = $project->images ?? [];
+            foreach ($request->file('images') as $img) {
+                try {
+                    $extraImages[] = $img->store('projects', 'public');
+                } catch (\Exception $e) {}
+            }
+            $data['images'] = $extraImages;
+        }
+
         try {
             $project->update($data);
             $project->refresh();
@@ -152,6 +178,7 @@ class OurProjectController extends Controller
                     'description' => $project->description ?? '',
                     'image_url' => $project->image_url ?? null,
                     'image_path' => $project->image_path ?? null,
+                    'images' => $project->images ?? [],
                     'cta_text' => $project->cta_text ?? 'বিস্তারিত জানুন',
                     'cta_link' => $project->cta_link ?? '#contact',
                     'order' => $project->order ?? 0,
@@ -165,6 +192,24 @@ class OurProjectController extends Controller
                 'message' => 'প্রজেক্ট আপডেট ব্যর্থ: ' . $e->getMessage()
             ], 500);
         }
+    }
+
+    /**
+     * Remove a single extra image from a project
+     */
+    public function removeImage(Request $request, $id)
+    {
+        $project = OurProject::findOrFail($id);
+        $imgPath = $request->input('image_path');
+        $images = $project->images ?? [];
+        $images = array_values(array_filter($images, fn($p) => $p !== $imgPath));
+        $project->update(['images' => $images]);
+        try {
+            if (Storage::disk('public')->exists($imgPath)) {
+                Storage::disk('public')->delete($imgPath);
+            }
+        } catch (\Exception $e) {}
+        return response()->json(['success' => true]);
     }
 
     /**

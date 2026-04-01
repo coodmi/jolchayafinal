@@ -1107,6 +1107,39 @@
                                 normalizedCtaLink = 'https://' + normalizedCtaLink;
                             }
                             const safeCtaLink = escapeAttr(normalizedCtaLink);
+
+                            // Build all images array (main + extras)
+                            const allImages = [];
+                            if (imageUrl) allImages.push(imageUrl);
+                            if (project.images && project.images.length > 0) {
+                                project.images.forEach(p => {
+                                    const url = p.startsWith('http') ? p : '/storage/' + p;
+                                    if (!allImages.includes(url)) allImages.push(url);
+                                });
+                            }
+
+                            // Build image/slider HTML
+                            let imageContent = '';
+                            if (allImages.length > 1) {
+                                // Slider
+                                const slides = allImages.map((src, i) =>
+                                    `<img src="${escapeAttr(src)}" alt="${title}" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:${i===0?1:0};transition:opacity 0.5s ease;" data-slide="${i}" onerror="this.style.display='none';" />`
+                                ).join('');
+                                imageContent = `
+                                    <div class="project-image proj-slider" data-current="0" data-total="${allImages.length}" style="position:relative;">
+                                        ${slides}
+                                        <button class="proj-slide-btn proj-prev" onclick="projSlide(this,-1)" style="position:absolute;left:8px;top:50%;transform:translateY(-50%);z-index:5;background:rgba(0,0,0,0.5);color:#fff;border:none;border-radius:50%;width:28px;height:28px;cursor:pointer;font-size:14px;">‹</button>
+                                        <button class="proj-slide-btn proj-next" onclick="projSlide(this,1)" style="position:absolute;right:8px;top:50%;transform:translateY(-50%);z-index:5;background:rgba(0,0,0,0.5);color:#fff;border:none;border-radius:50%;width:28px;height:28px;cursor:pointer;font-size:14px;">›</button>
+                                        <div style="position:absolute;bottom:6px;left:50%;transform:translateX(-50%);display:flex;gap:4px;z-index:5;">
+                                            ${allImages.map((_,i)=>`<span style="width:6px;height:6px;border-radius:50%;background:${i===0?'#fff':'rgba(255,255,255,0.5)'};display:inline-block;" data-dot="${i}"></span>`).join('')}
+                                        </div>
+                                    </div>`;
+                            } else if (escapedImageUrl) {
+                                imageContent = `<div class="project-image"><img src="${escapedImageUrl}" alt="${title}" loading="lazy" decoding="async" onerror="console.error('Image failed to load:', '${escapedImageUrl}'); this.style.display='none';" /></div>`;
+                            } else {
+                                const icons = ['<i class="fas fa-city"></i>', '<i class="fas fa-home"></i>', '<i class="fas fa-building"></i>', '<i class="fas fa-hard-hat"></i>'];
+                                imageContent = `<div class="project-image" style="display:flex;align-items:center;justify-content:center;font-size:3rem;color:#0d3d29;">${icons[index % icons.length]}</div>`;
+                            }
                             
                             // Get image URL - fix if needed
                             let imageUrl = project.image_url || null;
@@ -1130,17 +1163,8 @@
                             
                             const escapedImageUrl = imageUrl ? escapeAttr(imageUrl) : '';
                             
-                            // Create image element
-                            let imageContent = '';
-                            if (escapedImageUrl) {
-                                imageContent = `<img src="${escapedImageUrl}" alt="${title}" loading="lazy" decoding="async" onerror="console.error('Image failed to load:', '${escapedImageUrl}'); this.style.display='none';" />`;
-                            } else {
-                                const icons = ['<i class="fas fa-city"></i>', '<i class="fas fa-home"></i>', '<i class="fas fa-building"></i>', '<i class="fas fa-hard-hat"></i>'];
-                                imageContent = `<div style="font-size: 5rem; color: #0d3d29;">${icons[index % icons.length]}</div>`;
-                            }
-                            
                             card.innerHTML = `
-                                <div class="project-image">${imageContent}</div>
+                                ${imageContent}
                                 <div class="project-content">
                                     <h3>${title}</h3>
                                     <p>${description}</p>
@@ -1500,5 +1524,23 @@
     // Automatic reload disabled - project data only loads on page load or manual refresh
     // setInterval(loadFromAPI, 5000);
 })();
+</script>
+
+<script>
+// Project image slider
+window.projSlide = function(btn, dir) {
+    const slider = btn.closest('.proj-slider');
+    if (!slider) return;
+    const total = parseInt(slider.dataset.total);
+    let current = parseInt(slider.dataset.current);
+    const slides = slider.querySelectorAll('[data-slide]');
+    const dots = slider.querySelectorAll('[data-dot]');
+    slides[current].style.opacity = '0';
+    if (dots[current]) dots[current].style.background = 'rgba(255,255,255,0.5)';
+    current = (current + dir + total) % total;
+    slides[current].style.opacity = '1';
+    if (dots[current]) dots[current].style.background = '#fff';
+    slider.dataset.current = current;
+};
 </script>
 

@@ -223,6 +223,7 @@ Route::get('/api/our-projects', function () {
                     'description' => $item->description ?? '',
                     'image_url' => $item->image_url ?? null,
                     'image_path' => $item->image_path ?? null,
+                    'images' => $item->images ?? [],
                     'cta_text' => $item->cta_text ?? 'বিস্তারিত জানুন',
                     'cta_link' => $item->cta_link ?? '#contact',
                     'order' => $item->order ?? 0,
@@ -409,6 +410,7 @@ Route::middleware('admin')->group(function () {
     Route::post('/admin/our-projects', [OurProjectController::class, 'store'])->name('admin.our-projects.store');
     Route::put('/admin/our-projects/{id}', [OurProjectController::class, 'update'])->name('admin.our-projects.update');
     Route::delete('/admin/our-projects/{id}', [OurProjectController::class, 'destroy'])->name('admin.our-projects.destroy');
+    Route::post('/admin/our-projects/{id}/remove-image', [OurProjectController::class, 'removeImage'])->name('admin.our-projects.remove-image');
 
     // Contact Settings API routes
     Route::get('/admin/contact-settings', [ContactSettingController::class, 'show'])->name('admin.contact-settings.show');
