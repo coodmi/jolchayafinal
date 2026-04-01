@@ -942,6 +942,9 @@
             loadAllSections();
 
             // Load once on page load only — never auto-reload to preserve user edits
+            if (window.registerTabLoader) {
+                registerTabLoader('about', loadAllSections);
+            } else { loadAllSections(); }
 
             // ========== Team Members (Chairman/Other) Dynamic Management ==========
             let teamMembers = {

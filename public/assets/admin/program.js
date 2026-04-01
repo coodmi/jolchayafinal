@@ -169,6 +169,15 @@
 })();
 // ==================== END TOAST SYSTEM ====================
 
+// ==================== LAZY TAB LOADER ====================
+window._tabLoaders = {};
+window._tabLoaded  = {};
+window.registerTabLoader = function(tabId, fn) {
+  if (!window._tabLoaders[tabId]) window._tabLoaders[tabId] = [];
+  window._tabLoaders[tabId].push(fn);
+};
+// ==================== END LAZY TAB LOADER ====================
+
 const bookingsData = [
   {
     id: 1,
@@ -412,6 +421,15 @@ function navigateTo(tabId, sectionId, skipAnimation = false) {
 
   showTab(tabId);
 
+  // Lazy load: fire registered loaders for this tab only once
+  if (window._tabLoaders && window._tabLoaders[tabId] && !window._tabLoaded) {
+    window._tabLoaded = window._tabLoaded || {};
+    if (!window._tabLoaded[tabId]) {
+      window._tabLoaded[tabId] = true;
+      window._tabLoaders[tabId].forEach(fn => { try { fn(); } catch(e) {} });
+    }
+  }
+
   // Update active submenu item
   updateActiveSubmenu(tabId, sectionId);
 
@@ -476,6 +494,13 @@ function showTab(tabId) {
   if (!isDashboardPage) {
     window.location.href = "/dashboard?tab=" + tabId;
     return;
+  }
+
+  // Lazy load: fire registered loaders for this tab only once
+  if (!window._tabLoaded) window._tabLoaded = {};
+  if (window._tabLoaders && window._tabLoaders[tabId] && !window._tabLoaded[tabId]) {
+    window._tabLoaded[tabId] = true;
+    window._tabLoaders[tabId].forEach(fn => { try { fn(); } catch(e) { console.error(e); } });
   }
 
   // Update active sidebar item

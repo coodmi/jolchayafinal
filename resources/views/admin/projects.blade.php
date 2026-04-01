@@ -822,9 +822,11 @@
                 }
             };
             
-            // Load sections on page load
-            loadAllSections();
-            
+            // Load sections — lazy load when projects tab is first opened
+            if (window.registerTabLoader) {
+                registerTabLoader('projects', loadAllSections);
+            } else { loadAllSections(); }
+
             // Load once on page load only — never auto-reload to preserve user edits
 
             // ==================== OUR PROJECTS MANAGEMENT ====================

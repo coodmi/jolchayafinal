@@ -1064,9 +1064,11 @@
                         await loadFeatures();
                     });
 
-                    // Initialize
-                    loadFeatureSettings();
-                    loadFeatures();
+                    // Initialize — lazy load when home tab is first opened
+                    if (window.registerTabLoader) {
+                        registerTabLoader('home', loadFeatureSettings);
+                        registerTabLoader('home', loadFeatures);
+                    } else { loadFeatureSettings(); loadFeatures(); }
                 })();
             </script>
         </div>
@@ -1454,14 +1456,14 @@
                     qs('saveHeroBtn').addEventListener('click', saveSliders);
                     qs('resetHeroBtn').addEventListener('click', resetForm);
 
-                    // Load hero tagline on page load
-                    loadHeroTagline();
-
                     // Wire file inputs
                     for (let i = 0; i < 3; i++) wireFile(i);
 
-                    // Load on page load
-                    loadSliders();
+                    // Lazy load when home tab is first opened
+                    if (window.registerTabLoader) {
+                        registerTabLoader('home', loadHeroTagline);
+                        registerTabLoader('home', loadSliders);
+                    } else { loadHeroTagline(); loadSliders(); }
                 })();
             </script>
         </div>
@@ -1996,9 +1998,11 @@
                         }
                     });
 
-                    // Initialize
-                    loadPricingSettings();
-                    loadPricingPlans();
+                    // Initialize — lazy load
+                    if (window.registerTabLoader) {
+                        registerTabLoader('home', loadPricingSettings);
+                        registerTabLoader('home', loadPricingPlans);
+                    } else { loadPricingSettings(); loadPricingPlans(); }
                 })();
             </script>
         </div>
@@ -2817,9 +2821,11 @@
                         }
                     });
 
-                    // Initialize
-                    loadTestimonialSettings();
-                    loadTestimonials();
+                    // Initialize — lazy load
+                    if (window.registerTabLoader) {
+                        registerTabLoader('home', loadTestimonialSettings);
+                        registerTabLoader('home', loadTestimonials);
+                    } else { loadTestimonialSettings(); loadTestimonials(); }
                 })();
             </script>
         </div>
@@ -3593,9 +3599,11 @@
                         }
                     });
 
-                    // Initialize: Load settings and items from API to get fresh data
-                    loadSocialCarouselSettings();
-                    loadItems();
+                    // Initialize: lazy load
+                    if (window.registerTabLoader) {
+                        registerTabLoader('home', loadSocialCarouselSettings);
+                        registerTabLoader('home', loadItems);
+                    } else { loadSocialCarouselSettings(); loadItems(); }
 
                 })();
             </script>
@@ -3935,8 +3943,10 @@
                         container.insertBefore(newCard, container.firstChild);
                     });
 
-                    // Load sliders on page load
-                    loadSliders();
+                    // Load sliders — lazy load
+                    if (window.registerTabLoader) {
+                        registerTabLoader('home', loadSliders);
+                    } else { loadSliders(); }
 
                     // Load sliders once on page load only
                 })();

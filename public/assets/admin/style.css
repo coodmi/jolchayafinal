@@ -2259,3 +2259,47 @@ html {
     width: 100% !important;
 }
 /* ===== END CENTERED TOAST ===== */
+
+/* ===== PERFORMANCE: DISABLE ALL NON-ESSENTIAL ANIMATIONS ===== */
+@keyframes dashboardFadeIn { from {} to {} }
+@keyframes contentFadeIn   { from {} to {} }
+@keyframes tabFadeIn       { from {} to {} }
+@keyframes togglePulse     { from {} to {} }
+@keyframes dropdownSlide   { from {} to {} }
+@keyframes modalSlide      { from {} to {} }
+@keyframes mobileBtnShimmer{ from {} to {} }
+@keyframes liquidRotate    { from {} to {} }
+@keyframes liquidBorder    { from {} to {} }
+@keyframes shimmer         { from {} to {} }
+@keyframes skeleton-loading{ from {} to {} }
+@keyframes fadeInItem      { from {} to {} }
+@keyframes slideDown       { from {} to {} }
+@keyframes slideIn         { from {} to {} }
+@keyframes fadeInUp        { from {} to {} }
+@keyframes fadeIn          { from {} to {} }
+
+/* Remove all transition: all — replace with none on heavy elements */
+.sidebar,
+.nav-item,
+.nav-subitem,
+.stat-card,
+.table-card,
+.content-area,
+.tab-content,
+.main-content,
+.dropdown-menu,
+.modal-content {
+    animation: none !important;
+    transition: none !important;
+}
+
+/* Keep only essential fast transitions */
+.btn, button, a, input, textarea, select {
+    transition: background 150ms ease, color 150ms ease, border-color 150ms ease !important;
+}
+
+/* Sidebar slide — keep but make instant */
+.sidebar {
+    transition: width 150ms ease !important;
+}
+/* ===== END PERFORMANCE ===== */
