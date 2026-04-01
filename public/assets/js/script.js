@@ -189,35 +189,17 @@
         );
     }
 
-    // INSTANT LOAD - No animations, show everything immediately
+    // INSTANT LOAD - Make sections visible without forcing reflow on every element
     function showAllSectionsImmediately() {
-        // Remove any opacity or transform styles that hide content
-        const allElements = document.querySelectorAll('*');
-        allElements.forEach(el => {
-            const computedStyle = window.getComputedStyle(el);
-            if (computedStyle.opacity === '0' || computedStyle.visibility === 'hidden') {
-                el.style.opacity = '1';
-                el.style.visibility = 'visible';
-                el.style.transform = 'none';
-            }
-        });
-
-        // Ensure all sections are visible
         const sections = document.querySelectorAll('section, .feature-card, .pricing-card, .contact-item, .project-card, .testimonial-card, .amenity-card, .video-card-item');
         sections.forEach(el => {
             el.style.opacity = '1';
             el.style.visibility = 'visible';
             el.style.transform = 'translateY(0)';
-            el.style.display = el.style.display === 'none' ? 'block' : el.style.display;
         });
     }
 
-    // Run immediately
     showAllSectionsImmediately();
-
-    // Run again after a tiny delay to catch any late-loading elements
-    setTimeout(showAllSectionsImmediately, 50);
-    setTimeout(showAllSectionsImmediately, 200);
 
     // NO Intersection Observer - everything visible immediately
 

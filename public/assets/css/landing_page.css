@@ -344,7 +344,6 @@ body {
 /* Ensure proper spacing */
 .custom-navbar {
     background: #0d3d29 !important;
-    backdrop-filter: blur(20px);
     padding: 10px 55px !important;
     z-index: 1030 !important;
     position: fixed !important;
@@ -1575,8 +1574,6 @@ body {
     width: 100%;
     border-radius: 20px;
     position: relative;
-    /* Hardware acceleration for smoother animations */
-    will-change: transform;
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
 }
@@ -1588,15 +1585,10 @@ body {
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
-    /* Hardware acceleration */
-    will-change: transform;
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
-    /* Prevent layout shift */
     align-items: stretch;
-    /* Smooth touch scrolling */
     -webkit-overflow-scrolling: touch;
-    /* Prevent text selection during drag */
     -webkit-touch-callout: none;
 }
 
@@ -1782,11 +1774,6 @@ body {
 /* Card style */
 .card {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
 }
 
 /* --- END CARD STYLES --- */
@@ -4757,3 +4744,8 @@ footer::before {
 }
 
 /* ==================== END ENHANCED RESPONSIVE DESIGN ==================== */
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}

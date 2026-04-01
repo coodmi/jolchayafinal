@@ -383,17 +383,7 @@
             z-index: 1
         }
 
-        /* Building on Road */
-        #home .building-side {
-            position: absolute;
-            bottom: 40px;
-            right: 100px;
-            width: 250px;
-            height: 300px;
-            z-index: 4;
-            opacity: 0.9;
-            pointer-events: none;
-        }
+
 
         /* Tablet and small desktop responsive */
         @media (max-width: 1024px) {
@@ -494,12 +484,7 @@
                 height: 100px
             }
 
-            #home .building-side {
-                bottom: -10px;
-                right: 70px;
-                width: 210px;
-                height: 250px
-            }
+
 
             #home .scroll-indicator {
                 margin-top: clamp(59px, 3vw, 71px)
@@ -634,12 +619,7 @@
                 height: 80px
             }
 
-            #home .building-side {
-                bottom: -30px;
-                right: 50px;
-                width: 190px;
-                height: 220px
-            }
+
 
             #home .scroll-indicator {
                 margin-top: 59px;
@@ -748,9 +728,7 @@
                 </div>
             </div>
         </div>
-        <div class="building-side">
-            <img src="/images/Building 2.svg" alt="Building" style="width:100%; height:100%; object-fit:contain;">
-        </div>
+
         <div class="slider-controls">
             <button class="slider-btn" id="homePrev" aria-label="Previous">❮</button>
             <button class="slider-btn" id="homeNext" aria-label="Next">❯</button>
