@@ -892,11 +892,16 @@
                             window.dispatchEvent(new CustomEvent('aboutPageUpdated'));
                         } catch(e) {}
                     } else {
-                        throw new Error('Save failed');
+                        // Extract validation errors if present
+                        let errMsg = result.message || 'সংরক্ষণ ব্যর্থ হয়েছে';
+                        if (result.errors) {
+                            errMsg = Object.values(result.errors).flat().join(' | ');
+                        }
+                        showError(errMsg);
                     }
                 } catch (error) {
                     console.error('Error saving:', error);
-                    showError('সংরক্ষণ ব্যর্থ হয়েছে');
+                    showError('সংরক্ষণ ব্যর্থ হয়েছে: ' + (error.message || 'অজানা ত্রুটি'));
                 }
             };
 

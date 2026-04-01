@@ -2,7 +2,9 @@
 (function () {
   function ensureContainer() {
     if (document.getElementById('adminToastContainer')) return;
+
     const style = document.createElement('style');
+    style.id = 'adminToastStyle';
     style.textContent = `
       #adminToastContainer {
         position: fixed;

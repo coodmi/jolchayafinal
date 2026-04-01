@@ -2161,3 +2161,101 @@ html {
         border: 1px solid var(--gray-300);
     }
 }
+
+/* ===== CENTERED TOAST OVERRIDE ===== */
+#adminToastContainer {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    z-index: 999999 !important;
+    pointer-events: none !important;
+}
+#adminToastContainer::before {
+    content: '' !important;
+    position: fixed !important;
+    inset: 0 !important;
+    background: rgba(15,23,42,0.4) !important;
+    z-index: -1 !important;
+}
+.admin-toast {
+    pointer-events: all !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    width: 360px !important;
+    max-width: 92vw !important;
+    background: #ffffff !important;
+    border-radius: 20px !important;
+    padding: 36px 28px 28px !important;
+    box-shadow: 0 32px 80px rgba(0,0,0,0.22) !important;
+    border-left: none !important;
+    position: relative !important;
+    overflow: hidden !important;
+    gap: 0 !important;
+}
+.admin-toast-icon {
+    width: 72px !important;
+    height: 72px !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 32px !important;
+    margin: 0 auto 16px !important;
+    flex-shrink: 0 !important;
+}
+.admin-toast-body {
+    width: 100% !important;
+    text-align: center !important;
+}
+.admin-toast-title {
+    font-size: 20px !important;
+    font-weight: 800 !important;
+    color: #0f172a !important;
+    margin-bottom: 8px !important;
+    text-align: center !important;
+}
+.admin-toast-msg {
+    font-size: 14px !important;
+    color: #64748b !important;
+    line-height: 1.6 !important;
+    text-align: center !important;
+    word-break: break-word !important;
+}
+.admin-toast-close {
+    position: absolute !important;
+    top: 14px !important;
+    right: 14px !important;
+    background: #f1f5f9 !important;
+    border: none !important;
+    width: 30px !important;
+    height: 30px !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    font-size: 16px !important;
+    color: #94a3b8 !important;
+    flex-shrink: 0 !important;
+    padding: 0 !important;
+    line-height: 1 !important;
+}
+.admin-toast-progress {
+    position: absolute !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    height: 4px !important;
+    border-radius: 0 0 20px 20px !important;
+    width: 100% !important;
+}
+/* ===== END CENTERED TOAST ===== */
