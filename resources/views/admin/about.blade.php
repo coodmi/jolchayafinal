@@ -941,8 +941,7 @@
             // Load sections on page load
             loadAllSections();
 
-            // Reload every 30 seconds
-            setInterval(loadAllSections, 30000);
+            // Load once on page load only — never auto-reload to preserve user edits
 
             // ========== Team Members (Chairman/Other) Dynamic Management ==========
             let teamMembers = {
