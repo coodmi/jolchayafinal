@@ -103,25 +103,24 @@
             flex: 0 0 calc(25% - 18px) !important;
             min-width: 280px !important;
             background: #ffffff !important;
-            border-radius: 16px !important;
-            border: 1px solid #e8edf2 !important;
+            border-radius: 8px !important;
+            border: 1px solid #e2e8f0 !important;
             display: flex !important;
             flex-direction: column !important;
             color: #1f2937 !important;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.06) !important;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08) !important;
             transition: transform 0.3s ease, box-shadow 0.3s ease !important;
             position: relative !important;
             overflow: hidden !important;
-            min-height: 380px !important;
+            min-height: 0 !important;
+            height: auto !important;
             clip-path: none !important;
-            shape-outside: none !important;
             -webkit-mask: none !important;
             mask: none !important;
         }
         
         #social-media .sm-card * {
             clip-path: none !important;
-            shape-outside: none !important;
             -webkit-mask: none !important;
             mask: none !important;
         }
@@ -131,8 +130,8 @@
         }
         
         #social-media .sm-card:hover { 
-            transform: translateY(-6px) !important;
-            box-shadow: 0 16px 40px rgba(13, 61, 41, 0.12) !important;
+            transform: translateY(-4px) !important;
+            box-shadow: 0 12px 32px rgba(13, 61, 41, 0.12) !important;
         }
         
         #social-media .sm-card a { 
@@ -156,10 +155,10 @@
         
         #social-media .sm-image {
             width: 100% !important;
-            height: 200px !important;
-            background-color: #e8f5e9 !important;
+            height: 220px !important;
+            background-color: #1a1a2e !important;
             background-size: cover !important;
-            background-position: center !important;
+            background-position: center top !important;
             position: relative !important;
             overflow: hidden !important;
             flex-shrink: 0 !important;
