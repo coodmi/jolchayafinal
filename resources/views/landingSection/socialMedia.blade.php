@@ -2,28 +2,28 @@
     <style>
         /* Container styling - Modern & Professional */
         #social-media { 
-            padding: 60px 0; 
-            background: transparent;
+            padding: 80px 0 60px;
+            background: #f8fafc;
             position: relative;
             overflow: hidden;
         }
         
         /* Section Title and Subtitle */
         #social-media .section-title {
-            font-size: 2.5rem;
-            font-weight: 700;
+            font-size: 2.4rem;
+            font-weight: 800;
             text-align: center;
-            color: #0d3d29;
-            margin-bottom: 1rem;
-            letter-spacing: -0.02em;
+            color: #0f172a;
+            margin-bottom: 0.75rem;
+            letter-spacing: -0.03em;
         }
         
         #social-media .section-subtitle {
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             text-align: center;
             color: #64748b;
             margin-bottom: 3rem;
-            max-width: 800px;
+            max-width: 600px;
             margin-left: auto;
             margin-right: auto;
             line-height: 1.6;
@@ -103,39 +103,25 @@
             flex: 0 0 calc(25% - 18px);
             min-width: 280px;
             background: #ffffff;
-            border-radius: 16px;
-            border: 1px solid rgba(13, 61, 41, 0.1);
+            border-radius: 20px;
+            border: 1px solid #f0f0f0;
             display: flex;
             flex-direction: column;
             color: #1f2937;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08), 0 4px 16px rgba(0,0,0,0.04);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
             position: relative;
             overflow: hidden;
-            min-height: 440px;
+            min-height: 400px;
         }
         
         #social-media .sm-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, #0d3d29 0%, #0d6639 50%, #0d3d29 100%);
-            opacity: 0;
-            transition: opacity 0.4s ease;
-            z-index: 1;
-        }
-        
-        #social-media .sm-card:hover::before {
-            opacity: 1;
+            display: none;
         }
         
         #social-media .sm-card:hover { 
-            transform: translateY(-8px);
-            box-shadow: 0 12px 40px rgba(13, 61, 41, 0.15), 0 4px 12px rgba(0,0,0,0.1);
-            border-color: rgba(13, 61, 41, 0.25);
+            transform: translateY(-6px);
+            box-shadow: 0 16px 48px rgba(13, 61, 41, 0.13);
         }
         
         #social-media .sm-card a { 
@@ -159,13 +145,14 @@
         
         #social-media .sm-image {
             width: 100%;
-            height: 240px;
-            background: linear-gradient(135deg, #f0f9f4 0%, #e8f5e9 100%);
+            height: 200px;
+            background: linear-gradient(135deg, #e8f5e9 0%, #f0f9f4 100%);
             background-size: cover;
             background-position: center;
             position: relative;
             overflow: hidden;
             flex-shrink: 0;
+            border-radius: 0;
         }
         
         #social-media .sm-image img,
@@ -173,39 +160,56 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.6s ease;
+            transition: transform 0.5s ease;
             user-select: none;
             -webkit-user-drag: none;
-            -khtml-user-drag: none;
-            -moz-user-drag: none;
-            -o-user-drag: none;
             pointer-events: none;
         }
         
         #social-media .sm-card:hover .sm-image img,
         #social-media .sm-card:hover .sm-image video {
-            transform: scale(1.05);
+            transform: scale(1.06);
+        }
+
+        /* Category badge overlay on image */
+        #social-media .sm-image::after {
+            content: attr(data-category);
+            position: absolute;
+            top: 14px;
+            left: 14px;
+            background: #0d3d29;
+            color: #fff;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+            padding: 4px 10px;
+            border-radius: 20px;
+            z-index: 2;
         }
         
         #social-media .sm-content {
-            padding: 20px;
+            padding: 20px 22px 22px;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 10px;
             flex: 1;
-            min-height: 0;
+        }
+
+        /* Date line */
+        #social-media .sm-date {
+            font-size: 12px;
+            color: #94a3b8;
+            font-weight: 500;
+            letter-spacing: 0.3px;
         }
         
         #social-media .sm-title { 
-            font-size: 18px;
-            line-height: 1.4;
+            font-size: 16px;
+            line-height: 1.5;
             font-weight: 700;
-            letter-spacing: 0.1px;
-            color: #0d3d29;
-            transition: color 0.3s ease;
-            word-wrap: break-word;
-            overflow-wrap: break-word;
-            hyphens: auto;
+            color: #0f172a;
+            transition: color 0.2s ease;
             display: -webkit-box;
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
@@ -213,66 +217,65 @@
         }
         
         #social-media .sm-card:hover .sm-title {
-            color: #0d6639;
+            color: #0d3d29;
         }
         
         #social-media .sm-subtitle { 
             color: #64748b;
             font-size: 13px;
-            line-height: 1.6;
-            word-wrap: break-word;
-            overflow-wrap: break-word;
-            hyphens: auto;
+            line-height: 1.65;
             display: -webkit-box;
             -webkit-line-clamp: 3;
             -webkit-box-orient: vertical;
             overflow: hidden;
+            flex: 1;
         }
         
         #social-media .sm-btn {
             display: inline-flex;
             align-items: center;
-            justify-content: center;
             gap: 6px;
-            background: linear-gradient(135deg, #0d3d29 0%, #0d6639 100%);
-            color: #ffffff;
-            padding: 11px 22px;
-            border-radius: 10px;
-            font-weight: 600;
-            font-size: 14px;
+            color: #0d3d29;
+            font-weight: 700;
+            font-size: 13px;
             text-decoration: none;
-            transition: all 0.3s ease;
-            margin-top: auto;
-            align-self: flex-start;
-            white-space: nowrap;
+            margin-top: 6px;
+            padding: 0;
+            background: none;
+            border: none;
+            cursor: pointer;
+            transition: gap 0.2s ease;
         }
         
-        #social-media .sm-btn:hover {
-            transform: translateX(4px);
-            box-shadow: 0 4px 15px rgba(13, 61, 41, 0.3);
+        #social-media .sm-btn::after {
+            content: '→';
+            font-size: 15px;
+            transition: transform 0.2s ease;
         }
 
-        /* Navigation Buttons - Professional Styling */
+        #social-media .sm-btn:hover::after {
+            transform: translateX(4px);
+        }
+
         #social-media .carousel-btn { 
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            background: linear-gradient(135deg, #0d3d29 0%, #0d6639 100%);
-            color: #fff;
-            border: 2px solid rgba(255, 255, 255, 0.2);
+            background: #ffffff;
+            color: #0d3d29;
+            border: 1.5px solid #e2e8f0;
             border-radius: 50%;
-            width: 56px;
-            height: 56px;
+            width: 48px;
+            height: 48px;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(13, 61, 41, 0.3), 0 0 0 0 rgba(13, 61, 41, 0.1);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+            transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
             z-index: 10;
-            font-size: 22px;
+            font-size: 18px;
             font-weight: 600;
-            backdrop-filter: blur(10px);
         }
         
         #social-media .carousel-btn.prev-btn {
@@ -284,10 +287,10 @@
         }
         
         #social-media .carousel-btn:hover:not(:disabled) { 
-            transform: translateY(-50%) scale(1.15);
-            background: linear-gradient(135deg, #0d6639 0%, #1a7a4a 100%);
-            box-shadow: 0 8px 25px rgba(13, 61, 41, 0.5), 0 0 0 4px rgba(13, 61, 41, 0.1);
-            border-color: rgba(255, 255, 255, 0.4);
+            transform: translateY(-50%) scale(1.1);
+            background: #0d3d29;
+            color: #fff;
+            box-shadow: 0 8px 24px rgba(13, 61, 41, 0.2);
         }
         
         #social-media .carousel-btn:active:not(:disabled) {
