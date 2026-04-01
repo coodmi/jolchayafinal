@@ -375,13 +375,7 @@
             z-index: 1;
         }
 
-        #home .scroll-indicator {
-            display: flex;
-            justify-content: center;
-            margin-top: clamp(67px, 4vw, 83px);
-            position: relative;
-            z-index: 1
-        }
+
 
 
 
@@ -486,9 +480,7 @@
 
 
 
-            #home .scroll-indicator {
-                margin-top: clamp(59px, 3vw, 71px)
-            }
+
         }
 
         /* Mobile landscape and small tablets */
@@ -621,10 +613,7 @@
 
 
 
-            #home .scroll-indicator {
-                margin-top: 59px;
-                transform: scale(0.85)
-            }
+
         }
 
         /* Extra small mobile */
@@ -723,9 +712,7 @@
                     <a id="heroBtnPrimary" href="{{ $firstSlider->primary_button_link ?? '/registration' }}" class="btn btn-primary">{{ $firstSlider->primary_button_text ?? '' }}</a>
                     <a id="heroBtnSecondary" href="{{ $firstSlider->secondary_button_link ?? '#contact' }}" class="btn btn-secondary">{{ $firstSlider->secondary_button_text ?? '' }}</a>
                 </div>
-                <div class="scroll-indicator">
-                    <span></span>
-                </div>
+
             </div>
         </div>
 
