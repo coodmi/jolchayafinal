@@ -3938,8 +3938,7 @@
                     // Load sliders on page load
                     loadSliders();
 
-                    // Reload sliders every 30 seconds
-                    setInterval(loadSliders, 30000);
+                    // Load sliders once on page load only
                 })();
             </script>
         </div>
