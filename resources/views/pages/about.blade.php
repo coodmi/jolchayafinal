@@ -14,11 +14,10 @@
         position: relative;
         height: 60vh;
         min-height: 500px;
-        background: linear-gradient(to right, rgba(13, 61, 41, 0.85), rgba(13, 61, 41, 0.75)), 
-                    url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=2000&q=80') 
-                    center/cover no-repeat;
+        background-color: #0d3d29;
         background-size: cover;
         background-position: center;
+        background-repeat: no-repeat;
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -889,7 +888,18 @@
 </style>
 
 <!-- About Banner Section -->
-<section class="about-banner" id="aboutBannerSection">
+@php
+    $aboutHero = $aboutSections['hero'] ?? null;
+    $bannerBg = '';
+    if ($aboutHero && !empty($aboutHero->image_url)) {
+        $imgUrl = $aboutHero->image_url;
+        if (!str_starts_with($imgUrl, 'http') && !str_starts_with($imgUrl, '/')) {
+            $imgUrl = '/' . $imgUrl;
+        }
+        $bannerBg = "background-image: linear-gradient(to right, rgba(13,61,41,0.85), rgba(13,61,41,0.75)), url('{$imgUrl}');";
+    }
+@endphp
+<section class="about-banner" id="aboutBannerSection" style="{{ $bannerBg }}">
     <div class="banner-content">
         <h1 class="banner-title" id="aboutBannerTitle"></h1>
         <p class="banner-description" id="aboutBannerSubtitle1"></p>
