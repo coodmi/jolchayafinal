@@ -74,14 +74,19 @@ class OurProjectController extends Controller
         if ($request->hasFile('images')) {
             $files = $request->file('images');
             if (!is_array($files)) $files = [$files];
-            foreach ($files as $img) {
-                try {
-                    $extraImages[] = $img->store('projects', 'public');
-                } catch (\Exception $e) {}
+            foreach ($files as $key => $img) {
+                if ($img && $img->isValid()) {
+                    try {
+                        $path = $img->store('projects', 'public');
+                        if ($path) $extraImages[] = $path;
+                    } catch (\Exception $e) {
+                        \Log::error('Extra image upload failed', ['key' => $key, 'error' => $e->getMessage()]);
+                    }
+                }
             }
         }
         if (!empty($extraImages)) {
-            $data['images'] = $extraImages;
+            $data['images'] = array_values($extraImages);
         }
 
         try {
@@ -159,13 +164,19 @@ class OurProjectController extends Controller
         if ($request->hasFile('images')) {
             $extraImages = $project->images ?? [];
             $files = $request->file('images');
+            // Ensure it's always an array
             if (!is_array($files)) $files = [$files];
-            foreach ($files as $img) {
-                try {
-                    $extraImages[] = $img->store('projects', 'public');
-                } catch (\Exception $e) {}
+            foreach ($files as $key => $img) {
+                if ($img && $img->isValid()) {
+                    try {
+                        $path = $img->store('projects', 'public');
+                        if ($path) $extraImages[] = $path;
+                    } catch (\Exception $e) {
+                        \Log::error('Extra image upload failed', ['key' => $key, 'error' => $e->getMessage()]);
+                    }
+                }
             }
-            $data['images'] = $extraImages;
+            $data['images'] = array_values($extraImages);
         }
 
         try {
@@ -178,7 +189,7 @@ class OurProjectController extends Controller
 
             return response()->json([
                 'success' => true,
-                'message' => 'প্রজেক্ট সফলভাবে আপডেট হয়েছে',
+                'message' => 'প্রজেক্ট সফলভাবে আপডেট হয়েছে — ' . count($project->images ?? []) . 'টি অতিরিক্ত ইমেজ সংরক্ষিত',
                 'data' => [
                     'id' => $project->id,
                     'title' => $project->title ?? '',
