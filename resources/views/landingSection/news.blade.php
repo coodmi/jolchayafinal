@@ -187,8 +187,8 @@
 
     <div class="news-container">
         <div class="news-header">
-            <h2>{{ $title }}</h2>
-            <p>{{ $subtitle }}</p>
+            <h2>{{ $title ?: 'সর্বশেষ সংবাদ ও আপডেট' }}</h2>
+            <p>{{ $subtitle ?: 'জলছায়া প্রজেক্টের সর্বশেষ খবর, ঘোষণা এবং মিডিয়া আপডেট' }}</p>
         </div>
 
         @if($categories->count() > 0)
