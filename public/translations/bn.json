@@ -1,0 +1,128 @@
+{
+  "nav": {
+    "home": "হোম",
+    "about": "আমাদের সম্পর্কে",
+    "features": "সুবিধা",
+    "pricing": "মূল্য তালিকা",
+    "testimonials": "মন্তব্য",
+    "otherProjects": "প্রকল্প",
+    "contact": "যোগাযোগ",
+    "bookNow": "এখনই বুক করুন"
+  },
+  "hero": {
+    "title": "আপনার স্বপ্নের বাড়ি",
+    "subtitle": "জলছায়া প্রজেক্টে",
+    "description": "প্রকল্পের মূল্য তালিকা - বুকিং পরিমাণ: ১০,০০০ টাকা (কার্য প্রতি)",
+    "primaryButton": "মূল্য দেখুন",
+    "secondaryButton": "যোগাযোগ করুন"
+  },
+  "features": {
+    "title": "আমাদের সুবিধাসমূহ",
+    "subtitle": "NEX Real Estate এর একটি প্রকল্প",
+    "feature1Title": "প্রিমিয়াম লোকেশন",
+    "feature1Desc": "প্রকল্পের ঠিকানা: শুভনূর ৩৮৮ বাড়ি সিদ্ধার্থ এস আবাস, খুলনায় অবস্থিত",
+    "feature2Title": "সহজ কিস্তি সুবিধা",
+    "feature2Desc": "০৩, ০৫, ১০, ও ২০ কিস্তির সুবিধা সহ নমনীয় পেমেন্ট প্ল্যান",
+    "feature3Title": "বিভিন্ন প্লট সাইজ",
+    "feature3Desc": "২.৫ কাঠা থেকে ৫ কাঠা পর্যন্ত বিভিন্ন সাইজের প্লট উপলব্ধ",
+    "feature4Title": "আইনি নিশ্চয়তা",
+    "feature4Desc": "সম্পূর্ণ আইনি প্রক্রিয়া ও ডকুমেন্টেশন নিশ্চিত",
+    "feature5Title": "সহজ যোগাযোগ",
+    "feature5Desc": "প্রধান সড়কের সাথে সরাসরি সংযোগ ও উন্নত যোগাযোগ ব্যবস্থা",
+    "feature6Title": "সবুজ পরিবেশ",
+    "feature6Desc": "পরিকল্পিত সবুজায়ন এবং আধুনিক সুবিধা সম্বলিত",
+    "feature7Title": "২৪/৭ নিরাপত্তা",
+    "feature7Desc": "সিসিটিভি নজরদারি ও পেশাদার নিরাপত্তা টিম দ্বারা সুরক্ষিত",
+    "feature8Title": "পানি ও বিদ্যুৎ সংযোগ",
+    "feature8Desc": "নিরবচ্ছিন্ন পানি ও বিদ্যুতের সুবিধা নিশ্চিত"
+  },
+  "pricing": {
+    "title": "মূল্য তালিকা",
+    "subtitle": "আপনার বাজেট অনুযায়ী প্লট বেছে নিন",
+    "bookingAmount": "বুকিং পরিমাণ",
+    "perKatha": "প্রতি কাঠা",
+    "totalPrice": "মোট মূল্য",
+    "installment": "কিস্তি",
+    "months": "মাস",
+    "bookButton": "এখনই বুক করুন",
+    "katha": "কাঠা"
+  },
+  "testimonials": {
+    "title": "বিনিয়োগকারীদের মন্তব্য",
+    "subtitle": "আমাদের সন্তুষ্ট ক্রেতাদের অভিজ্ঞতা"
+  },
+  "otherProjects": {
+    "title": "প্রকল্প",
+    "subtitle": "আমাদের আরও প্রকল্প দেখুন",
+    "viewDetails": "বিস্তারিত দেখুন"
+  },
+  "roadmap": {
+    "title": "বেছে নিন আপনার পছন্দের প্লট",
+    "premiumPlot": "প্রিমিয়াম প্লট",
+    "deluxePlot": "ডিলাক্স প্লট",
+    "executivePlot": "এক্সিকিউটিভ প্লট",
+    "corporatePlot": "কর্পোরেট প্লট",
+    "clubHouse": "ক্লাব হাউজ",
+    "gym": "জিম",
+    "mosque": "মসজিদ",
+    "shoppingArea": "শপিং এরিয়া",
+    "description": "সবুজ প্রকৃতি, নীরব কলকল ধারা আর নির্মল আবহাওয়া — এই জায়গাটি হতে পারে আপনার স্বপ্নের ঠিকানা! এখানে আছে আধুনিক রাস্তাঘাট, বিদ্যুৎ, পানি, গ্যাস, ও নিরাপত্তার নিশ্চয়তা।",
+    "bookingCall": "মূল্য বৃদ্ধির আগে, আজই বুকিং করুন।",
+    "ctaBar": "📞 এখনই যোগাযোগ করুন — সীমিত সময়ের অফার",
+    "mapTitle": "প্রজেক্ট রোডম্যাপ",
+    "katha": "কাঠা"
+  },
+  "socialMedia": {
+    "title": "সোশ্যাল মিডিয়া পোস্ট"
+  },
+  "contact": {
+    "title": "যোগাযোগ করুন",
+    "subtitle": "আমরা আপনার সেবায় প্রস্তুত",
+    "formTitle": "বুকিং তথ্য পাঠান",
+    "phone": "ফোন",
+    "email": "ইমেইল",
+    "website": "ওয়েবসাইট",
+    "address": "ঠিকানা",
+    "submitButton": "পাঠান",
+    "name": "নাম",
+    "message": "বার্তা"
+  },
+  "footer": {
+    "title": "জলছায়া",
+    "description": "NEX Real Estate এর একটি প্রকল্প। আপনার স্বপ্নের বাড়ি নির্মাণের জন্য প্রিমিয়াম লোকেশনে সবুজ পরিবেশে গড়ে উঠেছে জলছায়া।",
+    "phoneNumber": "ফোন নম্বর",
+    "email": "ইমেইল",
+    "projectAddress": "প্রকল্পের ঠিকানা",
+    "projectAddressText": "শুভনূর ৩৮৮ বাড়ি সিদ্ধার্থ এস আবাস, খুলনা, বাংলাদেশ",
+    "contactAddress": "যোগাযোগের ঠিকানা",
+    "contactAddressText": "NEX Real Estate, Century Trade Center, House-23/C, Road-17, Kamal Ataturk Ave, Banani C/A, Dhaka",
+    "paymentMethods": "পেমেন্ট মাধ্যম",
+    "bkash": "বিকাশ",
+    "nagad": "নগদ",
+    "bankTransfer": "ব্যাংক ট্রান্সফার",
+    "card": "কার্ড",
+    "quickLinks": "দ্রুত লিংক",
+    "legalInfo": "আইনি তথ্য",
+    "privacyPolicy": "গোপনীয়তা নীতি",
+    "termsConditions": "সেবার শর্তাবলী",
+    "viewLocation": "অবস্থান দেখুন",
+    "viewOnGoogleMaps": "গুগল ম্যাপে দেখুন",
+    "viewWeather": "আবহাওয়া দেখুন",
+    "viewNoticeboard": "নোটিশবোর্ড দেখি",
+    "allRightsReserved": "সর্বস্বত্ব সংরক্ষিত",
+    "gallery": "গ্যালারি"
+  },
+  "common": {
+    "readMore": "আরও পড়ুন",
+    "learnMore": "বিস্তারিত জানুন",
+    "close": "বন্ধ করুন",
+    "save": "সংরক্ষণ করুন",
+    "cancel": "বাতিল করুন",
+    "yes": "হ্যাঁ",
+    "no": "না",
+    "loading": "লোড হচ্ছে...",
+    "success": "সফল",
+    "error": "ত্রুটি",
+    "viewAll": "সবগুলো দেখুন"
+  }
+}

@@ -1,0 +1,128 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About Us",
+    "features": "Features",
+    "pricing": "Pricing",
+    "testimonials": "Testimonials",
+    "otherProjects": "Other Projects",
+    "contact": "Contact",
+    "bookNow": "Book Now"
+  },
+  "hero": {
+    "title": "Your Dream Home",
+    "subtitle": "At Jolchaya Project",
+    "description": "Project Pricing - Booking Amount: 10,000 BDT (Per Katha)",
+    "primaryButton": "View Pricing",
+    "secondaryButton": "Contact Us"
+  },
+  "features": {
+    "title": "Our Features",
+    "subtitle": "A project by NEX Real Estate",
+    "feature1Title": "Premium Location",
+    "feature1Desc": "Project Address: Shubhnur 388 House, Siddhartha S Abash, Located in Khulna",
+    "feature2Title": "Easy Installment",
+    "feature2Desc": "Flexible payment plans with 03, 05, 10, and 20 installment options",
+    "feature3Title": "Various Plot Sizes",
+    "feature3Desc": "Plots available in various sizes from 2.5 Katha to 5 Katha",
+    "feature4Title": "Legal Assurance",
+    "feature4Desc": "Complete legal process and documentation ensured",
+    "feature5Title": "Easy Communication",
+    "feature5Desc": "Direct connection to main road and improved communication system",
+    "feature6Title": "Green Environment",
+    "feature6Desc": "Planned greenery and modern facilities",
+    "feature7Title": "24/7 Security",
+    "feature7Desc": "Protected by CCTV surveillance and professional security team",
+    "feature8Title": "Water & Electricity",
+    "feature8Desc": "Uninterrupted water and electricity supply ensured"
+  },
+  "pricing": {
+    "title": "Pricing",
+    "subtitle": "Choose a plot according to your budget",
+    "bookingAmount": "Booking Amount",
+    "perKatha": "Per Katha",
+    "totalPrice": "Total Price",
+    "installment": "Installment",
+    "months": "Months",
+    "bookButton": "Book Now",
+    "katha": "Katha"
+  },
+  "testimonials": {
+    "title": "Investor Testimonials",
+    "subtitle": "Experience from our satisfied clients"
+  },
+  "otherProjects": {
+    "title": "Other Projects",
+    "subtitle": "View our other projects",
+    "viewDetails": "View Details"
+  },
+  "roadmap": {
+    "title": "Choose Your Preferred Plot",
+    "premiumPlot": "Premium Plot",
+    "deluxePlot": "Deluxe Plot",
+    "executivePlot": "Executive Plot",
+    "corporatePlot": "Corporate Plot",
+    "clubHouse": "Club House",
+    "gym": "Gym",
+    "mosque": "Mosque",
+    "shoppingArea": "Shopping Area",
+    "description": "Green nature, quiet flowing streams and clean weather — this place can be your dream address! Modern roads, electricity, water, gas, and security are ensured here.",
+    "bookingCall": "Book today before the price increases.",
+    "ctaBar": "📞 Contact Now — Limited Time Offer",
+    "mapTitle": "Project Roadmap",
+    "katha": "Katha"
+  },
+  "socialMedia": {
+    "title": "Social Media Posts"
+  },
+  "contact": {
+    "title": "Contact Us",
+    "subtitle": "We are ready to serve you",
+    "formTitle": "Send Booking Information",
+    "phone": "Phone",
+    "email": "Email",
+    "website": "Website",
+    "address": "Address",
+    "submitButton": "Submit",
+    "name": "Name",
+    "message": "Message"
+  },
+  "footer": {
+    "title": "Jolchaya",
+    "description": "A project by NEX Real Estate. Jolchaya has been developed in a premium location with a green environment to build your dream home.",
+    "phoneNumber": "Phone Number",
+    "email": "Email",
+    "projectAddress": "Project Address",
+    "projectAddressText": "Shubhnur 388 House, Siddhartha S Abash, Khulna, Bangladesh",
+    "contactAddress": "Contact Address",
+    "contactAddressText": "NEX Real Estate, Century Trade Center, House-23/C, Road-17, Kamal Ataturk Ave, Banani C/A, Dhaka",
+    "paymentMethods": "Payment Methods",
+    "bkash": "bKash",
+    "nagad": "Nagad",
+    "bankTransfer": "Bank Transfer",
+    "card": "Card",
+    "quickLinks": "Quick Links",
+    "legalInfo": "Legal Information",
+    "privacyPolicy": "Privacy Policy",
+    "termsConditions": "Terms of Service",
+    "viewLocation": "View Location",
+    "viewOnGoogleMaps": "View on Google Maps",
+    "viewWeather": "View Weather",
+    "viewNoticeboard": "View Noticeboard",
+    "allRightsReserved": "All Rights Reserved",
+    "gallery": "Gallery"
+  },
+  "common": {
+    "readMore": "Read More",
+    "learnMore": "Learn More",
+    "close": "Close",
+    "save": "Save",
+    "cancel": "Cancel",
+    "yes": "Yes",
+    "no": "No",
+    "loading": "Loading...",
+    "success": "Success",
+    "error": "Error",
+    "viewAll": "View All"
+  }
+}

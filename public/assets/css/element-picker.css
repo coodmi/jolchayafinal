@@ -1,0 +1,149 @@
+/* Element Picker Styles */
+
+/* Floating Button - Bottom Right */
+#element-picker-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 999999;
+    background: linear-gradient(135deg, #0d3d29 0%, #1a7a4a 100%);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 12px 24px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(13, 61, 41, 0.4);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+#element-picker-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 25px rgba(13, 61, 41, 0.5);
+    background: linear-gradient(135deg, #1a7a4a 0%, #0d3d29 100%);
+}
+
+#element-picker-btn.active {
+    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+#element-picker-btn.active:hover {
+    background: linear-gradient(135deg, #c0392b 0%, #e74c3c 100%);
+}
+
+@keyframes pulse {
+    0%, 100% {
+        box-shadow: 0 4px 20px rgba(231, 76, 60, 0.4);
+    }
+    50% {
+        box-shadow: 0 4px 30px rgba(231, 76, 60, 0.7);
+    }
+}
+
+#element-picker-btn svg {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+}
+
+/* Highlight Overlay */
+#element-picker-overlay {
+    position: absolute;
+    display: none;
+    pointer-events: none;
+    z-index: 999998;
+    border: 3px solid #ffd700;
+    background: rgba(255, 215, 0, 0.15);
+    box-shadow: 0 0 0 2px rgba(13, 61, 41, 0.3);
+    transition: all 0.1s ease;
+}
+
+/* Tooltip */
+#element-picker-tooltip {
+    position: absolute;
+    display: none;
+    pointer-events: none;
+    z-index: 999999;
+    background: rgba(13, 61, 41, 0.95);
+    color: #ffd700;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    font-family: 'Courier New', monospace;
+    white-space: nowrap;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Notification */
+.element-picker-notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000000;
+    background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+    color: white;
+    padding: 16px 24px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    box-shadow: 0 4px 20px rgba(39, 174, 96, 0.4);
+    opacity: 0;
+    transform: translateX(400px);
+    transition: all 0.3s ease;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.element-picker-notification.show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    #element-picker-btn {
+        bottom: 15px;
+        right: 15px;
+        padding: 10px 20px;
+        font-size: 13px;
+    }
+
+    #element-picker-btn span {
+        display: none;
+    }
+
+    #element-picker-btn svg {
+        width: 24px;
+        height: 24px;
+    }
+
+    .element-picker-notification {
+        top: 15px;
+        right: 15px;
+        left: 15px;
+        font-size: 13px;
+        padding: 14px 20px;
+    }
+
+    #element-picker-tooltip {
+        font-size: 11px;
+        padding: 5px 10px;
+        max-width: 80vw;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
+
+/* Ensure picker button stays above everything */
+#element-picker-btn,
+#element-picker-overlay,
+#element-picker-tooltip,
+.element-picker-notification {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+}

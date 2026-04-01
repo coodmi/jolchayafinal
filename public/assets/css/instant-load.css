@@ -1,0 +1,45 @@
+/* Force immediate visibility for all sections - No loading delays */
+section,
+.feature-card,
+.pricing-card,
+.contact-item,
+.project-card,
+.testimonial-card,
+.amenity-card,
+.video-card-item,
+.carousel-btn,
+.slider-nav {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: translateY(0) !important;
+}
+
+/* Ensure carousels are visible */
+.carousel-track,
+.carousel-container {
+    opacity: 1 !important;
+}
+
+/* Make navigation buttons always visible */
+.carousel-btn.prev-btn,
+.carousel-btn.next-btn {
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* Fast transitions instead of hidden elements */
+* {
+    transition-duration: 0.2s !important;
+}
+
+/* Disable slow animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

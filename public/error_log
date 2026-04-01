@@ -1,0 +1,7 @@
+[27-Mar-2026 20:43:27 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/nexgroup/jolchaya.com/vendor/composer/../myclabs/deep-copy/src/DeepCopy/deep_copy.php' (include_path='.:/opt/cpanel/ea-php83/root/usr/share/pear') in /home/nexgroup/jolchaya.com/vendor/composer/autoload_real.php:41
+Stack trace:
+#0 /home/nexgroup/jolchaya.com/vendor/composer/autoload_real.php(45): {closure}('6124b4c8570aa39...', '/home/nexgroup/...')
+#1 /home/nexgroup/jolchaya.com/vendor/autoload.php(22): ComposerAutoloaderInit38a453b8ed9825a66587905288efa55b::getLoader()
+#2 /home/nexgroup/jolchaya.com/public/index.php(14): require('/home/nexgroup/...')
+#3 {main}
+  thrown in /home/nexgroup/jolchaya.com/vendor/composer/autoload_real.php on line 41
