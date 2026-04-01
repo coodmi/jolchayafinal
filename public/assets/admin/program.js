@@ -163,6 +163,7 @@
   window.showError   = function (message, title) { showToast('error',   title || 'ত্রুটি', message); };
   window.showWarning = function (message, title) { showToast('warning', title || 'সতর্কতা', message); };
   window.showInfo    = function (message, title) { showToast('info',    title || 'তথ্য', message); };
+  window.showToast   = showToast;
 })();
 // ==================== END TOAST SYSTEM ====================
 
@@ -2165,7 +2166,12 @@ function closeModal() {
 }
 
 function alertUser(title, message, type = "info") {
-  showModal(title, message, [{ text: "ঠিক আছে", action: closeModal }], type);
+  // Use the modern centered toast instead of modal
+  if (typeof showToast === 'function') {
+    showToast(type, title, message, 3500);
+  } else {
+    showModal(title, message, [{ text: "ঠিক আছে", action: closeModal }], type);
+  }
 }
 
 // Helper functions for success and error notifications
