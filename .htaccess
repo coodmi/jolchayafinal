@@ -22,6 +22,16 @@
     RewriteRule ^ index.php [L]
 </IfModule>
 
+# Increase PHP upload limits
+<IfModule mod_php.c>
+    php_value upload_max_filesize 5M
+    php_value post_max_size 10M
+</IfModule>
+<IfModule mod_php8.c>
+    php_value upload_max_filesize 5M
+    php_value post_max_size 10M
+</IfModule>
+
 # php -- BEGIN cPanel-generated handler, do not edit
 # Set the “ea-php83” package as the default “PHP” programming language.
 <IfModule mime_module>

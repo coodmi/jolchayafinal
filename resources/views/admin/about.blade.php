@@ -110,7 +110,7 @@
             <div class="about-form-group">
                 <label>ব্যানার ইমেজ</label>
                 <input type="file" id="hero-image" accept="image/*" class="search-input" onchange="previewHeroImage(this)" />
-                <small style="color:#6b7280; display:block; margin-top:4px;">PNG/JPG/WEBP সমর্থিত। সর্বোচ্চ 2MB</small>
+                <small style="color:#6b7280; display:block; margin-top:4px;">PNG/JPG/WEBP সমর্থিত। সর্বোচ্চ 5MB</small>
                 <div id="hero-image-preview" class="image-preview-container" style="display:none; margin-top:12px;">
                     <img id="hero-image-preview-img" src="" alt="Preview" style="max-width:100%; max-height:200px; border-radius:8px; border:2px solid #e5e7eb;" />
                 </div>
@@ -839,19 +839,19 @@
                 const formData = new FormData();
                 formData.append('section_key', section);
 
-                // Helper: validate image file size (max 2MB = PHP server limit)
+                // Helper: validate image file size (max 5MB)
                 function checkImageSize(fileInputId) {
                     const file = document.getElementById(fileInputId)?.files[0];
                     if (file) {
-                        const maxBytes = 2 * 1024 * 1024; // 2MB — PHP server limit
+                        const maxBytes = 5 * 1024 * 1024; // 5MB
                         if (file.size > maxBytes) {
                             const sizeMB = (file.size / 1024 / 1024).toFixed(2);
-                            showError(`ছবির আকার ${sizeMB}MB। সর্বোচ্চ ২MB অনুমোদিত। ছোট ছবি বেছে নিন।`, 'ছবি বড় হয়ে গেছে');
+                            showError(`ছবির আকার ${sizeMB}MB। সর্বোচ্চ ৫MB অনুমোদিত। ছোট ছবি বেছে নিন।`, 'ছবি বড় হয়ে গেছে');
                             return null;
                         }
                         return file;
                     }
-                    return undefined; // no file selected
+                    return undefined;
                 }
 
                 if (section === 'hero') {
