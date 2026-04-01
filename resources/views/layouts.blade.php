@@ -31,8 +31,7 @@
         /* But hero slider images must keep their opacity for transitions */
         #homeSlides img{opacity:0!important}
         #homeSlides img.active{opacity:1!important}
-    </style>
-    
+    </style>    
     <!-- Main CSS -->
     <link rel="stylesheet" href="{{ asset('assets/css/landing_page.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/instant-load.css') }}">
