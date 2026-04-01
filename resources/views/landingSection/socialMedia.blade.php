@@ -100,28 +100,39 @@
 
         /* Modern Card Styles - Professional */
         #social-media .sm-card { 
-            flex: 0 0 calc(25% - 18px);
-            min-width: 280px;
-            background: #ffffff;
-            border-radius: 12px;
-            border: 1px solid #e8edf2;
-            display: flex;
-            flex-direction: column;
-            color: #1f2937;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            min-height: 380px;
+            flex: 0 0 calc(25% - 18px) !important;
+            min-width: 280px !important;
+            background: #ffffff !important;
+            border-radius: 16px !important;
+            border: 1px solid #e8edf2 !important;
+            display: flex !important;
+            flex-direction: column !important;
+            color: #1f2937 !important;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06) !important;
+            transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+            position: relative !important;
+            overflow: hidden !important;
+            min-height: 380px !important;
+            clip-path: none !important;
+            shape-outside: none !important;
+            -webkit-mask: none !important;
+            mask: none !important;
         }
         
+        #social-media .sm-card * {
+            clip-path: none !important;
+            shape-outside: none !important;
+            -webkit-mask: none !important;
+            mask: none !important;
+        }
+
         #social-media .sm-card::before {
-            display: none;
+            display: none !important;
         }
         
         #social-media .sm-card:hover { 
-            transform: translateY(-6px);
-            box-shadow: 0 16px 48px rgba(13, 61, 41, 0.13);
+            transform: translateY(-6px) !important;
+            box-shadow: 0 16px 40px rgba(13, 61, 41, 0.12) !important;
         }
         
         #social-media .sm-card a { 
@@ -144,17 +155,18 @@
         }
         
         #social-media .sm-image {
-            width: 100%;
-            height: 200px;
-            background: linear-gradient(135deg, #e8f5e9 0%, #f0f9f4 100%);
-            background-size: cover;
-            background-position: center;
-            position: relative;
-            overflow: hidden;
-            flex-shrink: 0;
-            border-radius: 0;
+            width: 100% !important;
+            height: 200px !important;
+            background-color: #e8f5e9 !important;
+            background-size: cover !important;
+            background-position: center !important;
+            position: relative !important;
+            overflow: hidden !important;
+            flex-shrink: 0 !important;
+            border-radius: 0 !important;
             clip-path: none !important;
-            shape-outside: none !important;
+            -webkit-mask: none !important;
+            mask: none !important;
         }
         
         #social-media .sm-image img,
@@ -164,7 +176,6 @@
             object-fit: cover !important;
             border-radius: 0 !important;
             clip-path: none !important;
-            shape-outside: none !important;
             -webkit-mask-image: none !important;
             mask-image: none !important;
             transition: transform 0.5s ease;
