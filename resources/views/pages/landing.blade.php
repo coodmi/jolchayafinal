@@ -2,7 +2,6 @@
 
 @section('content')
     @include('landingSection.hero')
-    @include('landingSection.oceanWave')
     @include('landingSection.features')
     @include('landingSection.whyChoose')
     @include('landingSection.socialMedia')
