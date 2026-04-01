@@ -925,7 +925,7 @@
                         ` : ''}
                         <input type="file" class="project-extra-images-input" accept="image/*" multiple onchange="previewExtraImages(this)" />
                         <small style="display: block; margin-top: 6px; padding: 8px 10px; background: #fffbeb; border: 1px solid #fcd34d; border-radius: 6px; color: #92400e; font-size: 12px;">
-                            📐 প্রস্তাবিত রেজোলিউশন: <strong>৯০০×৪০০ পিক্সেল</strong> | সর্বোচ্চ ফাইল সাইজ: <strong>৫ MB প্রতিটি</strong> | একাধিক ছবি একসাথে নির্বাচন করুন
+                            📐 প্রস্তাবিত রেজোলিউশন: <strong>৯০০×৪০০ পিক্সেল</strong> | সর্বোচ্চ ফাইল সাইজ: <strong>২ MB প্রতিটি</strong> | একাধিক ছবি একসাথে নির্বাচন করুন
                         </small>
                         <div class="project-extra-images-preview" style="display:flex; gap:8px; flex-wrap:wrap; margin-top:8px;"></div>
                         </div>
@@ -1037,7 +1037,16 @@
                 // Extra images for slider
                 const extraInput = card.querySelector('.project-extra-images-input');
                 if (extraInput && extraInput.files && extraInput.files.length > 0) {
-                    Array.from(extraInput.files).forEach(f => formData.append('images[]', f));
+                    let oversized = false;
+                    Array.from(extraInput.files).forEach(f => {
+                        if (f.size > 2 * 1024 * 1024) {
+                            oversized = true;
+                            showProjectModal({ type: 'warning', title: 'ফাইল বড়', message: `"${f.name}" (${(f.size/1024/1024).toFixed(1)}MB) — সর্বোচ্চ ২MB অনুমোদিত। ছোট করে আবার চেষ্টা করুন।`, confirmText: 'ঠিক আছে', showCancel: false });
+                        } else {
+                            formData.append('images[]', f);
+                        }
+                    });
+                    if (oversized) { button.innerHTML = projectId ? '<i class="fas fa-save"></i> আপডেট করুন' : '<i class="fas fa-save"></i> সংরক্ষণ করুন'; button.disabled = false; return; }
                 }
 
                 // Validate
