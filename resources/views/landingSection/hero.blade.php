@@ -687,12 +687,6 @@
                 @php $firstSlider = ($heroSliders ?? collect())->first(); @endphp
                 <h1 id="heroTitle">{{ $firstSlider->title ?? '' }}</h1>
                 <h2 id="heroSubtitle">{{ $firstSlider->subtitle ?? '' }}</h2>
-                @if(!empty($headerSettings->hero_tagline))
-                <p class="hero-subtitle" style="font-size: clamp(13px, 2vw, 17px); color: rgba(255,255,255,0.92); font-weight: 400; margin: 0.5rem 0 1rem; text-shadow: 1px 1px 4px rgba(0,0,0,0.5); line-height: 1.6;">{{ $headerSettings->hero_tagline }}</p>
-                @endif
-                @if(!empty($firstSlider->description))
-                <p class="hero-subtitle" style="font-size: clamp(14px, 2.2vw, 18px); color: #ffffff; font-weight: 500; margin: 0.75rem 0 1rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">{{ $firstSlider->description }}</p>
-                @endif
                 <div class="cta-buttons" id="heroButtons">
                     <a id="heroBtnPrimary" href="{{ $firstSlider->primary_button_link ?? '/registration' }}" class="btn btn-primary">{{ $firstSlider->primary_button_text ?? '' }}</a>
                     <a id="heroBtnSecondary" href="{{ $firstSlider->secondary_button_link ?? '#contact' }}" class="btn btn-secondary">{{ $firstSlider->secondary_button_text ?? '' }}</a>
