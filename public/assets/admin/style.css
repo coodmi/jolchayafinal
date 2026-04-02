@@ -2303,3 +2303,14 @@ html {
     transition: width 150ms ease !important;
 }
 /* ===== END PERFORMANCE ===== */
+
+/* Fix site-settings blank space at top */
+#site-settings.tab-content.active {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+}
+/* When site-settings is active, remove content-area min-height */
+.content-area:has(#site-settings.active) {
+    min-height: 0 !important;
+    padding-top: 0 !important;
+}

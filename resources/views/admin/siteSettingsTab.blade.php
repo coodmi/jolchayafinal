@@ -13,10 +13,10 @@
         <input type="hidden" id="csrfSiteSettings" value="{{ csrf_token() }}">
 
         <!-- Site Name & Title -->
-        <div class="section-block">
-            <div class="section-header">
+        <div style="background:#f9fafb; border-radius:12px; padding:20px; margin-bottom:24px; border:1px solid #e5e7eb;">
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:20px; padding-bottom:12px; border-bottom:2px solid #e5e7eb;">
                 <span style="font-size:18px;"><i class="fas fa-globe"></i></span>
-                <h3>সাইট পরিচিতি</h3>
+                <h3 style="margin:0; color:#111827; font-size:18px; font-weight:600;">সাইট পরিচিতি</h3>
             </div>
             <div class="form-grid">
                 <div class="form-group">
@@ -37,10 +37,10 @@
         </div>
 
         <!-- Favicon -->
-        <div class="section-block">
-            <div class="section-header">
+        <div style="background:#f9fafb; border-radius:12px; padding:20px; margin-bottom:24px; border:1px solid #e5e7eb;">
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:20px; padding-bottom:12px; border-bottom:2px solid #e5e7eb;">
                 <span style="font-size:18px;"><i class="fas fa-image"></i></span>
-                <h3>ফেভিকন (Favicon)</h3>
+                <h3 style="margin:0; color:#111827; font-size:18px; font-weight:600;">ফেভিকন (Favicon)</h3>
             </div>
             <div class="form-group">
                 <label class="form-label">
@@ -56,10 +56,10 @@
         </div>
 
         <!-- Dashboard Logo -->
-        <div class="section-block">
-            <div class="section-header">
+        <div style="background:#f9fafb; border-radius:12px; padding:20px; margin-bottom:24px; border:1px solid #e5e7eb;">
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:20px; padding-bottom:12px; border-bottom:2px solid #e5e7eb;">
                 <span style="font-size:18px;"><i class="fas fa-tag"></i></span>
-                <h3>ড্যাশবোর্ড লোগো</h3>
+                <h3 style="margin:0; color:#111827; font-size:18px; font-weight:600;">ড্যাশবোর্ড লোগো</h3>
             </div>
             <div class="form-group">
                 <label class="form-label">
@@ -77,10 +77,10 @@
         </div>
 
         <!-- Popup Settings -->
-        <div class="section-block">
-            <div class="section-header">
+        <div style="background:#f9fafb; border-radius:12px; padding:20px; margin-bottom:24px; border:1px solid #e5e7eb;">
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:20px; padding-bottom:12px; border-bottom:2px solid #e5e7eb;">
                 <span style="font-size:18px;"><i class="fas fa-bullhorn"></i></span>
-                <h3>ওয়েলকাম পপআপ</h3>
+                <h3 style="margin:0; color:#111827; font-size:18px; font-weight:600;">ওয়েলকাম পপআপ</h3>
             </div>
             <div class="form-group" style="margin-bottom:16px;">
                 <label style="display:flex; align-items:center; gap:10px; cursor:pointer;">
@@ -235,9 +235,3 @@
     })();
     </script>
 </div>
-
-<style>
-    #site-settings .section-block { background:#f9fafb; border-radius:12px; padding:20px; margin-bottom:24px; border:1px solid #e5e7eb; }
-    #site-settings .section-block h3 { margin:0; color:#111827; font-size:18px; font-weight:600; }
-    #site-settings .section-header { display:flex; align-items:center; gap:8px; margin-bottom:20px; padding-bottom:12px; border-bottom:2px solid #e5e7eb; }
-</style>
