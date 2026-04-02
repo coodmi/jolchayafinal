@@ -13,10 +13,10 @@
 @if($popupEnabled && ($popupTitle || $popupImage))
 <div id="welcomePopupOverlay" style="position:fixed;inset:0;background:rgba(0,0,0,0.65);z-index:99999;display:flex;align-items:center;justify-content:center;padding:16px;">
 
-    <!-- Close Button — outside popup so overflow:hidden doesn't clip it -->
-    <button onclick="closeWelcomePopup()" style="position:fixed;top:20px;right:20px;background:rgba(255,255,255,0.2);border:2px solid rgba(255,255,255,0.5);border-radius:50%;width:40px;height:40px;cursor:pointer;font-size:22px;color:#fff;z-index:100000;display:flex;align-items:center;justify-content:center;line-height:1;">×</button>
+    <div id="welcomePopup" style="background:#fff;border-radius:20px;max-width:780px;width:100%;display:flex;overflow:visible;box-shadow:0 32px 80px rgba(0,0,0,0.3);position:relative;max-height:90vh;">
 
-    <div id="welcomePopup" style="background:#fff;border-radius:20px;max-width:780px;width:100%;display:flex;overflow:hidden;box-shadow:0 32px 80px rgba(0,0,0,0.3);position:relative;max-height:90vh;">
+        <!-- Close Button — inside popup, top-right corner -->
+        <button onclick="closeWelcomePopup()" style="position:absolute;top:-14px;right:-14px;background:#fff;border:2px solid #e5e7eb;border-radius:50%;width:36px;height:36px;cursor:pointer;font-size:20px;color:#374151;z-index:100001;display:flex;align-items:center;justify-content:center;line-height:1;box-shadow:0 2px 8px rgba(0,0,0,0.15);">×</button>
 
         <!-- Left: Image -->
         @if($popupImage)
