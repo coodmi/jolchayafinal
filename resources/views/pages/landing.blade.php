@@ -2,6 +2,7 @@
 
 @section('content')
     @include('landingSection.hero')
+    @include('landingSection.welcomePopup')
     @include('landingSection.features')
     @include('landingSection.whyChoose')
     @include('landingSection.socialMedia')

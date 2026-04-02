@@ -11,6 +11,18 @@ class SiteSetting extends Model
         'site_title',
         'favicon_path',
         'dashboard_logo_path',
+        'popup_enabled',
+        'popup_title',
+        'popup_subtitle',
+        'popup_btn_text',
+        'popup_btn_link',
+        'popup_note',
+        'popup_image',
+        'popup_bg_color',
+    ];
+
+    protected $casts = [
+        'popup_enabled' => 'boolean',
     ];
 
     public function getFaviconUrlAttribute(): ?string
