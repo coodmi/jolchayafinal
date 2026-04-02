@@ -914,18 +914,21 @@
                     <div class="project-form-group">
                         <label>অতিরিক্ত ইমেজ (স্লাইডার) — একাধিক নির্বাচন করুন</label>
                         ${(project.images && project.images.length > 0) ? `
-                            <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:10px;">
-                                ${project.images.map((img, i) => `
-                                    <div style="position:relative;">
-                                        <img src="/storage/${img}" style="width:80px; height:60px; object-fit:cover; border-radius:6px; border:2px solid #86efac;" onerror="this.style.display='none'" />
-                                        <button type="button" onclick="removeExtraImage(this, '${img}', ${project.id})" style="position:absolute; top:-6px; right:-6px; background:#ef4444; color:#fff; border:none; border-radius:50%; width:18px; height:18px; font-size:10px; cursor:pointer; line-height:1;">×</button>
-                                    </div>
-                                `).join('')}
+                            <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:10px;" class="existing-extra-images">
+                                ${project.images.map((img, i) => {
+                                    const rawPath = img.replace(/^\/storage\//, '');
+                                    const displayUrl = img.startsWith('/') ? img : '/storage/' + img;
+                                    return `
+                                    <div style="position:relative;" data-img-path="${rawPath}">
+                                        <img src="${displayUrl}" style="width:80px; height:60px; object-fit:cover; border-radius:6px; border:2px solid #86efac;" onerror="this.style.display='none'" />
+                                        <button type="button" onclick="removeExtraImage(this, '${rawPath}', ${project.id})" style="position:absolute; top:-6px; right:-6px; background:#ef4444; color:#fff; border:none; border-radius:50%; width:18px; height:18px; font-size:10px; cursor:pointer; line-height:1;">×</button>
+                                    </div>`;
+                                }).join('')}
                             </div>
-                        ` : ''}
+                        ` : '<p style="color:#94a3b8; font-size:13px; margin-bottom:8px;">এখনো কোনো অতিরিক্ত ইমেজ নেই</p>'}
                         <input type="file" class="project-extra-images-input" accept="image/*" multiple onchange="previewExtraImages(this)" />
                         <small style="display: block; margin-top: 6px; padding: 8px 10px; background: #fffbeb; border: 1px solid #fcd34d; border-radius: 6px; color: #92400e; font-size: 12px;">
-                            📐 প্রস্তাবিত রেজোলিউশন: <strong>৯০০×৪০০ পিক্সেল</strong> | সর্বোচ্চ ফাইল সাইজ: <strong>৫ MB প্রতিটি</strong> | একাধিক ছবি একসাথে নির্বাচন করুন
+                            📐 প্রস্তাবিত রেজোলিউশন: <strong>৯০০×৪০০ পিক্সেল</strong> | সর্বোচ্চ ফাইল সাইজ: <strong>৫ MB প্রতিটি</strong> | নতুন ছবি যোগ হবে, পুরানো থাকবে
                         </small>
                         <div class="project-extra-images-preview" style="display:flex; gap:8px; flex-wrap:wrap; margin-top:8px;"></div>
                         </div>
