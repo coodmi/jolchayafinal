@@ -49,13 +49,14 @@
                     <th style="padding: 1rem; text-align: left; font-weight: 600; color: #475569; font-size: 0.875rem; border-bottom: 2px solid #e2e8f0;">প্লট সাইজ</th>
                     <th style="padding: 1rem; text-align: left; font-weight: 600; color: #475569; font-size: 0.875rem; border-bottom: 2px solid #e2e8f0;">বার্তা</th>
                     <th style="padding: 1rem; text-align: left; font-weight: 600; color: #475569; font-size: 0.875rem; border-bottom: 2px solid #e2e8f0;">স্ট্যাটাস</th>
+                    <th style="padding: 1rem; text-align: left; font-weight: 600; color: #475569; font-size: 0.875rem; border-bottom: 2px solid #e2e8f0; min-width: 220px;">অ্যাডমিন নোট</th>
                     <th style="padding: 1rem; text-align: left; font-weight: 600; color: #475569; font-size: 0.875rem; border-bottom: 2px solid #e2e8f0;">জমার তারিখ</th>
                     <th style="padding: 1rem; text-align: left; font-weight: 600; color: #475569; font-size: 0.875rem; border-bottom: 2px solid #e2e8f0;">অ্যাকশন</th>
                 </tr>
             </thead>
             <tbody id="bookingsTableBody">
                 <tr>
-                    <td colspan="9" style="text-align: center; padding: 3rem; color: #94a3b8;">
+                    <td colspan="10" style="text-align: center; padding: 3rem; color: #94a3b8;">
                         ডেটা লোড হচ্ছে...
                     </td>
                 </tr>
@@ -64,7 +65,7 @@
     </div>
 
     <script>
-        let bookingsDataCache = [];
+        window.bookingsDataCache = [];
 
         (function(){
             async function loadBookings() {
@@ -73,13 +74,13 @@
                     if (!response.ok) throw new Error('Failed to fetch');
                     
                     const bookings = await response.json();
-                    bookingsDataCache = bookings;
+                    window.bookingsDataCache = bookings;
                     const tbody = document.getElementById('bookingsTableBody');
                     
                     if (bookings.length === 0) {
                         tbody.innerHTML = `
                             <tr>
-                                <td colspan="9" style="text-align: center; padding: 3rem; color: #94a3b8;">
+                                <td colspan="10" style="text-align: center; padding: 3rem; color: #94a3b8;">
                                     কোন বুকিং পাওয়া যায়নি
                                 </td>
                             </tr>
@@ -119,6 +120,17 @@
                                         ${status.text}
                                     </span>
                                 </td>
+                                <td style="padding: 0.75rem 1rem;">
+                                    <div style="display:flex;gap:6px;align-items:flex-start;">
+                                        <textarea id="note_${booking.id}" rows="2"
+                                            style="flex:1;padding:6px 8px;border:1px solid #e2e8f0;border-radius:6px;font-size:0.8rem;resize:vertical;min-height:52px;font-family:inherit;width:100%;"
+                                            placeholder="ক্লায়েন্টের সাথে কথা বলার পরে নোট লিখুন...">${(booking.admin_note || '').replace(/</g,'&lt;').replace(/>/g,'&gt;')}</textarea>
+                                        <button onclick="saveBookingNote(${booking.id})"
+                                            style="padding:6px 10px;background:#0d3d29;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.75rem;white-space:nowrap;margin-top:2px;flex-shrink:0;">
+                                            সংরক্ষণ
+                                        </button>
+                                    </div>
+                                </td>
                                 <td style="padding: 1rem; font-size: 0.875rem; color: #64748b;">${formattedDate}</td>
                                 <td style="padding: 1rem; font-size: 0.875rem;">
                                     <select onchange="changeBookingStatus(${booking.id}, this.value)" style="padding: 0.5rem; border: 1px solid #e2e8f0; border-radius: 0.375rem; font-size: 0.875rem; cursor: pointer; background: white;">
@@ -135,7 +147,7 @@
                     console.error('Error loading bookings:', error);
                     document.getElementById('bookingsTableBody').innerHTML = `
                         <tr>
-                            <td colspan="9" style="text-align: center; padding: 3rem; color: #ef4444;">
+                            <td colspan="10" style="text-align: center; padding: 3rem; color: #ef4444;">
                                 ডেটা লোড করতে ব্যর্থ হয়েছে
                             </td>
                         </tr>
@@ -171,9 +183,8 @@
 
         async function changeBookingStatus(bookingId, newStatus) {
             if (!newStatus) return;
-            
             try {
-                const response = await fetch(`/admin/bookings/${bookingId}/status`, {
+                await fetch('/admin/bookings/' + bookingId + '/status', {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
@@ -181,104 +192,76 @@
                     },
                     body: JSON.stringify({ status: newStatus })
                 });
+                if (window.reloadBookings) window.reloadBookings();
+            } catch (e) {
+                if (window.reloadBookings) window.reloadBookings();
+            }
+        }
 
-                if (!response.ok) throw new Error('Failed to update status');
-
-                const result = await response.json();
-                
-                // Show success message
-                if (typeof alertUser === 'function') {
-                    alertUser('সফল', 'স্ট্যাটাস সফলভাবে আপডেট করা হয়েছে');
+        async function saveBookingNote(bookingId) {
+            const textarea = document.getElementById('note_' + bookingId);
+            if (!textarea) return;
+            try {
+                const res = await fetch('/admin/bookings/' + bookingId + '/note', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || ''
+                    },
+                    body: JSON.stringify({ admin_note: textarea.value })
+                });
+                const result = await res.json();
+                if (result.success) {
+                    if (window.showSuccess) window.showSuccess('নোট সংরক্ষিত হয়েছে');
+                    const item = window.bookingsDataCache.find(b => b.id === bookingId);
+                    if (item) item.admin_note = textarea.value;
                 }
-                
-                // Reload the bookings table
-                if (typeof window.reloadBookings === 'function') {
-                    window.reloadBookings();
-                }
-            } catch (error) {
-                console.error('Error updating status:', error);
-                if (typeof alertUser === 'function') {
-                    alertUser('ত্রুটি', 'স্ট্যাটাস আপডেট করতে ব্যর্থ হয়েছে');
-                } else {
-                    alert('স্ট্যাটাস আপডেট করতে ব্যর্থ হয়েছে');
-                }
-                
-                // Reload to reset the dropdown
-                if (typeof window.reloadBookings === 'function') {
-                    window.reloadBookings();
-                }
+            } catch (e) {
+                if (window.showError) window.showError('নোট সংরক্ষণ ব্যর্থ হয়েছে');
             }
         }
 
         function exportBookingsCSV() {
-            if (bookingsDataCache.length === 0) {
-                if (typeof alertUser === 'function') {
-                    alertUser('সতর্কতা', 'এক্সপোর্ট করার জন্য কোন ডেটা নেই');
-                }
+            if (!window.bookingsDataCache || window.bookingsDataCache.length === 0) {
+                if (window.showError) window.showError('এক্সপোর্ট করার জন্য কোন ডেটা নেই');
                 return;
             }
 
             // CSV Headers
-            const headers = ['#', 'নাম', 'ফোন নম্বর', 'ইমেইল', 'প্লট সাইজ', 'বার্তা', 'স্ট্যাটাস', 'জমার তারিখ'];
+            const headers = ['#', 'নাম', 'ফোন নম্বর', 'ইমেইল', 'প্লট সাইজ', 'বার্তা', 'স্ট্যাটাস', 'অ্যাডমিন নোট', 'জমার তারিখ'];
+            const statusMap = { 'pending': 'পেন্ডিং', 'contacted': 'যোগাযোগ করা হয়েছে', 'completed': 'সম্পন্ন' };
             
             // CSV Rows
-            const rows = bookingsDataCache.map((booking, index) => {
-                const statusMap = {
-                    'pending': 'পেন্ডিং',
-                    'contacted': 'যোগাযোগ করা হয়েছে',
-                    'completed': 'সম্পন্ন'
-                };
-                
-                const date = new Date(booking.created_at);
-                const formattedDate = date.toLocaleDateString('bn-BD', {
-                    year: 'numeric',
-                    month: 'short',
-                    day: 'numeric'
-                });
-
+            const rows = window.bookingsDataCache.map((booking, index) => {
+                const date = new Date(booking.created_at).toLocaleDateString('bn-BD', { year: 'numeric', month: 'short', day: 'numeric' });
                 return [
                     index + 1,
                     booking.name,
                     booking.phone,
-                    booking.email,
+                    booking.email || '-',
                     booking.plot_size || '-',
                     (booking.message || '-').replace(/"/g, '""'),
                     statusMap[booking.status] || booking.status,
-                    formattedDate
+                    (booking.admin_note || '-').replace(/"/g, '""'),
+                    date
                 ];
             });
 
-            // Create CSV content
-            const csvContent = [
-                headers.join(','),
-                ...rows.map(row => row.map(cell => `"${cell}"`).join(','))
-            ].join('\n');
-
-            // Add BOM for UTF-8
-            const BOM = '\uFEFF';
-            const blob = new Blob([BOM + csvContent], { type: 'text/csv;charset=utf-8;' });
-            
-            // Download file
+            const csvContent = [headers, ...rows].map(r => r.map(c => '"' + c + '"').join(',')).join('\n');
+            const blob = new Blob(['\uFEFF' + csvContent], { type: 'text/csv;charset=utf-8;' });
             const link = document.createElement('a');
-            const url = URL.createObjectURL(blob);
-            link.setAttribute('href', url);
-            link.setAttribute('download', `bookings_${new Date().toISOString().split('T')[0]}.csv`);
-            link.style.visibility = 'hidden';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+            link.href = URL.createObjectURL(blob);
+            link.download = 'bookings_' + new Date().toISOString().split('T')[0] + '.csv';
+            document.body.appendChild(link); link.click(); document.body.removeChild(link);
         }
 
         function exportBookingsJSON() {
-            if (bookingsDataCache.length === 0) {
-                if (typeof alertUser === 'function') {
-                    alertUser('সতর্কতা', 'এক্সপোর্ট করার জন্য কোন ডেটা নেই');
-                }
+            if (!window.bookingsDataCache || window.bookingsDataCache.length === 0) {
+                if (window.showError) window.showError('এক্সপোর্ট করার জন্য কোন ডেটা নেই');
                 return;
             }
 
-            // Create JSON content
-            const jsonContent = JSON.stringify(bookingsDataCache, null, 2);
+            const jsonContent = JSON.stringify(window.bookingsDataCache, null, 2);
             
             // Download file
             const blob = new Blob([jsonContent], { type: 'application/json' });

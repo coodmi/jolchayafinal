@@ -418,6 +418,7 @@ Route::middleware('admin')->group(function () {
 
     // Bookings API routes
     Route::put('/admin/bookings/{id}/status', [BookingController::class, 'updateStatus'])->name('admin.bookings.update-status');
+    Route::put('/admin/bookings/{id}/note', [BookingController::class, 'updateNote'])->name('admin.bookings.update-note');
     Route::delete('/admin/bookings/{id}', [BookingController::class, 'destroy'])->name('admin.bookings.destroy');
     Route::post('/admin/bookings/bulk-delete', [BookingController::class, 'bulkDelete'])->name('admin.bookings.bulk-delete');
     Route::get('/admin/bookings/export', [BookingController::class, 'export'])->name('admin.bookings.export');

@@ -20,6 +20,7 @@ class Booking extends Model
         'plot_size',
         'message',
         'status',
+        'admin_note',
         'is_read',
     ];
 

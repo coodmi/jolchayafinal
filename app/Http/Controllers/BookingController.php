@@ -69,7 +69,25 @@ class BookingController extends Controller
     }
 
     /**
-     * Export bookings data.
+     * Update admin note for a booking.
+     */
+    public function updateNote(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'admin_note' => 'nullable|string|max:2000'
+        ]);
+
+        $booking = Booking::findOrFail($id);
+        $booking->admin_note = $validated['admin_note'] ?? null;
+        $booking->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'নোট সফলভাবে সংরক্ষিত হয়েছে'
+        ]);
+    }
+
+    /**
      */
     public function export(Request $request)
     {
