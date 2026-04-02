@@ -446,7 +446,10 @@
 
             <div class="form-group" style="margin-bottom:1rem;">
                 <label>সাবমিট বাটন টেক্সট</label>
-                <input type="text" id="submitButtonText" placeholder="পাঠান" style="max-width:300px;">
+                <div style="display:flex;gap:8px;align-items:center;">
+                    <input type="text" id="submitButtonText" placeholder="পাঠান" style="max-width:260px;">
+                    <button type="button" onclick="saveSubmitButtonText()" style="padding:8px 18px;background:#0d3d29;color:#fff;border:none;border-radius:8px;font-size:0.875rem;font-weight:600;cursor:pointer;">সেভ করুন</button>
+                </div>
             </div>
 
             <div id="formFieldsContainer" style="display:grid; gap:12px;"></div>
@@ -741,9 +744,12 @@
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': csrf },
                             body: JSON.stringify({ buttonText: text })
+                        }).then(r => r.json()).then(d => {
+                            if (d.success && window.showSuccess) window.showSuccess('বাটন টেক্সট সংরক্ষিত হয়েছে');
                         }).catch(() => {});
                     }
 
+                    window.saveSubmitButtonText = saveSubmitButtonText;
                     submitBtnInput.addEventListener('change', saveSubmitButtonText);
 
                     loadFormFields();
