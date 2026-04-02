@@ -12,10 +12,11 @@
 
 @if($popupEnabled && ($popupTitle || $popupImage))
 <div id="welcomePopupOverlay" style="position:fixed;inset:0;background:rgba(0,0,0,0.65);z-index:99999;display:flex;align-items:center;justify-content:center;padding:16px;">
-    <div id="welcomePopup" style="background:#fff;border-radius:20px;max-width:780px;width:100%;display:flex;overflow:hidden;box-shadow:0 32px 80px rgba(0,0,0,0.3);position:relative;max-height:90vh;">
 
-        <!-- Close Button -->
-        <button onclick="closeWelcomePopup()" style="position:absolute;top:14px;right:14px;background:rgba(0,0,0,0.15);border:none;border-radius:50%;width:34px;height:34px;cursor:pointer;font-size:18px;color:#fff;z-index:10;display:flex;align-items:center;justify-content:center;line-height:1;">×</button>
+    <!-- Close Button — outside popup so overflow:hidden doesn't clip it -->
+    <button onclick="closeWelcomePopup()" style="position:fixed;top:20px;right:20px;background:rgba(255,255,255,0.2);border:2px solid rgba(255,255,255,0.5);border-radius:50%;width:40px;height:40px;cursor:pointer;font-size:22px;color:#fff;z-index:100000;display:flex;align-items:center;justify-content:center;line-height:1;">×</button>
+
+    <div id="welcomePopup" style="background:#fff;border-radius:20px;max-width:780px;width:100%;display:flex;overflow:hidden;box-shadow:0 32px 80px rgba(0,0,0,0.3);position:relative;max-height:90vh;">
 
         <!-- Left: Image -->
         @if($popupImage)
@@ -33,7 +34,7 @@
             <p style="font-size:1rem;color:#64748b;margin:0 0 28px;line-height:1.6;">{{ $popupSubtitle }}</p>
             @endif
             @if($popupBtnText)
-            <a href="{{ $popupBtnLink }}" onclick="closeWelcomePopup()" style="display:inline-block;background:{{ $popupBgColor }};color:#fff;padding:14px 32px;border-radius:10px;font-weight:700;font-size:1rem;text-decoration:none;text-align:center;margin-bottom:14px;transition:opacity 0.2s;" onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">{{ $popupBtnText }}</a>
+            <a href="{{ $popupBtnLink }}" onclick="closeWelcomePopup()" style="display:inline-block;background:{{ $popupBgColor }};color:#fff;padding:14px 32px;border-radius:10px;font-weight:700;font-size:1rem;text-decoration:none;text-align:center;margin-bottom:14px;" onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">{{ $popupBtnText }}</a>
             @endif
             @if($popupNote)
             <p style="font-size:0.85rem;color:#94a3b8;margin:0;">{{ $popupNote }}</p>
@@ -51,35 +52,19 @@
 </style>
 
 <script>
-(function(){
-    // Close on overlay click
-    document.getElementById('welcomePopupOverlay').addEventListener('click', function(e) {
-        if (e.target === this) closeWelcomePopup();
-    });
-    // Close on ESC
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') closeWelcomePopup();
-    });
-})();
-
-    // Close on overlay click
-    document.getElementById('welcomePopupOverlay').addEventListener('click', function(e) {
-        if (e.target === this) closeWelcomePopup();
-    });
-
-    // Close on ESC
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') closeWelcomePopup();
-    });
-})();
-
 function closeWelcomePopup() {
-    const overlay = document.getElementById('welcomePopupOverlay');
+    var overlay = document.getElementById('welcomePopupOverlay');
     if (overlay) {
         overlay.style.opacity = '0';
         overlay.style.transition = 'opacity 0.3s ease';
-        setTimeout(() => overlay.remove(), 300);
+        setTimeout(function(){ overlay.remove(); }, 300);
     }
 }
+document.getElementById('welcomePopupOverlay').addEventListener('click', function(e) {
+    if (e.target === this) closeWelcomePopup();
+});
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeWelcomePopup();
+});
 </script>
 @endif
