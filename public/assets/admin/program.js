@@ -561,6 +561,10 @@ function showTab(tabId) {
   } catch (e) {
     /* ignore */
   }
+
+  // Scroll content-area to top on every tab switch
+  var ca = document.querySelector('.content-area');
+  if (ca) ca.scrollTop = 0;
 }
 
 // 2. Overview Tab Logic

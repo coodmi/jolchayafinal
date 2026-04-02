@@ -227,10 +227,13 @@
                 if (tab.classList.contains('active') && !tab.dataset.ssLoaded) {
                     tab.dataset.ssLoaded = '1';
                     loadSiteSettings();
+                    // Scroll content-area to top
+                    var ca = document.querySelector('.content-area');
+                    if (ca) ca.scrollTop = 0;
                 }
             });
             obs.observe(tab, { attributes: true, attributeFilter: ['class'] });
-            if (tab.classList.contains('active')) loadSiteSettings();
+            if (tab.classList.contains('active')) { loadSiteSettings(); }
         }
     })();
     </script>
