@@ -182,17 +182,46 @@
       $imageUrl = $project->image_url ?? null;
       $ctaLink = $project->cta_link ?: '/#contact';
       $isExternal = str_starts_with($ctaLink, 'http://') || str_starts_with($ctaLink, 'https://');
+      $extraImages = $project->images ?? [];
+      $allImages = array_filter(array_merge(
+          $imageUrl ? [$imageUrl] : [],
+          array_map(fn($p) => str_starts_with($p, '/') ? $p : '/storage/' . $p, $extraImages)
+      ));
+      $allImages = array_values($allImages);
+      $hasSlider = count($allImages) > 1;
     @endphp
     <section class="project-section">
+      @php
+        $imageHtml = '';
+        if ($hasSlider):
+          $slides = '';
+          $dots = '';
+          foreach ($allImages as $i => $src):
+            $slides .= '<img src="' . e($src) . '" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:' . ($i === 0 ? '1' : '0') . ';transition:opacity 0.5s ease;" data-slide="' . $i . '" />';
+            $dots .= '<span onclick="projSlide' . $index . '(' . $i . ')" style="width:8px;height:8px;border-radius:50%;background:' . ($i === 0 ? '#fff' : 'rgba(255,255,255,0.5)') . ';display:inline-block;cursor:pointer;margin:0 3px;" data-dot-' . $index . '="' . $i . '"></span>';
+          endforeach;
+          $imageHtml = '<div class="project-image" style="position:relative;overflow:hidden;" data-slider-index="' . $index . '" data-current="0" data-total="' . count($allImages) . '">'
+            . $slides
+            . '<button onclick="projSlideDir(' . $index . ',-1)" style="position:absolute;left:10px;top:50%;transform:translateY(-50%);z-index:5;background:rgba(0,0,0,0.5);color:#fff;border:none;border-radius:50%;width:36px;height:36px;cursor:pointer;font-size:20px;line-height:1;">‹</button>'
+            . '<button onclick="projSlideDir(' . $index . ',1)" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);z-index:5;background:rgba(0,0,0,0.5);color:#fff;border:none;border-radius:50%;width:36px;height:36px;cursor:pointer;font-size:20px;line-height:1;">›</button>'
+            . '<div style="position:absolute;bottom:10px;left:50%;transform:translateX(-50%);z-index:5;">' . $dots . '</div>'
+            . '</div>';
+        elseif ($imageUrl):
+          $imageHtml = '<div class="project-image" style="background-image:url(\'' . e($imageUrl) . '\')"></div>';
+        else:
+          $imageHtml = '<div class="project-image" style="background:#e8f5e9;display:flex;align-items:center;justify-content:center;font-size:4rem;">🏗️</div>';
+        endif;
+      @endphp
+
       @if($isReverse)
         <div class="project-content">
           <h3>{{ $project->title }}</h3>
           <p>{{ $project->description }}</p>
           <a href="{{ $ctaLink }}" class="btn" {{ $isExternal ? 'target="_blank" rel="noopener"' : '' }}>{{ $project->cta_text ?: 'বিস্তারিত জানুন' }}</a>
         </div>
-        <div class="project-image" @if($imageUrl) style="background-image:url('{{ $imageUrl }}')" @endif></div>
+        {!! $imageHtml !!}
       @else
-        <div class="project-image" @if($imageUrl) style="background-image:url('{{ $imageUrl }}')" @endif></div>
+        {!! $imageHtml !!}
         <div class="project-content">
           <h3>{{ $project->title }}</h3>
           <p>{{ $project->description }}</p>
@@ -455,5 +484,33 @@
       loadProjectContent();
 
   })();
+  </script>
+
+  <script>
+  // Projects page slider
+  function projSlideDir(idx, dir) {
+      const slider = document.querySelector('[data-slider-index="' + idx + '"]');
+      if (!slider) return;
+      const total = parseInt(slider.dataset.total);
+      let current = parseInt(slider.dataset.current);
+      slider.querySelectorAll('[data-slide]')[current].style.opacity = '0';
+      const dots = slider.querySelectorAll('[data-dot-' + idx + ']');
+      if (dots[current]) dots[current].style.background = 'rgba(255,255,255,0.5)';
+      current = (current + dir + total) % total;
+      slider.querySelectorAll('[data-slide]')[current].style.opacity = '1';
+      if (dots[current]) dots[current].style.background = '#fff';
+      slider.dataset.current = current;
+  }
+  function projSlide(idx, target) {
+      const slider = document.querySelector('[data-slider-index="' + idx + '"]');
+      if (!slider) return;
+      const current = parseInt(slider.dataset.current);
+      slider.querySelectorAll('[data-slide]')[current].style.opacity = '0';
+      const dots = slider.querySelectorAll('[data-dot-' + idx + ']');
+      if (dots[current]) dots[current].style.background = 'rgba(255,255,255,0.5)';
+      slider.querySelectorAll('[data-slide]')[target].style.opacity = '1';
+      if (dots[target]) dots[target].style.background = '#fff';
+      slider.dataset.current = target;
+  }
   </script>
 @endsection
