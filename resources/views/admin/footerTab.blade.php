@@ -568,93 +568,22 @@
     </div>
 
     <script>
+    // Live preview input listeners only — load/save handled by program.js
     (function(){
         const g = id => document.getElementById(id);
-
-        // ── LOAD ──────────────────────────────────────────────────────────────
-        function loadFooterSettings() {
-            fetch('/api/footer-settings?t=' + Date.now(), { cache: 'no-store' })
-                .then(r => r.ok ? r.json() : null)
-                .then(s => {
-                    if (!s || s.error) return;
-
-                    if (g('footerTitle'))       g('footerTitle').value       = s.title || '';
-                    if (g('footerDescription')) g('footerDescription').value = s.description || '';
-                    if (g('phone1'))            g('phone1').value            = s.phone1 || '';
-                    if (g('phone2'))            g('phone2').value            = s.phone2 || '';
-                    if (g('email'))             g('email').value             = s.email || '';
-                    if (g('projectAddress'))    g('projectAddress').value    = s.project_address || '';
-                    if (g('contactAddress'))    g('contactAddress').value    = s.contact_address || '';
-                    if (g('mapUrl'))            g('mapUrl').value            = s.map_url || '';
-                    if (g('mapButtonText'))     g('mapButtonText').value     = s.map_button_text || '';
-                    if (g('qrSectionTitle'))    g('qrSectionTitle').value    = s.qr_section_title || '';
-                    if (g('bottomText'))        g('bottomText').value        = s.bottom_text || '';
-                    if (g('nexRealEstateUrl'))  g('nexRealEstateUrl').value  = s.nex_real_estate_url || '';
-                    if (g('concernTitle'))      g('concernTitle').value      = s.concern_title || '';
-
-                    // Social
-                    if (g('socialFacebook'))  g('socialFacebook').value  = s.social_links?.facebook  || '';
-                    if (g('socialInstagram')) g('socialInstagram').value = s.social_links?.instagram || '';
-                    if (g('socialTwitter'))   g('socialTwitter').value   = s.social_links?.twitter   || '';
-                    if (g('socialLinkedin'))  g('socialLinkedin').value  = s.social_links?.linkedin  || '';
-                    if (g('socialYouTube'))   g('socialYouTube').value   = s.social_links?.youtube   || '';
-
-                    // Quick links
-                    const ql = s.quick_links || [];
-                    if (ql[0]) { if(g('qlHomeLabel')) g('qlHomeLabel').value = ql[0].label||''; if(g('qlHomeHref')) g('qlHomeHref').value = ql[0].href||''; }
-                    if (ql[1]) { if(g('qlFeaturesLabel')) g('qlFeaturesLabel').value = ql[1].label||''; if(g('qlFeaturesHref')) g('qlFeaturesHref').value = ql[1].href||''; }
-                    if (ql[2]) { if(g('qlPricingLabel')) g('qlPricingLabel').value = ql[2].label||''; if(g('qlPricingHref')) g('qlPricingHref').value = ql[2].href||''; }
-                    if (ql[3]) { if(g('qlContactLabel')) g('qlContactLabel').value = ql[3].label||''; if(g('qlContactHref')) g('qlContactHref').value = ql[3].href||''; }
-                    if (ql[4]) { if(g('qlGalleryLabel')) g('qlGalleryLabel').value = ql[4].label||''; if(g('qlGalleryHref')) g('qlGalleryHref').value = ql[4].href||''; }
-
-                    // Legal links
-                    const ll = s.legal_links || [];
-                    if (ll[0]) { if(g('legalPrivacyLabel')) g('legalPrivacyLabel').value = ll[0].label||''; if(g('legalPrivacyHref')) g('legalPrivacyHref').value = ll[0].href||''; }
-                    if (ll[1]) { if(g('legalTermsLabel')) g('legalTermsLabel').value = ll[1].label||''; if(g('legalTermsHref')) g('legalTermsHref').value = ll[1].href||''; }
-
-                    // Logo preview
-                    if (s.logo_path && g('footerLogoPreviewImg')) {
-                        g('footerLogoPreviewImg').src = s.logo_path;
-                        g('footerLogoPreview').style.display = 'block';
-                    }
-
-                    // Live preview
-                    if (g('pvPhone1')) g('pvPhone1').textContent = s.phone1 || '';
-                    if (g('pvPhone2')) g('pvPhone2').textContent = s.phone2 || '';
-                    if (g('pvEmail'))  g('pvEmail').textContent  = s.email  || '';
-                    if (g('pvFb'))  g('pvFb').href  = s.social_links?.facebook  || '#';
-                    if (g('pvIg'))  g('pvIg').href  = s.social_links?.instagram || '#';
-                    if (g('pvTw'))  g('pvTw').href  = s.social_links?.twitter   || '#';
-                    if (g('pvLn'))  g('pvLn').href  = s.social_links?.linkedin  || '#';
-                    if (g('pvYt'))  g('pvYt').href  = s.social_links?.youtube   || '#';
-                })
-                .catch(e => console.error('Footer load error:', e));
-        }
-
-        // Expose so program.js loadFooterSettings can be called after save
-        window.loadFooterSettings = loadFooterSettings;
-
-        // Live preview on input change
-        ['phone1','phone2','email','socialFacebook','socialInstagram','socialTwitter','socialLinkedin','socialYouTube'].forEach(id => {
+        const previewMap = {
+            phone1:'pvPhone1', phone2:'pvPhone2', email:'pvEmail',
+            socialFacebook:'pvFb', socialInstagram:'pvIg', socialTwitter:'pvTw',
+            socialLinkedin:'pvLn', socialYouTube:'pvYt'
+        };
+        Object.keys(previewMap).forEach(id => {
             g(id)?.addEventListener('input', function() {
-                const map = { phone1:'pvPhone1', phone2:'pvPhone2', email:'pvEmail',
-                    socialFacebook:'pvFb', socialInstagram:'pvIg', socialTwitter:'pvTw',
-                    socialLinkedin:'pvLn', socialYouTube:'pvYt' };
-                const el = g(map[id]);
-                if (el) {
-                    if (id.startsWith('social')) el.href = this.value || '#';
-                    else el.textContent = this.value;
-                }
+                const el = g(previewMap[id]);
+                if (!el) return;
+                if (id.startsWith('social')) el.href = this.value || '#';
+                else el.textContent = this.value;
             });
         });
-
-        // Load on tab activation
-        const obs = new MutationObserver(function() {
-            const tab = document.getElementById('footer');
-            if (tab && tab.classList.contains('active')) { loadFooterSettings(); obs.disconnect(); }
-        });
-        obs.observe(document.body, { attributes:true, subtree:true, attributeFilter:['class'] });
-        if (document.getElementById('footer')?.classList.contains('active')) loadFooterSettings();
     })();
     </script>
         <div

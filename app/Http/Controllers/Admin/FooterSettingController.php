@@ -77,10 +77,15 @@ class FooterSettingController extends Controller
 
         unset($data['qlHomeLabel'], $data['qlHomeHref'], $data['qlFeaturesLabel'], $data['qlFeaturesHref'], $data['qlPricingLabel'], $data['qlPricingHref'], $data['qlContactLabel'], $data['qlContactHref'], $data['qlGalleryLabel'], $data['qlGalleryHref'], $data['legalPrivacyLabel'], $data['legalPrivacyHref'], $data['legalTermsLabel'], $data['legalTermsHref'], $data['socialFacebook'], $data['socialInstagram'], $data['socialTwitter'], $data['socialLinkedin'], $data['socialYouTube']);
 
+        // Remove non-fillable / file fields from $data before fill()
+        unset($data['concern_logos'], $data['concern_image'],
+              $data['qr_image'], $data['logo_image'],
+              $data['brochure_file'], $data['master_plan_file'], $data['price_list_file']);
+
         $fs = FooterSetting::first() ?? new FooterSetting();
         $fs->fill($data);
-        $fs->quick_links = $quickLinks;
-        $fs->legal_links = $legalLinks;
+        $fs->quick_links  = $quickLinks;
+        $fs->legal_links  = $legalLinks;
         $fs->social_links = $social;
 
         if ($request->hasFile('qr_image')) {
