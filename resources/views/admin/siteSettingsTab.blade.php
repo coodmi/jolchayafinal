@@ -1,4 +1,5 @@
 <div id="site-settings" class="tab-content">
+    <p style="color:red;font-size:20px;padding:20px;">TEST - সাইট সেটিংস লোড হয়েছে</p>
     <div class="stats-grid">
         <div class="stat-card">
             <div class="stat-card-content">
@@ -202,6 +203,8 @@
         if (window.registerTabLoader) {
             registerTabLoader('site-settings', loadSiteSettings);
         }
+        // Also load immediately in case tab is already active
+        setTimeout(loadSiteSettings, 100);
     })();
     </script>
 </div>
