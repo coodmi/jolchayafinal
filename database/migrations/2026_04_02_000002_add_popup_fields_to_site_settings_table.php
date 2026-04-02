@@ -9,14 +9,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('site_settings', function (Blueprint $table) {
-            $table->boolean('popup_enabled')->default(false)->after('favicon_url');
-            $table->string('popup_title')->nullable()->after('popup_enabled');
-            $table->string('popup_subtitle')->nullable()->after('popup_title');
-            $table->string('popup_btn_text')->nullable()->after('popup_subtitle');
-            $table->string('popup_btn_link')->nullable()->after('popup_btn_text');
-            $table->string('popup_note')->nullable()->after('popup_btn_link');
-            $table->string('popup_image')->nullable()->after('popup_note');
-            $table->string('popup_bg_color')->default('#0d3d29')->after('popup_image');
+            $table->boolean('popup_enabled')->default(false);
+            $table->string('popup_title')->nullable();
+            $table->string('popup_subtitle')->nullable();
+            $table->string('popup_btn_text')->nullable();
+            $table->string('popup_btn_link')->nullable();
+            $table->string('popup_note')->nullable();
+            $table->string('popup_image')->nullable();
+            $table->string('popup_bg_color')->default('#0d3d29');
         });
     }
 
