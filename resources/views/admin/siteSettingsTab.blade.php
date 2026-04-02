@@ -184,6 +184,11 @@
         });
         document.getElementById('popupImageInput').addEventListener('change', function () {
             if (!this.files[0]) return;
+            if (this.files[0].size > 2 * 1024 * 1024) {
+                if (window.showError) window.showError('ছবির আকার ২MB এর বেশি। ছোট ছবি বেছে নিন।');
+                this.value = '';
+                return;
+            }
             document.getElementById('popupImagePreviewImg').src = URL.createObjectURL(this.files[0]);
             document.getElementById('popupImagePreview').style.display = 'block';
         });
@@ -209,11 +214,18 @@
             var l = document.getElementById('dashboardLogoInput').files[0]; if (l) fd.append('dashboard_logo', l);
             var p = document.getElementById('popupImageInput').files[0];    if (p) fd.append('popup_image', p);
             fetch('/admin/site-settings', { method:'POST', headers:{'X-CSRF-TOKEN': csrf}, body: fd })
-                .then(function(r){ return r.json(); })
+                .then(function(r){
+                    if (!r.ok) return r.text().then(function(t){ throw new Error('HTTP ' + r.status + ': ' + t.substring(0,200)); });
+                    return r.json();
+                })
                 .then(function(d){
                     if (d.success) { if (window.showSuccess) window.showSuccess('সাইট সেটিংস সংরক্ষিত হয়েছে'); }
-                    else { if (window.showError) window.showError('সংরক্ষণ ব্যর্থ হয়েছে'); }
-                }).catch(function(){ if (window.showError) window.showError('সার্ভার সমস্যা'); })
+                    else {
+                        var msg = d.message || 'সংরক্ষণ ব্যর্থ হয়েছে';
+                        if (d.errors) msg = Object.values(d.errors).flat().join(' | ');
+                        if (window.showError) window.showError(msg);
+                    }
+                }).catch(function(e){ if (window.showError) window.showError('ত্রুটি: ' + (e.message || 'সার্ভার সমস্যা')); })
                 .finally(function(){
                     btn.disabled = false;
                     btn.innerHTML = '<i class="fas fa-save" style="margin-right:8px;"></i> সংরক্ষণ করুন';
