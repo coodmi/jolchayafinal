@@ -52,12 +52,14 @@
 
 <script>
 (function(){
-    // Show once per session
-    if (sessionStorage.getItem('popupShown')) {
+    // Show once per day
+    var key = 'popupShownDate';
+    var today = new Date().toDateString();
+    if (localStorage.getItem(key) === today) {
         document.getElementById('welcomePopupOverlay').style.display = 'none';
         return;
     }
-    sessionStorage.setItem('popupShown', '1');
+    localStorage.setItem(key, today);
 
     // Close on overlay click
     document.getElementById('welcomePopupOverlay').addEventListener('click', function(e) {
