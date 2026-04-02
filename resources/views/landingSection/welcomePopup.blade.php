@@ -52,14 +52,15 @@
 
 <script>
 (function(){
-    // Show once per day
-    var key = 'popupShownDate';
-    var today = new Date().toDateString();
-    if (localStorage.getItem(key) === today) {
-        document.getElementById('welcomePopupOverlay').style.display = 'none';
-        return;
-    }
-    localStorage.setItem(key, today);
+    // Close on overlay click
+    document.getElementById('welcomePopupOverlay').addEventListener('click', function(e) {
+        if (e.target === this) closeWelcomePopup();
+    });
+    // Close on ESC
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') closeWelcomePopup();
+    });
+})();
 
     // Close on overlay click
     document.getElementById('welcomePopupOverlay').addEventListener('click', function(e) {
