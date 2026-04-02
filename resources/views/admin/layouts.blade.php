@@ -73,5 +73,29 @@
 
      <script src="{{ asset('assets/admin/program.js') }}"></script>
 
+    <script>
+    // Prevent screen from dimming/sleeping on the admin dashboard
+    (function() {
+        let wakeLock = null;
+
+        async function requestWakeLock() {
+            if ('wakeLock' in navigator) {
+                try {
+                    wakeLock = await navigator.wakeLock.request('screen');
+                } catch (e) {
+                    // Wake Lock not granted — silently ignore
+                }
+            }
+        }
+
+        // Re-acquire on visibility change (tab becomes active again)
+        document.addEventListener('visibilitychange', function() {
+            if (document.visibilityState === 'visible') requestWakeLock();
+        });
+
+        requestWakeLock();
+    })();
+    </script>
+
 </body>
 </html>
