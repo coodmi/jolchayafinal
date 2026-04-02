@@ -275,11 +275,11 @@
             </div>
 
             <div class="social-links" id="footerSocialLinks">
-                <a href="#" id="footerFacebook"><i class="fab fa-facebook-f"></i></a>
-                <a href="#" id="footerInstagram"><i class="fab fa-instagram"></i></a>
-                <a href="#" id="footerTwitter"><i class="fab fa-twitter"></i></a>
-                <a href="#" id="footerLinkedin"><i class="fab fa-linkedin-in"></i></a>
-                <a href="#" id="footerYoutube"><i class="fab fa-youtube"></i></a>
+                <a href="#" id="footerFacebook" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" id="footerInstagram" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
+                <a href="#" id="footerTwitter" target="_blank" rel="noopener noreferrer"><i class="fab fa-twitter"></i></a>
+                <a href="#" id="footerLinkedin" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#" id="footerYoutube" target="_blank" rel="noopener noreferrer"><i class="fab fa-youtube"></i></a>
             </div>
         </div>
 
@@ -485,11 +485,27 @@
 
             // Social Links - only update if object exists
             if (settings.social_links && typeof settings.social_links === 'object') {
-                if (settings.social_links.facebook) document.getElementById('footerFacebook').href = settings.social_links.facebook;
-                if (settings.social_links.instagram) document.getElementById('footerInstagram').href = settings.social_links.instagram;
-                if (settings.social_links.twitter) document.getElementById('footerTwitter').href = settings.social_links.twitter;
-                if (settings.social_links.linkedin) document.getElementById('footerLinkedin').href = settings.social_links.linkedin;
-                if (settings.social_links.youtube) document.getElementById('footerYoutube').href = settings.social_links.youtube;
+                const socials = {
+                    footerFacebook:  settings.social_links.facebook,
+                    footerInstagram: settings.social_links.instagram,
+                    footerTwitter:   settings.social_links.twitter,
+                    footerLinkedin:  settings.social_links.linkedin,
+                    footerYoutube:   settings.social_links.youtube,
+                };
+                Object.entries(socials).forEach(([id, url]) => {
+                    const el = document.getElementById(id);
+                    if (!el) return;
+                    if (url && url.trim() !== '') {
+                        el.href = url.trim();
+                        el.style.display = '';
+                    } else {
+                        el.style.display = 'none';
+                    }
+                });
+            } else {
+                // Hide all social icons if no data
+                ['footerFacebook','footerInstagram','footerTwitter','footerLinkedin','footerYoutube']
+                    .forEach(id => { const el = document.getElementById(id); if(el) el.style.display='none'; });
             }
 
             // Map and QR Section - update if value exists
