@@ -1,67 +1,9 @@
 <div id="home" class="tab-content">
     <script>
-        // Global notification function
+        // Use global showSuccess/showError from program.js toast system
         function showNotification(message, type = 'success') {
-            const notification = document.createElement('div');
-            notification.style.cssText = `
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                padding: 16px 24px;
-                background: ${type === 'success' ? 'linear-gradient(135deg, #0D5534 0%, #0f6640 100%)' : '#ef4444'};
-                color: white;
-                border-radius: 12px;
-                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-                z-index: 10000;
-                font-size: 15px;
-                font-weight: 600;
-                display: flex;
-                align-items: center;
-                gap: 10px;
-                animation: slideInRight 0.3s ease-out;
-            `;
-
-            const icon = type === 'success' ? '✓' : '✗';
-            notification.innerHTML = `
-                <span style="font-size: 20px;">${icon}</span>
-                <span>${message}</span>
-            `;
-
-            document.body.appendChild(notification);
-
-            setTimeout(() => {
-                notification.style.animation = 'slideOutRight 0.3s ease-out';
-                setTimeout(() => notification.remove(), 300);
-            }, 3000);
-        }
-
-        // Add animation styles
-        if (!document.getElementById('notification-styles')) {
-            const style = document.createElement('style');
-            style.id = 'notification-styles';
-            style.textContent = `
-                @keyframes slideInRight {
-                    from {
-                        transform: translateX(400px);
-                        opacity: 0;
-                    }
-                    to {
-                        transform: translateX(0);
-                        opacity: 1;
-                    }
-                }
-                @keyframes slideOutRight {
-                    from {
-                        transform: translateX(0);
-                        opacity: 1;
-                    }
-                    to {
-                        transform: translateX(400px);
-                        opacity: 0;
-                    }
-                }
-            `;
-            document.head.appendChild(style);
+            if (type === 'success' && window.showSuccess) window.showSuccess(message);
+            else if (window.showError) window.showError(message);
         }
     </script>
 
