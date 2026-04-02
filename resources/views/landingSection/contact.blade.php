@@ -353,28 +353,18 @@
                         label.textContent = field.label;
                         formGroup.appendChild(label);
 
-                        const isFirstField = index === 0;
-                        const isLastField = index === formFields.length - 1;
-                        
                         let input;
-                        // First field is always normal input, last field is always textarea
-                        if (isLastField || (field.type === 'textarea' && !isFirstField)) {
+                        if (field.type === 'textarea') {
                             input = document.createElement('textarea');
-                            // Last field gets extra height
-                            if (isLastField) {
-                                input.style.minHeight = '120px';
-                                input.style.height = '120px';
-                            }
+                            input.style.minHeight = '120px';
                         } else {
                             input = document.createElement('input');
-                            input.type = isFirstField ? 'text' : field.type;
+                            input.type = field.type || 'text';
                         }
-                        
+
                         input.placeholder = field.placeholder || '';
-                        if (field.required) {
-                            input.required = true;
-                        }
-                        
+                        if (field.required) input.required = true;
+
                         formGroup.appendChild(input);
                         fieldsContainer.appendChild(formGroup);
                     });
