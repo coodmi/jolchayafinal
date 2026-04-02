@@ -336,6 +336,15 @@ Route::get('/api/events', [EventController::class, 'index'])->name('api.events.i
 // API: Get all bookings
 Route::get('/api/bookings', [BookingController::class, 'index'])->name('api.bookings.index');
 
+// API: Get visit bookings only (have location or visit_date)
+Route::get('/api/visit-bookings', function () {
+    $bookings = \App\Models\Booking::whereNotNull('visit_date')
+        ->orWhereNotNull('location')
+        ->orderBy('created_at', 'desc')
+        ->get();
+    return response()->json($bookings);
+})->name('api.visit-bookings.index');
+
 // API: Create booking (no login required - guests can submit)
 Route::post('/api/bookings', function (\Illuminate\Http\Request $request) {
     $validated = $request->validate([

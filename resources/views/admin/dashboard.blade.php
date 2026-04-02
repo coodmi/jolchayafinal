@@ -7,6 +7,7 @@
         @include('admin.about')
         @include('admin.projects')
         @include('admin.bookingsTab')
+        @include('admin.visitBookingsTab')
         @include('admin.registrationsTab')
         @include('admin.newsTab')
         @include('admin.headerTab')
