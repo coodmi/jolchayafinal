@@ -1,117 +1,137 @@
 <div id="site-settings" class="tab-content">
-    <p style="color:red;font-size:20px;padding:20px;">TEST - সাইট সেটিংস লোড হয়েছে</p>
-    <div class="stats-grid">
-        <div class="stat-card">
-            <div class="stat-card-content">
-                <div class="stat-info">
-                    <h3>সাইট সেটিংস</h3>
-                    <div class="subtitle">সাইটের নাম, টাইটেল, ফেভিকন, লোগো এবং পপআপ ম্যানেজ করুন</div>
-                </div>
-                <div class="stat-icon green"><i class="fas fa-cog"></i></div>
+    <div class="table-card">
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom:8px;">
+            <div style="width:40px; height:40px; background:linear-gradient(135deg,#0d3d29 0%,#1a7a4a 100%); border-radius:10px; display:flex; align-items:center; justify-content:center; color:white; font-size:20px;">
+                <i class="fas fa-cog"></i>
+            </div>
+            <div>
+                <h2 style="margin:0; color:#111827; font-size:24px; font-weight:700;">সাইট সেটিংস</h2>
+                <p style="margin:4px 0 0 0; color:#6b7280; font-size:14px;">সাইটের নাম, টাইটেল, ফেভিকন, লোগো এবং পপআপ ম্যানেজ করুন</p>
             </div>
         </div>
-    </div>
 
-    <input type="hidden" id="csrfSiteSettings" value="{{ csrf_token() }}">
+        <input type="hidden" id="csrfSiteSettings" value="{{ csrf_token() }}">
 
-    <div id="site-settings-general" style="margin-top:1rem;">
-        <div class="table-card">
-            <h2>সাইট পরিচিতি</h2>
-            <p style="color:#6b7280; margin-bottom:20px;">সাইটের নাম ও টাইটেল পরিবর্তন করুন</p>
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
-                <div>
-                    <label style="display:block; margin-bottom:6px; font-size:14px; font-weight:600; color:#374151;">সাইটের নাম</label>
+        <!-- Site Name & Title -->
+        <div class="section-block">
+            <div class="section-header">
+                <span style="font-size:18px;"><i class="fas fa-globe"></i></span>
+                <h3>সাইট পরিচিতি</h3>
+            </div>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label class="form-label" for="siteNameInput">
+                        <span style="font-weight:600; color:#374151;">সাইটের নাম</span>
+                        <small style="display:block; color:#6b7280; font-weight:400; margin-top:2px;">ব্রাউজার ট্যাব ও মেটা ট্যাগে ব্যবহৃত হবে</small>
+                    </label>
                     <input type="text" id="siteNameInput" class="search-input" placeholder="যেমন: জলছায়া">
-                    <small style="color:#6b7280; font-size:12px; display:block; margin-top:4px;">ব্রাউজার ট্যাব ও মেটা ট্যাগে ব্যবহৃত হবে</small>
                 </div>
-                <div>
-                    <label style="display:block; margin-bottom:6px; font-size:14px; font-weight:600; color:#374151;">সাইট টাইটেল</label>
+                <div class="form-group">
+                    <label class="form-label" for="siteTitleInput">
+                        <span style="font-weight:600; color:#374151;">সাইট টাইটেল</span>
+                        <small style="display:block; color:#6b7280; font-weight:400; margin-top:2px;">পেজ টাইটেলে দেখাবে</small>
+                    </label>
                     <input type="text" id="siteTitleInput" class="search-input" placeholder="যেমন: জলছায়া - ইকো রিসোর্ট">
-                    <small style="color:#6b7280; font-size:12px; display:block; margin-top:4px;">পেজ টাইটেলে দেখাবে</small>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div id="site-settings-favicon" style="margin-top:1rem;">
-        <div class="table-card">
-            <h2>ফেভিকন (Favicon)</h2>
-            <p style="color:#6b7280; margin-bottom:20px;">PNG, ICO, SVG সমর্থিত। সর্বোচ্চ 2MB। প্রস্তাবিত: 32×32px</p>
-            <input type="file" id="faviconInput" accept="image/png,image/x-icon,image/svg+xml,image/jpeg,image/webp" class="search-input" style="cursor:pointer; margin-bottom:12px;">
-            <div id="faviconPreview" style="display:none; align-items:center; gap:10px; margin-top:8px;">
-                <img id="faviconPreviewImg" src="" alt="Favicon" style="width:48px; height:48px; object-fit:contain; border:1px solid #e5e7eb; border-radius:8px; padding:4px; background:#fff;">
-                <span style="font-size:13px; color:#6b7280;">বর্তমান ফেভিকন</span>
+        <!-- Favicon -->
+        <div class="section-block">
+            <div class="section-header">
+                <span style="font-size:18px;"><i class="fas fa-image"></i></span>
+                <h3>ফেভিকন (Favicon)</h3>
             </div>
-        </div>
-    </div>
-
-    <div id="site-settings-logo" style="margin-top:1rem;">
-        <div class="table-card">
-            <h2>ড্যাশবোর্ড লোগো</h2>
-            <p style="color:#6b7280; margin-bottom:20px;">PNG, SVG, JPG সমর্থিত। সর্বোচ্চ 5MB। প্রস্তাবিত: 200×60px</p>
-            <input type="file" id="dashboardLogoInput" accept="image/png,image/jpeg,image/svg+xml,image/webp" class="search-input" style="cursor:pointer; margin-bottom:12px;">
-            <div id="dashboardLogoPreview" style="display:none; margin-top:8px;">
-                <p style="font-size:13px; color:#374151; margin-bottom:8px; font-weight:600;">বর্তমান লোগো:</p>
-                <div style="background:#0d3d29; padding:12px 18px; border-radius:10px; display:inline-block;">
-                    <img id="dashboardLogoPreviewImg" src="" alt="Logo" style="max-height:50px; max-width:200px; object-fit:contain; display:block;">
+            <div class="form-group">
+                <label class="form-label">
+                    <span style="font-weight:600; color:#374151;">ফেভিকন আপলোড করুন</span>
+                    <small style="display:block; color:#6b7280; font-weight:400; margin-top:2px;">PNG, ICO, SVG সমর্থিত। সর্বোচ্চ 2MB। প্রস্তাবিত: 32×32px</small>
+                </label>
+                <input type="file" id="faviconInput" accept="image/png,image/x-icon,image/svg+xml,image/jpeg,image/webp" class="search-input" style="cursor:pointer;">
+                <div id="faviconPreview" style="display:none; align-items:center; gap:10px; margin-top:12px;">
+                    <img id="faviconPreviewImg" src="" alt="Favicon" style="width:48px; height:48px; object-fit:contain; border:1px solid #e5e7eb; border-radius:8px; padding:4px; background:#fff;">
+                    <span style="font-size:13px; color:#6b7280;">বর্তমান ফেভিকন</span>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div id="site-settings-popup" style="margin-top:1rem;">
-        <div class="table-card">
-            <h2>ওয়েলকাম পপআপ</h2>
-            <p style="color:#6b7280; margin-bottom:20px;">হোম পেজে ভিজিটর আসলে একটি পপআপ দেখাবে</p>
-            <div style="margin-bottom:16px;">
+        <!-- Dashboard Logo -->
+        <div class="section-block">
+            <div class="section-header">
+                <span style="font-size:18px;"><i class="fas fa-tag"></i></span>
+                <h3>ড্যাশবোর্ড লোগো</h3>
+            </div>
+            <div class="form-group">
+                <label class="form-label">
+                    <span style="font-weight:600; color:#374151;">লোগো আপলোড করুন</span>
+                    <small style="display:block; color:#6b7280; font-weight:400; margin-top:2px;">PNG, SVG, JPG সমর্থিত। সর্বোচ্চ 5MB। প্রস্তাবিত: 200×60px</small>
+                </label>
+                <input type="file" id="dashboardLogoInput" accept="image/png,image/jpeg,image/svg+xml,image/webp" class="search-input" style="cursor:pointer;">
+                <div id="dashboardLogoPreview" style="display:none; margin-top:12px;">
+                    <p style="font-size:13px; color:#374151; margin-bottom:8px; font-weight:600;">বর্তমান লোগো:</p>
+                    <div style="background:#0d3d29; padding:12px 18px; border-radius:10px; display:inline-block;">
+                        <img id="dashboardLogoPreviewImg" src="" alt="Logo" style="max-height:50px; max-width:200px; object-fit:contain; display:block;">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Popup Settings -->
+        <div class="section-block">
+            <div class="section-header">
+                <span style="font-size:18px;"><i class="fas fa-bullhorn"></i></span>
+                <h3>ওয়েলকাম পপআপ</h3>
+            </div>
+            <div class="form-group" style="margin-bottom:16px;">
                 <label style="display:flex; align-items:center; gap:10px; cursor:pointer;">
                     <input type="checkbox" id="popupEnabledInput" style="width:18px;height:18px;cursor:pointer;">
-                    <span style="font-weight:600; color:#374151; font-size:14px;">পপআপ সক্রিয় করুন (হোম পেজে দেখাবে)</span>
+                    <span style="font-weight:600; color:#374151;">পপআপ সক্রিয় করুন (হোম পেজে দেখাবে)</span>
                 </label>
             </div>
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px;">
-                <div>
-                    <label style="display:block; margin-bottom:6px; font-size:14px; font-weight:600; color:#374151;">শিরোনাম</label>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label class="form-label"><span style="font-weight:600; color:#374151;">শিরোনাম</span></label>
                     <input type="text" id="popupTitleInput" class="search-input" placeholder="যেমন: ঈদ মোবারক">
                 </div>
-                <div>
-                    <label style="display:block; margin-bottom:6px; font-size:14px; font-weight:600; color:#374151;">সাব-টাইটেল</label>
+                <div class="form-group">
+                    <label class="form-label"><span style="font-weight:600; color:#374151;">সাব-টাইটেল</span></label>
                     <input type="text" id="popupSubtitleInput" class="search-input" placeholder="যেমন: আমাদের বিশেষ অফার দেখুন">
                 </div>
-                <div>
-                    <label style="display:block; margin-bottom:6px; font-size:14px; font-weight:600; color:#374151;">বাটন টেক্সট</label>
+                <div class="form-group">
+                    <label class="form-label"><span style="font-weight:600; color:#374151;">বাটন টেক্সট</span></label>
                     <input type="text" id="popupBtnTextInput" class="search-input" placeholder="যেমন: এখনই যোগাযোগ করুন">
                 </div>
-                <div>
-                    <label style="display:block; margin-bottom:6px; font-size:14px; font-weight:600; color:#374151;">বাটন লিংক</label>
+                <div class="form-group">
+                    <label class="form-label"><span style="font-weight:600; color:#374151;">বাটন লিংক</span></label>
                     <input type="text" id="popupBtnLinkInput" class="search-input" placeholder="#contact বা https://...">
                 </div>
-                <div>
-                    <label style="display:block; margin-bottom:6px; font-size:14px; font-weight:600; color:#374151;">নোট (ছোট টেক্সট)</label>
+                <div class="form-group">
+                    <label class="form-label"><span style="font-weight:600; color:#374151;">নোট (ছোট টেক্সট)</span></label>
                     <input type="text" id="popupNoteInput" class="search-input" placeholder="যেমন: আজই সুযোগ নিন">
                 </div>
-                <div>
-                    <label style="display:block; margin-bottom:6px; font-size:14px; font-weight:600; color:#374151;">ব্যাকগ্রাউন্ড রঙ</label>
+                <div class="form-group">
+                    <label class="form-label"><span style="font-weight:600; color:#374151;">ব্যাকগ্রাউন্ড রঙ</span></label>
                     <div style="display:flex;gap:8px;align-items:center;">
                         <input type="color" id="popupBgColorInput" value="#0d3d29" style="width:48px;height:40px;border:1px solid #d1d5db;border-radius:8px;cursor:pointer;padding:2px;">
                         <input type="text" id="popupBgColorText" class="search-input" value="#0d3d29" placeholder="#0d3d29" style="flex:1;" oninput="document.getElementById('popupBgColorInput').value=this.value">
                     </div>
                 </div>
             </div>
-            <div>
-                <label style="display:block; margin-bottom:6px; font-size:14px; font-weight:600; color:#374151;">পপআপ ইমেজ আপলোড করুন</label>
-                <small style="display:block; color:#6b7280; font-size:12px; margin-bottom:8px;">PNG/JPG/WEBP | সর্বোচ্চ ৫MB | প্রস্তাবিত: ৪০০×৫০০px</small>
+            <div class="form-group" style="margin-top:8px;">
+                <label class="form-label">
+                    <span style="font-weight:600; color:#374151;">পপআপ ইমেজ আপলোড করুন</span>
+                    <small style="display:block; color:#6b7280; font-weight:400; margin-top:2px;">PNG/JPG/WEBP | সর্বোচ্চ ৫MB | প্রস্তাবিত: ৪০০×৫০০px</small>
+                </label>
                 <input type="file" id="popupImageInput" accept="image/*" class="search-input" style="cursor:pointer;">
                 <div id="popupImagePreview" style="display:none; margin-top:10px;">
                     <img id="popupImagePreviewImg" src="" style="max-height:150px; border-radius:10px; border:2px solid #e5e7eb;">
                 </div>
             </div>
         </div>
-    </div>
 
-    <div style="margin-top:1rem; padding-bottom:2rem;">
-        <div class="table-card">
-            <button id="saveSiteSettingsBtn" onclick="saveSiteSettings()" class="about-save-btn">
+        <!-- Save Button -->
+        <div style="display:flex; align-items:center; gap:16px; padding-top:8px;">
+            <button id="saveSiteSettingsBtn" onclick="saveSiteSettings()" class="btn-save" style="background:linear-gradient(135deg,#0d3d29,#1a7a4a); color:#fff; border:none; padding:12px 32px; border-radius:10px; font-size:15px; font-weight:600; cursor:pointer;">
                 <i class="fas fa-save" style="margin-right:8px;"></i> সংরক্ষণ করুন
             </button>
         </div>
@@ -200,11 +220,24 @@
                 });
         };
 
-        if (window.registerTabLoader) {
-            registerTabLoader('site-settings', loadSiteSettings);
+        // Load when tab becomes active
+        var tab = document.getElementById('site-settings');
+        if (tab) {
+            var obs = new MutationObserver(function () {
+                if (tab.classList.contains('active') && !tab.dataset.ssLoaded) {
+                    tab.dataset.ssLoaded = '1';
+                    loadSiteSettings();
+                }
+            });
+            obs.observe(tab, { attributes: true, attributeFilter: ['class'] });
+            if (tab.classList.contains('active')) loadSiteSettings();
         }
-        // Also load immediately in case tab is already active
-        setTimeout(loadSiteSettings, 100);
     })();
     </script>
 </div>
+
+<style>
+    #site-settings .section-block { background:#f9fafb; border-radius:12px; padding:20px; margin-bottom:24px; border:1px solid #e5e7eb; }
+    #site-settings .section-block h3 { margin:0; color:#111827; font-size:18px; font-weight:600; }
+    #site-settings .section-header { display:flex; align-items:center; gap:8px; margin-bottom:20px; padding-bottom:12px; border-bottom:2px solid #e5e7eb; }
+</style>
