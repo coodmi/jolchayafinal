@@ -184,8 +184,8 @@
         });
         document.getElementById('popupImageInput').addEventListener('change', function () {
             if (!this.files[0]) return;
-            if (this.files[0].size > 2 * 1024 * 1024) {
-                if (window.showError) window.showError('ছবির আকার ২MB এর বেশি। ছোট ছবি বেছে নিন।');
+            if (this.files[0].size > 5 * 1024 * 1024) {
+                if (window.showError) window.showError('ছবির আকার ৫MB এর বেশি। ছোট ছবি বেছে নিন।');
                 this.value = '';
                 return;
             }

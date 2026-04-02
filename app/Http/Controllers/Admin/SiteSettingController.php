@@ -22,7 +22,7 @@ class SiteSettingController extends Controller
             'site_title'      => 'nullable|string|max:255',
             'favicon'         => 'nullable|image|mimes:png,jpg,jpeg,ico,svg,webp|max:2048',
             'dashboard_logo'  => 'nullable|image|mimes:png,jpg,jpeg,svg,webp|max:5120',
-            'popup_image'     => 'nullable|image|mimes:png,jpg,jpeg,webp|max:2048',
+            'popup_image'     => 'nullable|image|mimes:png,jpg,jpeg,webp|max:5120',
         ]);
 
         $settings = SiteSetting::firstOrCreate([]);
