@@ -914,23 +914,25 @@
                     <div class="project-form-group">
                         <label>অতিরিক্ত ইমেজ (স্লাইডার) — একাধিক নির্বাচন করুন</label>
                         ${(project.images && project.images.length > 0) ? `
-                            <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:10px;" class="existing-extra-images">
+                            <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(100px,1fr)); gap:10px; margin-bottom:12px; padding:12px; background:#f8fafc; border-radius:10px; border:1px solid #e2e8f0;" class="existing-extra-images">
                                 ${project.images.map((img, i) => {
                                     const rawPath = img.replace(/^\/storage\//, '');
                                     const displayUrl = img.startsWith('/') ? img : '/storage/' + img;
                                     return `
-                                    <div style="position:relative;" data-img-path="${rawPath}">
-                                        <img src="${displayUrl}" style="width:80px; height:60px; object-fit:cover; border-radius:6px; border:2px solid #86efac;" onerror="this.style.display='none'" />
-                                        <button type="button" onclick="removeExtraImage(this, '${rawPath}', ${project.id})" style="position:absolute; top:-6px; right:-6px; background:#ef4444; color:#fff; border:none; border-radius:50%; width:18px; height:18px; font-size:10px; cursor:pointer; line-height:1;">×</button>
+                                    <div style="position:relative;border-radius:8px;overflow:hidden;aspect-ratio:16/9;background:#e2e8f0;" data-img-path="${rawPath}">
+                                        <img src="${displayUrl}" style="width:100%;height:100%;object-fit:cover;display:block;" onerror="this.parentElement.style.background='#fee2e2'" />
+                                        <button type="button" onclick="removeExtraImage(this, '${rawPath}', ${project.id})" title="মুছুন" style="position:absolute;top:4px;right:4px;background:rgba(239,68,68,0.9);color:#fff;border:none;border-radius:50%;width:22px;height:22px;font-size:13px;cursor:pointer;line-height:1;display:flex;align-items:center;justify-content:center;font-weight:700;">×</button>
+                                        <div style="position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.4);color:#fff;font-size:10px;text-align:center;padding:2px 0;">${i+1}</div>
                                     </div>`;
                                 }).join('')}
                             </div>
-                        ` : '<p style="color:#94a3b8; font-size:13px; margin-bottom:8px;">এখনো কোনো অতিরিক্ত ইমেজ নেই</p>'}
+                            <p style="color:#059669;font-size:12px;margin-bottom:8px;"><i class="fas fa-check-circle"></i> ${project.images.length}টি অতিরিক্ত ইমেজ সংরক্ষিত আছে</p>
+                        ` : '<p style="color:#94a3b8; font-size:13px; margin-bottom:8px;"><i class="fas fa-images"></i> এখনো কোনো অতিরিক্ত ইমেজ নেই</p>'}
                         <input type="file" class="project-extra-images-input" accept="image/*" multiple onchange="previewExtraImages(this)" />
                         <small style="display: block; margin-top: 6px; padding: 8px 10px; background: #fffbeb; border: 1px solid #fcd34d; border-radius: 6px; color: #92400e; font-size: 12px;">
                             📐 প্রস্তাবিত রেজোলিউশন: <strong>৯০০×৪০০ পিক্সেল</strong> | সর্বোচ্চ ফাইল সাইজ: <strong>৫ MB প্রতিটি</strong> | নতুন ছবি যোগ হবে, পুরানো থাকবে
                         </small>
-                        <div class="project-extra-images-preview" style="display:flex; gap:8px; flex-wrap:wrap; margin-top:8px;"></div>
+                        <div class="project-extra-images-preview" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:10px;margin-top:8px;"></div>
                         </div>
 
                     <button class="project-save-btn" onclick="saveOurProject(this)" style="margin-top: 15px;">
@@ -982,23 +984,23 @@
                 }
             };
 
-            // Preview extra images
             window.previewExtraImages = function(input) {
                 const card = input.closest('.project-card');
                 const previewContainer = card.querySelector('.project-extra-images-preview');
                 if (!previewContainer) return;
                 previewContainer.innerHTML = '';
-                Array.from(input.files).forEach(file => {
+                if (input.files.length === 0) return;
+                Array.from(input.files).forEach((file, i) => {
                     if (file.size > 5 * 1024 * 1024) {
-                        showProjectModal({ type: 'warning', title: 'ফাইল বড়', message: `${file.name}: সর্বোচ্চ ৫MB অনুমোদিত।`, confirmText: 'ঠিক আছে', showCancel: false });
+                        showProjectModal({ type: 'warning', title: 'ফাইল বড়', message: `"${file.name}" (${(file.size/1024/1024).toFixed(1)}MB) — সর্বোচ্চ ৫MB অনুমোদিত।`, confirmText: 'ঠিক আছে', showCancel: false });
                         return;
                     }
                     const reader = new FileReader();
                     reader.onload = e => {
-                        const img = document.createElement('img');
-                        img.src = e.target.result;
-                        img.style.cssText = 'width:80px;height:60px;object-fit:cover;border-radius:6px;border:2px solid #86efac;';
-                        previewContainer.appendChild(img);
+                        const div = document.createElement('div');
+                        div.style.cssText = 'position:relative;border-radius:8px;overflow:hidden;aspect-ratio:16/9;background:#e2e8f0;';
+                        div.innerHTML = `<img src="${e.target.result}" style="width:100%;height:100%;object-fit:cover;display:block;" /><div style="position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.4);color:#fff;font-size:10px;text-align:center;padding:2px 0;">নতুন ${i+1}</div>`;
+                        previewContainer.appendChild(div);
                     };
                     reader.readAsDataURL(file);
                 });

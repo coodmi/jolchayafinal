@@ -514,3 +514,31 @@
   }
   </script>
 @endsection
+
+<style>
+/* Slider improvements */
+.project-image[data-slider-index] {
+    min-height: 420px !important;
+    border-radius: 20px !important;
+    overflow: hidden !important;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.2) !important;
+}
+.project-image[data-slider-index] button {
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+.project-image[data-slider-index]:hover button {
+    opacity: 1;
+}
+@media (max-width: 992px) {
+    .project-image[data-slider-index] {
+        min-height: 280px !important;
+        width: 100% !important;
+    }
+}
+@media (max-width: 576px) {
+    .project-image[data-slider-index] {
+        min-height: 220px !important;
+    }
+}
+</style>
