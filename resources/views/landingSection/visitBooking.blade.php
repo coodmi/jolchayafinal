@@ -128,7 +128,7 @@
         }
 
         .booking-btn {
-            background: #f97316;
+            background: #0d3d29;
             width: 56px;
             height: 56px;
             border-radius: 50%;
@@ -143,7 +143,7 @@
         }
 
         .booking-btn:hover {
-            background: #ea580c;
+            background: #1a7a4a;
             transform: scale(1.05);
         }
 
