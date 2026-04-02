@@ -1102,11 +1102,11 @@ const footerDefaults = {
   legalPrivacyHref: "#privacy",
   legalTermsLabel: "সেবার শর্তাবলী",
   legalTermsHref: "#terms",
-  socialFacebook: "#",
-  socialInstagram: "#",
-  socialTwitter: "#",
-  socialLinkedin: "#",
-  socialYouTube: "#",
+  socialFacebook: "",
+  socialInstagram: "",
+  socialTwitter: "",
+  socialLinkedin: "",
+  socialYouTube: "",
   mapUrl: "#",
   bottomText:
     " 2025 জলছায়া। সর্বস্বত্ব সংরক্ষিত। | NEX Real Estate এর একটি প্রকল্প",
@@ -1216,11 +1216,12 @@ function loadFooterSettings() {
 
       // Social links
       if (data.social_links && typeof data.social_links === "object") {
-        setVal("socialFacebook", data.social_links.facebook || "");
-        setVal("socialInstagram", data.social_links.instagram || "");
-        setVal("socialTwitter", data.social_links.twitter || "");
-        setVal("socialLinkedin", data.social_links.linkedin || "");
-        setVal("socialYouTube", data.social_links.youtube || "");
+        const cleanUrl = v => (vercel login || v === "#") ? "" : v;
+        setVal("socialFacebook",  cleanUrl(data.social_links.facebook));
+        setVal("socialInstagram", cleanUrl(data.social_links.instagram));
+        setVal("socialTwitter",   cleanUrl(data.social_links.twitter));
+        setVal("socialLinkedin",  cleanUrl(data.social_links.linkedin));
+        setVal("socialYouTube",   cleanUrl(data.social_links.youtube));
       }
 
       // QR image
@@ -1848,11 +1849,11 @@ function updateFooterPreview() {
     qlContactHref: "#contact",
     qlGalleryLabel: "গ্যালারি",
     qlGalleryHref: "#gallery",
-    socialFacebook: "#",
-    socialInstagram: "#",
-    socialTwitter: "#",
-    socialLinkedin: "#",
-    socialYouTube: "#",
+    socialFacebook: "",
+    socialInstagram: "",
+    socialTwitter: "",
+    socialLinkedin: "",
+    socialYouTube: "",
     mapUrl:
       "https://maps.google.com/?q=শুভনূর+৩৮৮+বাড়ি+সিদ্ধার্থ+এস+আবাস,+খুলনা",
     bottomText:
