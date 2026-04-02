@@ -1,5 +1,5 @@
 <div id="site-settings" class="tab-content">
-    <div class="stats-grid" style="grid-template-columns:1fr;">
+    <div class="stats-grid">
         <div class="stat-card">
             <div class="stat-card-content">
                 <div class="stat-info">
@@ -13,7 +13,6 @@
 
     <input type="hidden" id="csrfSiteSettings" value="{{ csrf_token() }}">
 
-    <!-- Site Name & Title -->
     <div id="site-settings-general" style="margin-top:1rem;">
         <div class="table-card">
             <h2>সাইট পরিচিতি</h2>
@@ -33,7 +32,6 @@
         </div>
     </div>
 
-    <!-- Favicon -->
     <div id="site-settings-favicon" style="margin-top:1rem;">
         <div class="table-card">
             <h2>ফেভিকন (Favicon)</h2>
@@ -46,7 +44,6 @@
         </div>
     </div>
 
-    <!-- Dashboard Logo -->
     <div id="site-settings-logo" style="margin-top:1rem;">
         <div class="table-card">
             <h2>ড্যাশবোর্ড লোগো</h2>
@@ -61,19 +58,16 @@
         </div>
     </div>
 
-    <!-- Popup Settings -->
     <div id="site-settings-popup" style="margin-top:1rem;">
         <div class="table-card">
             <h2>ওয়েলকাম পপআপ</h2>
             <p style="color:#6b7280; margin-bottom:20px;">হোম পেজে ভিজিটর আসলে একটি পপআপ দেখাবে</p>
-
             <div style="margin-bottom:16px;">
                 <label style="display:flex; align-items:center; gap:10px; cursor:pointer;">
                     <input type="checkbox" id="popupEnabledInput" style="width:18px;height:18px;cursor:pointer;">
                     <span style="font-weight:600; color:#374151; font-size:14px;">পপআপ সক্রিয় করুন (হোম পেজে দেখাবে)</span>
                 </label>
             </div>
-
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px;">
                 <div>
                     <label style="display:block; margin-bottom:6px; font-size:14px; font-weight:600; color:#374151;">শিরোনাম</label>
@@ -103,7 +97,6 @@
                     </div>
                 </div>
             </div>
-
             <div>
                 <label style="display:block; margin-bottom:6px; font-size:14px; font-weight:600; color:#374151;">পপআপ ইমেজ আপলোড করুন</label>
                 <small style="display:block; color:#6b7280; font-size:12px; margin-bottom:8px;">PNG/JPG/WEBP | সর্বোচ্চ ৫MB | প্রস্তাবিত: ৪০০×৫০০px</small>
@@ -115,128 +108,100 @@
         </div>
     </div>
 
-    <!-- Save -->
     <div style="margin-top:1rem; padding-bottom:2rem;">
         <div class="table-card">
-            <div style="display:flex; align-items:center; gap:16px;">
-                <button id="saveSiteSettingsBtn" onclick="saveSiteSettings()" style="background:#0d3d29; color:#fff; border:none; padding:12px 32px; border-radius:8px; font-size:15px; font-weight:600; cursor:pointer;">
-                    <i class="fas fa-save" style="margin-right:8px;"></i> সংরক্ষণ করুন
-                </button>
-                <span id="siteSettingsStatus" style="font-size:14px; display:none; font-weight:600;"></span>
-            </div>
+            <button id="saveSiteSettingsBtn" onclick="saveSiteSettings()" class="about-save-btn">
+                <i class="fas fa-save" style="margin-right:8px;"></i> সংরক্ষণ করুন
+            </button>
         </div>
     </div>
-</div>
 
-<script>
-(function () {
-    var csrf = document.getElementById('csrfSiteSettings')?.value || (document.querySelector('meta[name="csrf-token"]') || {}).content || '';
+    <script>
+    (function () {
+        var csrf = document.getElementById('csrfSiteSettings')?.value || '';
 
-    function loadSiteSettings() {
-        fetch('/admin/site-settings', { cache: 'no-store' })
-            .then(function(r){ return r.json(); })
-            .then(function(data){
-                if (data.site_name)  document.getElementById('siteNameInput').value  = data.site_name;
-                if (data.site_title) document.getElementById('siteTitleInput').value = data.site_title;
-                if (data.favicon_url) {
-                    document.getElementById('faviconPreviewImg').src = data.favicon_url;
-                    document.getElementById('faviconPreview').style.display = 'flex';
-                }
-                if (data.dashboard_logo_url) {
-                    document.getElementById('dashboardLogoPreviewImg').src = data.dashboard_logo_url;
-                    document.getElementById('dashboardLogoPreview').style.display = 'block';
-                }
-                document.getElementById('popupEnabledInput').checked = !!data.popup_enabled;
-                if (data.popup_title)    document.getElementById('popupTitleInput').value    = data.popup_title;
-                if (data.popup_subtitle) document.getElementById('popupSubtitleInput').value = data.popup_subtitle;
-                if (data.popup_btn_text) document.getElementById('popupBtnTextInput').value  = data.popup_btn_text;
-                if (data.popup_btn_link) document.getElementById('popupBtnLinkInput').value  = data.popup_btn_link;
-                if (data.popup_note)     document.getElementById('popupNoteInput').value     = data.popup_note;
-                if (data.popup_bg_color) {
-                    document.getElementById('popupBgColorInput').value = data.popup_bg_color;
-                    document.getElementById('popupBgColorText').value  = data.popup_bg_color;
-                }
-                if (data.popup_image) {
-                    document.getElementById('popupImagePreviewImg').src = data.popup_image;
-                    document.getElementById('popupImagePreview').style.display = 'block';
-                }
-            }).catch(function(e){ console.error(e); });
-    }
-
-    document.getElementById('faviconInput').addEventListener('change', function () {
-        if (!this.files[0]) return;
-        document.getElementById('faviconPreviewImg').src = URL.createObjectURL(this.files[0]);
-        document.getElementById('faviconPreview').style.display = 'flex';
-    });
-    document.getElementById('dashboardLogoInput').addEventListener('change', function () {
-        if (!this.files[0]) return;
-        document.getElementById('dashboardLogoPreviewImg').src = URL.createObjectURL(this.files[0]);
-        document.getElementById('dashboardLogoPreview').style.display = 'block';
-    });
-    document.getElementById('popupImageInput').addEventListener('change', function () {
-        if (!this.files[0]) return;
-        document.getElementById('popupImagePreviewImg').src = URL.createObjectURL(this.files[0]);
-        document.getElementById('popupImagePreview').style.display = 'block';
-    });
-    document.getElementById('popupBgColorInput').addEventListener('input', function () {
-        document.getElementById('popupBgColorText').value = this.value;
-    });
-
-    window.saveSiteSettings = function () {
-        var btn = document.getElementById('saveSiteSettingsBtn');
-        var status = document.getElementById('siteSettingsStatus');
-        btn.disabled = true;
-        btn.innerHTML = '<i class="fas fa-spinner fa-spin" style="margin-right:8px;"></i> সংরক্ষণ হচ্ছে...';
-
-        var fd = new FormData();
-        fd.append('site_name',      document.getElementById('siteNameInput').value.trim());
-        fd.append('site_title',     document.getElementById('siteTitleInput').value.trim());
-        fd.append('popup_enabled',  document.getElementById('popupEnabledInput').checked ? '1' : '0');
-        fd.append('popup_title',    document.getElementById('popupTitleInput').value.trim());
-        fd.append('popup_subtitle', document.getElementById('popupSubtitleInput').value.trim());
-        fd.append('popup_btn_text', document.getElementById('popupBtnTextInput').value.trim());
-        fd.append('popup_btn_link', document.getElementById('popupBtnLinkInput').value.trim());
-        fd.append('popup_note',     document.getElementById('popupNoteInput').value.trim());
-        fd.append('popup_bg_color', document.getElementById('popupBgColorText').value.trim() || '#0d3d29');
-        var f = document.getElementById('faviconInput').files[0];       if (f) fd.append('favicon', f);
-        var l = document.getElementById('dashboardLogoInput').files[0]; if (l) fd.append('dashboard_logo', l);
-        var p = document.getElementById('popupImageInput').files[0];    if (p) fd.append('popup_image', p);
-
-        fetch('/admin/site-settings', { method:'POST', headers:{'X-CSRF-TOKEN': csrf}, body: fd })
-            .then(function(r){ return r.json(); })
-            .then(function(data){
-                if (data.success) {
-                    if (window.showSuccess) window.showSuccess('সাইট সেটিংস সংরক্ষিত হয়েছে');
-                    if (data.data?.dashboard_logo_url) {
-                        var sl = document.getElementById('adminSidebarLogo');
-                        if (sl) sl.src = data.data.dashboard_logo_url;
+        function loadSiteSettings() {
+            fetch('/admin/site-settings', { cache: 'no-store' })
+                .then(function(r){ return r.json(); })
+                .then(function(d){
+                    if (d.site_name)  document.getElementById('siteNameInput').value  = d.site_name;
+                    if (d.site_title) document.getElementById('siteTitleInput').value = d.site_title;
+                    if (d.favicon_url) {
+                        document.getElementById('faviconPreviewImg').src = d.favicon_url;
+                        document.getElementById('faviconPreview').style.display = 'flex';
                     }
-                } else {
-                    if (window.showError) window.showError('সংরক্ষণ ব্যর্থ হয়েছে');
-                }
-            }).catch(function(){
-                if (window.showError) window.showError('সার্ভার সমস্যা');
-            }).finally(function(){
-                btn.disabled = false;
-                btn.innerHTML = '<i class="fas fa-save" style="margin-right:8px;"></i> সংরক্ষণ করুন';
-            });
-    };
+                    if (d.dashboard_logo_url) {
+                        document.getElementById('dashboardLogoPreviewImg').src = d.dashboard_logo_url;
+                        document.getElementById('dashboardLogoPreview').style.display = 'block';
+                    }
+                    document.getElementById('popupEnabledInput').checked = !!d.popup_enabled;
+                    if (d.popup_title)    document.getElementById('popupTitleInput').value    = d.popup_title;
+                    if (d.popup_subtitle) document.getElementById('popupSubtitleInput').value = d.popup_subtitle;
+                    if (d.popup_btn_text) document.getElementById('popupBtnTextInput').value  = d.popup_btn_text;
+                    if (d.popup_btn_link) document.getElementById('popupBtnLinkInput').value  = d.popup_btn_link;
+                    if (d.popup_note)     document.getElementById('popupNoteInput').value     = d.popup_note;
+                    if (d.popup_bg_color) {
+                        document.getElementById('popupBgColorInput').value = d.popup_bg_color;
+                        document.getElementById('popupBgColorText').value  = d.popup_bg_color;
+                    }
+                    if (d.popup_image) {
+                        document.getElementById('popupImagePreviewImg').src = d.popup_image;
+                        document.getElementById('popupImagePreview').style.display = 'block';
+                    }
+                }).catch(function(e){ console.error(e); });
+        }
 
-    // Lazy load when tab becomes active
-    if (window.registerTabLoader) {
-        registerTabLoader('site-settings', loadSiteSettings);
-    } else {
-        document.addEventListener('DOMContentLoaded', function () {
-            var tab = document.getElementById('site-settings');
-            if (!tab) return;
-            var obs = new MutationObserver(function () {
-                if (tab.classList.contains('active') && !tab.dataset.loaded) {
-                    tab.dataset.loaded = '1';
-                    loadSiteSettings();
-                }
-            });
-            obs.observe(tab, { attributes: true, attributeFilter: ['class'] });
+        document.getElementById('faviconInput').addEventListener('change', function () {
+            if (!this.files[0]) return;
+            document.getElementById('faviconPreviewImg').src = URL.createObjectURL(this.files[0]);
+            document.getElementById('faviconPreview').style.display = 'flex';
         });
-    }
-})();
-</script>
+        document.getElementById('dashboardLogoInput').addEventListener('change', function () {
+            if (!this.files[0]) return;
+            document.getElementById('dashboardLogoPreviewImg').src = URL.createObjectURL(this.files[0]);
+            document.getElementById('dashboardLogoPreview').style.display = 'block';
+        });
+        document.getElementById('popupImageInput').addEventListener('change', function () {
+            if (!this.files[0]) return;
+            document.getElementById('popupImagePreviewImg').src = URL.createObjectURL(this.files[0]);
+            document.getElementById('popupImagePreview').style.display = 'block';
+        });
+        document.getElementById('popupBgColorInput').addEventListener('input', function () {
+            document.getElementById('popupBgColorText').value = this.value;
+        });
+
+        window.saveSiteSettings = function () {
+            var btn = document.getElementById('saveSiteSettingsBtn');
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin" style="margin-right:8px;"></i> সংরক্ষণ হচ্ছে...';
+            var fd = new FormData();
+            fd.append('site_name',      document.getElementById('siteNameInput').value.trim());
+            fd.append('site_title',     document.getElementById('siteTitleInput').value.trim());
+            fd.append('popup_enabled',  document.getElementById('popupEnabledInput').checked ? '1' : '0');
+            fd.append('popup_title',    document.getElementById('popupTitleInput').value.trim());
+            fd.append('popup_subtitle', document.getElementById('popupSubtitleInput').value.trim());
+            fd.append('popup_btn_text', document.getElementById('popupBtnTextInput').value.trim());
+            fd.append('popup_btn_link', document.getElementById('popupBtnLinkInput').value.trim());
+            fd.append('popup_note',     document.getElementById('popupNoteInput').value.trim());
+            fd.append('popup_bg_color', document.getElementById('popupBgColorText').value.trim() || '#0d3d29');
+            var f = document.getElementById('faviconInput').files[0];       if (f) fd.append('favicon', f);
+            var l = document.getElementById('dashboardLogoInput').files[0]; if (l) fd.append('dashboard_logo', l);
+            var p = document.getElementById('popupImageInput').files[0];    if (p) fd.append('popup_image', p);
+            fetch('/admin/site-settings', { method:'POST', headers:{'X-CSRF-TOKEN': csrf}, body: fd })
+                .then(function(r){ return r.json(); })
+                .then(function(d){
+                    if (d.success) { if (window.showSuccess) window.showSuccess('সাইট সেটিংস সংরক্ষিত হয়েছে'); }
+                    else { if (window.showError) window.showError('সংরক্ষণ ব্যর্থ হয়েছে'); }
+                }).catch(function(){ if (window.showError) window.showError('সার্ভার সমস্যা'); })
+                .finally(function(){
+                    btn.disabled = false;
+                    btn.innerHTML = '<i class="fas fa-save" style="margin-right:8px;"></i> সংরক্ষণ করুন';
+                });
+        };
+
+        if (window.registerTabLoader) {
+            registerTabLoader('site-settings', loadSiteSettings);
+        }
+    })();
+    </script>
+</div>
