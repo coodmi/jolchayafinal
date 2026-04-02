@@ -25,6 +25,9 @@ class ContactSetting extends Model
         'address_label',
         'address_text',
         'form_title',
+        'form_bg_color',
+        'btn_color',
+        'btn_text_color',
         'submit_button_text',
     ];
 }

@@ -300,6 +300,14 @@
                         if (els.addressLabel && s.address_label) els.addressLabel.textContent = s.address_label;
                         if (els.addressText && s.address_text) els.addressText.innerHTML = s.address_text;
                         if (els.formTitle && s.form_title) els.formTitle.textContent = s.form_title;
+                        // Apply dynamic colors
+                        const contactForm = document.querySelector('.contact-form');
+                        if (contactForm && s.form_bg_color) contactForm.style.background = s.form_bg_color;
+                        const submitBtn = document.getElementById('contactSubmitBtn');
+                        if (submitBtn) {
+                            if (s.btn_color) submitBtn.style.background = s.btn_color;
+                            if (s.btn_text_color) submitBtn.style.color = s.btn_text_color;
+                        }
                     } catch (error) {
                         console.error('Error loading contact settings:', error);
                         // Keep default values if API fails

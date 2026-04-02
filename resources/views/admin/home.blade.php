@@ -76,6 +76,27 @@
                         <label>ফর্ম শিরোনাম</label>
                         <input type="text" id="contactFormTitleInput" placeholder="বুকিং তথ্য পাঠান">
                     </div>
+                    <div class="form-group" style="margin-top:8px;">
+                        <label>ফর্ম ব্যাকগ্রাউন্ড রঙ</label>
+                        <div style="display:flex;gap:8px;align-items:center;">
+                            <input type="color" id="contactFormBgColorInput" value="#0d3d29" style="width:48px;height:38px;border:1px solid #d1d5db;border-radius:8px;cursor:pointer;padding:2px;">
+                            <input type="text" id="contactFormBgColorText" value="#0d3d29" placeholder="#0d3d29" style="flex:1;" oninput="document.getElementById('contactFormBgColorInput').value=this.value">
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-top:8px;">
+                        <label>সাবমিট বাটন রঙ</label>
+                        <div style="display:flex;gap:8px;align-items:center;">
+                            <input type="color" id="contactBtnColorInput" value="#ffd700" style="width:48px;height:38px;border:1px solid #d1d5db;border-radius:8px;cursor:pointer;padding:2px;">
+                            <input type="text" id="contactBtnColorText" value="#ffd700" placeholder="#ffd700" style="flex:1;" oninput="document.getElementById('contactBtnColorInput').value=this.value">
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-top:8px;">
+                        <label>বাটন টেক্সট রঙ</label>
+                        <div style="display:flex;gap:8px;align-items:center;">
+                            <input type="color" id="contactBtnTextColorInput" value="#0d3d29" style="width:48px;height:38px;border:1px solid #d1d5db;border-radius:8px;cursor:pointer;padding:2px;">
+                            <input type="text" id="contactBtnTextColorText" value="#0d3d29" placeholder="#0d3d29" style="flex:1;" oninput="document.getElementById('contactBtnTextColorInput').value=this.value">
+                        </div>
+                    </div>
                 </div>
 
                 <div class="card">
@@ -209,6 +230,12 @@
                         title: qs('contactTitleInput'),
                         subtitle: qs('contactSubtitleInput'),
                         formTitle: qs('contactFormTitleInput'),
+                        formBgColor: qs('contactFormBgColorInput'),
+                        formBgColorText: qs('contactFormBgColorText'),
+                        btnColor: qs('contactBtnColorInput'),
+                        btnColorText: qs('contactBtnColorText'),
+                        btnTextColor: qs('contactBtnTextColorInput'),
+                        btnTextColorText: qs('contactBtnTextColorText'),
                         phoneIcon: qs('contactPhoneIconInput'),
                         phoneLabel: qs('contactPhoneLabelInput'),
                         phoneNumbers: qs('contactPhoneNumbersInput'),
@@ -247,6 +274,15 @@
                             if (els.title) els.title.value = s.title || 'যোগাযোগ করুন';
                             if (els.subtitle) els.subtitle.value = s.subtitle || 'আমরা আপনার সেবায় প্রস্তুত';
                             if (els.formTitle) els.formTitle.value = s.form_title || 'বুকিং তথ্য পাঠান';
+                            const bgColor = s.form_bg_color || '#0d3d29';
+                            const btnColor = s.btn_color || '#ffd700';
+                            const btnTextColor = s.btn_text_color || '#0d3d29';
+                            if (els.formBgColor) els.formBgColor.value = bgColor;
+                            if (els.formBgColorText) els.formBgColorText.value = bgColor;
+                            if (els.btnColor) els.btnColor.value = btnColor;
+                            if (els.btnColorText) els.btnColorText.value = btnColor;
+                            if (els.btnTextColor) els.btnTextColor.value = btnTextColor;
+                            if (els.btnTextColorText) els.btnTextColorText.value = btnTextColor;
                             if (els.phoneIcon) els.phoneIcon.value = s.phone_icon || '📞';
                             if (els.phoneLabel) els.phoneLabel.value = s.phone_label || 'ফোন';
                             if (els.phoneNumbers) els.phoneNumbers.value = (s.phone_numbers || '+880 1991 995 995\n+880 1991 994 994').replace(/<br\s*\/>?/gi, '\n');
@@ -303,6 +339,9 @@
                             title: els.title?.value || '',
                             subtitle: els.subtitle?.value || '',
                             form_title: els.formTitle?.value || '',
+                            form_bg_color: els.formBgColorText?.value || '#0d3d29',
+                            btn_color: els.btnColorText?.value || '#ffd700',
+                            btn_text_color: els.btnTextColorText?.value || '#0d3d29',
                             phone_icon: els.phoneIcon?.value || '',
                             phone_label: els.phoneLabel?.value || '',
                             phone_numbers: (els.phoneNumbers?.value || '').split(/\n+/).map(s => s.trim()).filter(Boolean).join('<br>'),
@@ -363,6 +402,12 @@
                         if (els.title) els.title.value = 'যোগাযোগ করুন';
                         if (els.subtitle) els.subtitle.value = 'আমরা আপনার সেবায় প্রস্তুত';
                         if (els.formTitle) els.formTitle.value = 'বুকিং তথ্য পাঠান';
+                        if (els.formBgColor) els.formBgColor.value = '#0d3d29';
+                        if (els.formBgColorText) els.formBgColorText.value = '#0d3d29';
+                        if (els.btnColor) els.btnColor.value = '#ffd700';
+                        if (els.btnColorText) els.btnColorText.value = '#ffd700';
+                        if (els.btnTextColor) els.btnTextColor.value = '#0d3d29';
+                        if (els.btnTextColorText) els.btnTextColorText.value = '#0d3d29';
                         if (els.phoneIcon) els.phoneIcon.value = '📞';
                         if (els.phoneLabel) els.phoneLabel.value = 'ফোন';
                         if (els.phoneNumbers) els.phoneNumbers.value = '+880 1991 995 995\n+880 1991 994 994\n+880 1997 995 995\n+880 1677 600 000';
@@ -377,6 +422,11 @@
                         if (els.addressText) els.addressText.value = 'শুভনূর ৩৮৮ বাড়ি সিদ্ধার্থ এস আবাস\nখুলনা, বাংলাদেশ';
                         updatePreview();
                     });
+
+                    // Sync color pickers with text inputs
+                    qs('contactFormBgColorInput')?.addEventListener('input', function(){ if(els.formBgColorText) els.formBgColorText.value = this.value; });
+                    qs('contactBtnColorInput')?.addEventListener('input', function(){ if(els.btnColorText) els.btnColorText.value = this.value; });
+                    qs('contactBtnTextColorInput')?.addEventListener('input', function(){ if(els.btnTextColorText) els.btnTextColorText.value = this.value; });
 
                     // Load on page load
                     load();

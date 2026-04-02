@@ -90,6 +90,9 @@ class ContactSettingController extends Controller
             'address_label' => 'nullable|string|max:255',
             'address_text' => 'nullable|string',
             'form_title' => 'nullable|string|max:255',
+            'form_bg_color' => 'nullable|string|max:20',
+            'btn_color' => 'nullable|string|max:20',
+            'btn_text_color' => 'nullable|string|max:20',
         ]);
 
         $settings = ContactSetting::firstOrCreate([]);
