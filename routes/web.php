@@ -223,7 +223,7 @@ Route::get('/api/our-projects', function () {
                     'description' => $item->description ?? '',
                     'image_url' => $item->image_url ?? null,
                     'image_path' => $item->image_path ?? null,
-                    'images' => collect($item->images ?? [])->map(fn($p) => str_starts_with($p, 'http') ? $p : '/storage/' . ltrim($p, '/'))->values()->toArray(),
+                    'images' => collect(is_array($item->images) ? $item->images : (json_decode($item->getRawOriginal('images') ?? '[]', true) ?? []))->map(fn($p) => str_starts_with($p, 'http') ? $p : '/storage/' . ltrim($p, '/'))->values()->toArray(),
                     'cta_text' => $item->cta_text ?? 'বিস্তারিত জানুন',
                     'cta_link' => $item->cta_link ?? '#contact',
                     'order' => $item->order ?? 0,
