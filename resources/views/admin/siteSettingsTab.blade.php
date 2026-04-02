@@ -1,4 +1,4 @@
-<div id="site-settings" class="tab-content" style="padding-left:0;">
+<div id="site-settings" class="tab-content">
     <div class="stats-grid" style="grid-template-columns:1fr;">
         <div class="stat-card">
             <div class="stat-card-content">
