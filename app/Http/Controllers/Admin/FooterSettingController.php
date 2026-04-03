@@ -68,12 +68,19 @@ class FooterSettingController extends Controller
         ];
 
         $social = [
-            'facebook' => $data['socialFacebook'] ?? null,
+            'facebook'  => $data['socialFacebook']  ?? null,
             'instagram' => $data['socialInstagram'] ?? null,
-            'twitter' => $data['socialTwitter'] ?? null,
-            'linkedin' => $data['socialLinkedin'] ?? null,
-            'youtube' => $data['socialYouTube'] ?? null,
+            'twitter'   => $data['socialTwitter']   ?? null,
+            'linkedin'  => $data['socialLinkedin']  ?? null,
+            'youtube'   => $data['socialYouTube']   ?? null,
         ];
+
+        // Ensure all social URLs have https:// prefix
+        foreach ($social as $key => $val) {
+            if ($val && trim($val) !== '' && !str_starts_with($val, 'http://') && !str_starts_with($val, 'https://')) {
+                $social[$key] = 'https://' . ltrim($val, '/');
+            }
+        }
 
         unset($data['qlHomeLabel'], $data['qlHomeHref'], $data['qlFeaturesLabel'], $data['qlFeaturesHref'], $data['qlPricingLabel'], $data['qlPricingHref'], $data['qlContactLabel'], $data['qlContactHref'], $data['qlGalleryLabel'], $data['qlGalleryHref'], $data['legalPrivacyLabel'], $data['legalPrivacyHref'], $data['legalTermsLabel'], $data['legalTermsHref'], $data['socialFacebook'], $data['socialInstagram'], $data['socialTwitter'], $data['socialLinkedin'], $data['socialYouTube']);
 

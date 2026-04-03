@@ -496,7 +496,12 @@
                     const el = document.getElementById(id);
                     if (!el) return;
                     if (url && url.trim() !== '') {
-                        el.href = url.trim();
+                        let href = url.trim();
+                        // Ensure URL has protocol
+                        if (href !== '#' && !href.startsWith('http://') && !href.startsWith('https://')) {
+                            href = 'https://' + href;
+                        }
+                        el.href = href;
                         el.style.display = '';
                     } else {
                         el.style.display = 'none';
