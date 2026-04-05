@@ -1174,12 +1174,20 @@
                         input.addEventListener('input', function() {
                             const i = parseInt(this.dataset.idx);
                             slides[i].videoUrl = this.value;
-                            // Show YouTube thumbnail preview
+                            // Show preview based on URL type
                             const preview = this.closest('.hero-slide-card').querySelector('.slide-preview');
-                            const url = this.value;
+                            const url = this.value.trim();
+                            if (!url || !preview) return;
                             const ym = url.match(/(?:v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
-                            if (ym && preview) {
-                                preview.innerHTML = '<img src="https://img.youtube.com/vi/' + ym[1] + '/hqdefault.jpg" style="width:100%;height:100%;object-fit:cover;">';
+                            if (ym) {
+                                // YouTube thumbnail
+                                preview.innerHTML = '<img src="https://img.youtube.com/vi/' + ym[1] + '/hqdefault.jpg" style="width:100%;height:100%;object-fit:cover;"><div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;"><div style="background:rgba(0,0,0,0.6);border-radius:50%;width:48px;height:48px;display:flex;align-items:center;justify-content:center;"><i class=\'fas fa-play\' style=\'color:#fff;font-size:18px;\'></i></div></div>';
+                                preview.style.position = 'relative';
+                            } else if (url.match(/\.(mp4|webm|ogg)$/i)) {
+                                // Direct video
+                                preview.innerHTML = '<video src="' + url + '" style="width:100%;height:100%;object-fit:cover;" muted></video>';
+                            } else {
+                                preview.innerHTML = '<div style="color:#6b7280;font-size:12px;text-align:center;padding:8px;">YouTube বা MP4 URL দিন</div>';
                             }
                         });
                     });
