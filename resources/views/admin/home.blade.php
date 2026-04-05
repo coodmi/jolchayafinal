@@ -1074,403 +1074,189 @@
 
     <div id="home-hero" style="margin-top:1rem;">
         <div class="table-card">
-            <h2>হির সেকশন</h2>
+            <h2>হিরো সেকশন</h2>
             <style>
                 #home-hero .table-card input[type="text"],
                 #home-hero .table-card input[type="url"],
-                #home-hero .table-card select {
-                    height: 48px;
-                    padding: 10px 12px;
-                    font-size: 16px;
-                    border-radius: 10px;
-                }
-
-                #home-hero .table-card textarea {
-                    min-height: 120px;
-                    padding: 12px;
-                    font-size: 16px;
-                    border-radius: 10px;
-                }
+                #home-hero .table-card select { height:48px; padding:10px 12px; font-size:16px; border-radius:10px; }
+                #home-hero .table-card textarea { min-height:120px; padding:12px; font-size:16px; border-radius:10px; }
+                .hero-slide-card { background:#f9fafb; border:1px solid #e5e7eb; border-radius:12px; padding:16px; position:relative; }
+                .hero-slide-card .remove-slide-btn { position:absolute; top:10px; right:10px; background:#ef4444; color:#fff; border:none; border-radius:6px; width:28px; height:28px; cursor:pointer; font-size:14px; display:flex; align-items:center; justify-content:center; }
+                .hero-slide-card .slide-preview { border:2px dashed #cbd5e1; border-radius:10px; aspect-ratio:16/9; background:#f1f5f9; display:flex; align-items:center; justify-content:center; overflow:hidden; margin-bottom:10px; }
+                .hero-slide-card .slide-preview img { width:100%; height:100%; object-fit:cover; }
+                .hero-slide-card .slide-preview iframe { width:100%; height:100%; border:none; }
+                .hero-slide-card .type-btn { flex:1; padding:8px; border:2px solid #e5e7eb; border-radius:8px; background:#fff; cursor:pointer; font-size:13px; font-weight:600; transition:all .2s; }
+                .hero-slide-card .type-btn.active { border-color:#0d3d29; background:#0d3d29; color:#fff; }
+                #heroSlidesContainer { display:grid; grid-template-columns:repeat(auto-fill, minmax(280px,1fr)); gap:16px; margin-bottom:16px; }
             </style>
-            <div class="form-grid" style="display:grid; grid-template-columns:1fr; gap:16px; align-items:start;">
-                <div>
-                    <div class="form-group">
-                        <label>শিরোনাম</label>
-                        <input type="text" id="heroTitleInput" placeholder="হিরো শিরোনাম">
-                    </div>
-                    <div class="form-group">
-                        <label>সাব-শিরোনাম</label>
-                        <input type="text" id="heroSubtitleInput" placeholder="সাব-শিরোনাম">
-                    </div>
-                    <div class="form-group">
-                        <label>হিরো ট্যাগলাইন (হিরো সেকশনে "জলছায়া প্রজেক্টে" এর নিচে প্রদর্শিত হবে)</label>
-                        <textarea id="heroTaglineInput"
-                            placeholder="প্রকৃতির কোলে নির্মিত আধুনিক আবাসিক প্রকল্প। সুবিধাজনক মূল্যে জমি কিনুন।"></textarea>
-                        <small style="color:#6b7280; display:block; margin-top:0.25rem;">এই টেক্সট হিরো সেকশনে
-                            সাবটাইটেলের নিচে প্রদর্শিত হবে।</small>
-                    </div>
-                    <div class="form-row" style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
-                        <div class="form-group">
-                            <label>প্রাইমারি বাটন টেক্সট</label>
-                            <input type="text" id="heroPrimaryTextInput" placeholder="মূল্য দেখুন">
-                        </div>
-                        <div class="form-group">
-                            <label>প্রাইমারি বাটন লিংক</label>
-                            <input type="text" id="heroPrimaryLinkInput" placeholder="#pricing">
-                        </div>
-                        <div class="form-group">
-                            <label>সেকেন্ডারি বাটন টেক্সট</label>
-                            <input type="text" id="heroSecondaryTextInput" placeholder="যোগাযোগ করুন">
-                        </div>
-                        <div class="form-group">
-                            <label>সেকেন্ডারি বাটন লিংক</label>
-                            <input type="text" id="heroSecondaryLinkInput" placeholder="#contact">
-                        </div>
-                    </div>
+            <div class="form-grid" style="display:grid; grid-template-columns:1fr; gap:16px;">
+                <div class="form-group"><label>শিরোনাম</label><input type="text" id="heroTitleInput" placeholder="হিরো শিরোনাম"></div>
+                <div class="form-group"><label>সাব-শিরোনাম</label><input type="text" id="heroSubtitleInput" placeholder="সাব-শিরোনাম"></div>
+                <div class="form-group"><label>হিরো ট্যাগলাইন</label><textarea id="heroTaglineInput" placeholder="প্রকৃতির কোলে নির্মিত আধুনিক আবাসিক প্রকল্প।"></textarea></div>
+                <div class="form-row" style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+                    <div class="form-group"><label>প্রাইমারি বাটন টেক্সট</label><input type="text" id="heroPrimaryTextInput" placeholder="মূল্য দেখুন"></div>
+                    <div class="form-group"><label>প্রাইমারি বাটন লিংক</label><input type="text" id="heroPrimaryLinkInput" placeholder="#pricing"></div>
+                    <div class="form-group"><label>সেকেন্ডারি বাটন টেক্সট</label><input type="text" id="heroSecondaryTextInput" placeholder="যোগাযোগ করুন"></div>
+                    <div class="form-group"><label>সেকেন্ডারি বাটন লিংক</label><input type="text" id="heroSecondaryLinkInput" placeholder="#contact"></div>
                 </div>
                 <div>
-                    <label style="display:block; margin-bottom:6px;">স্লাইড ইমেজ (৩টি)</label>
-                    <div class="slides-upload" style="display:grid; grid-template-columns:repeat(3,1fr); gap:12px;">
-                        <div>
-                            <div
-                                style="border:1px dashed #cbd5e1; border-radius:10px; overflow:hidden; aspect-ratio:16/9; background:#f8fafc; display:flex; align-items:center; justify-content:center;">
-                                <img id="heroSlidePrev1" alt="Slide 1"
-                                    style="max-width:100%; max-height:100%; display:none;" />
-                                <span id="heroSlidePh1" style="color:#94a3b8;">Slide 1</span>
-                            </div>
-                            <input type="file" id="heroSlideInput1" accept="image/*" style="margin-top:6px;">
-                            <input type="url" id="heroSlideVideo1" placeholder="Video URL (YouTube/Vimeo)" style="margin-top:6px; width:100%; padding:6px 10px; border:1px solid #cbd5e1; border-radius:6px; font-size:13px;">
-                        </div>
-                        <div>
-                            <div
-                                style="border:1px dashed #cbd5e1; border-radius:10px; overflow:hidden; aspect-ratio:16/9; background:#f8fafc; display:flex; align-items:center; justify-content:center;">
-                                <img id="heroSlidePrev2" alt="Slide 2"
-                                    style="max-width:100%; max-height:100%; display:none;" />
-                                <span id="heroSlidePh2" style="color:#94a3b8;">Slide 2</span>
-                            </div>
-                            <input type="file" id="heroSlideInput2" accept="image/*" style="margin-top:6px;">
-                            <input type="url" id="heroSlideVideo2" placeholder="Video URL (YouTube/Vimeo)" style="margin-top:6px; width:100%; padding:6px 10px; border:1px solid #cbd5e1; border-radius:6px; font-size:13px;">
-                        </div>
-                        <div>
-                            <div
-                                style="border:1px dashed #cbd5e1; border-radius:10px; overflow:hidden; aspect-ratio:16/9; background:#f8fafc; display:flex; align-items:center; justify-content:center;">
-                                <img id="heroSlidePrev3" alt="Slide 3"
-                                    style="max-width:100%; max-height:100%; display:none;" />
-                                <span id="heroSlidePh3" style="color:#94a3b8;">Slide 3</span>
-                            </div>
-                            <input type="file" id="heroSlideInput3" accept="image/*" style="margin-top:6px;">
-                            <input type="url" id="heroSlideVideo3" placeholder="Video URL (YouTube/Vimeo)" style="margin-top:6px; width:100%; padding:6px 10px; border:1px solid #cbd5e1; border-radius:6px; font-size:13px;">
-                        </div>
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                        <label style="font-weight:600; font-size:15px;">স্লাইডসমূহ</label>
+                        <button id="addSlideBtn" type="button" style="background:#0d3d29; color:#fff; border:none; border-radius:8px; padding:8px 16px; cursor:pointer; font-size:13px; font-weight:600;"><i class="fas fa-plus"></i> নতুন স্লাইড</button>
                     </div>
+                    <div id="heroSlidesContainer"></div>
                 </div>
-                <div style="margin-top:14px; display:flex; gap:10px;">
-                    <button id="saveHeroBtn" class="btn btn-primary" type="button">সেভ</button>
-                    <button id="resetHeroBtn" class="btn btn-secondary" type="button">রিসেট</button>
-                </div>
+                <div><button id="saveHeroBtn" class="btn btn-primary" type="button">সেভ করুন</button></div>
             </div>
             <script>
-                (function () {
-                    const qs = id => document.getElementById(id);
-                    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content || '';
-                    const inputs = {
-                        title: qs('heroTitleInput'),
-                        subtitle: qs('heroSubtitleInput'),
-                        tagline: qs('heroTaglineInput'),
-                        pText: qs('heroPrimaryTextInput'),
-                        pLink: qs('heroPrimaryLinkInput'),
-                        sText: qs('heroSecondaryTextInput'),
-                        sLink: qs('heroSecondaryLinkInput')
-                    };
-                    const fileInputs = [qs('heroSlideInput1'), qs('heroSlideInput2'), qs('heroSlideInput3')];
-                    const videoInputs = [qs('heroSlideVideo1'), qs('heroSlideVideo2'), qs('heroSlideVideo3')];
-                    const prevImgs = [qs('heroSlidePrev1'), qs('heroSlidePrev2'), qs('heroSlidePrev3')];
-                    const phs = [qs('heroSlidePh1'), qs('heroSlidePh2'), qs('heroSlidePh3')];
-                    let currentSliders = [null, null, null]; // Store current slider IDs
+            (function () {
+                const qs = id => document.getElementById(id);
+                const csrf = document.querySelector('meta[name="csrf-token"]')?.content || '';
+                const inputs = {
+                    title: qs('heroTitleInput'), subtitle: qs('heroSubtitleInput'),
+                    tagline: qs('heroTaglineInput'), pText: qs('heroPrimaryTextInput'),
+                    pLink: qs('heroPrimaryLinkInput'), sText: qs('heroSecondaryTextInput'),
+                    sLink: qs('heroSecondaryLinkInput')
+                };
+                let slides = [];
 
-                    // Load hero tagline from header settings
-                    async function loadHeroTagline() {
-                        try {
-                            const response = await fetch('/api/header-settings');
-                            if (response.ok) {
-                                const data = await response.json();
-                                if (inputs.tagline && data.hero_tagline) {
-                                    inputs.tagline.value = data.hero_tagline || '';
-                                }
-                            }
-                        } catch (error) {
-                            console.error('Error loading hero tagline:', error);
+                function getEmbed(url) {
+                    if (!url) return '';
+                    const ym = url.match(/(?:v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+                    if (ym) return 'https://www.youtube.com/embed/' + ym[1] + '?autoplay=1&mute=1&loop=1&playlist=' + ym[1] + '&controls=0&rel=0&modestbranding=1&playsinline=1';
+                    const vm = url.match(/vimeo\.com\/(\d+)/);
+                    if (vm) return 'https://player.vimeo.com/video/' + vm[1] + '?autoplay=1&muted=1&loop=1&background=1';
+                    return url;
+                }
+
+                function renderSlides() {
+                    const container = qs('heroSlidesContainer');
+                    container.innerHTML = '';
+                    slides.forEach((slide, idx) => {
+                        const card = document.createElement('div');
+                        card.className = 'hero-slide-card';
+                        let previewHtml = '<span style="color:#94a3b8;font-size:13px;">স্লাইড ' + (idx+1) + '</span>';
+                        if (slide.type === 'video' && slide.videoUrl) {
+                            previewHtml = '<iframe src="' + getEmbed(slide.videoUrl) + '" allowfullscreen></iframe>';
+                        } else if (slide.imageUrl) {
+                            previewHtml = '<img src="' + slide.imageUrl + '" alt="Slide">';
                         }
-                    }
-
-                    // Load hero sliders from API
-                    async function loadSliders() {
-                        try {
-                            const response = await fetch('/admin/hero-sliders');
-                            if (!response.ok) throw new Error('Failed to load sliders');
-                            const sliders = await response.json();
-
-                            // Sort by order and take first 3
-                            const sortedSliders = sliders.sort((a, b) => (a.order || 0) - (b.order || 0)).slice(0, 3);
-
-                            // If we have a single slider, use it for all fields
-                            if (sortedSliders.length > 0) {
-                                const firstSlider = sortedSliders[0];
-                                inputs.title.value = firstSlider.title || '';
-                                inputs.subtitle.value = firstSlider.subtitle || '';
-                                inputs.pText.value = firstSlider.primary_button_text || '';
-                                inputs.pLink.value = firstSlider.primary_button_link || '';
-                                inputs.sText.value = firstSlider.secondary_button_text || '';
-                                inputs.sLink.value = firstSlider.secondary_button_link || '';
-
-                                // Store slider IDs
-                                currentSliders = sortedSliders.map(s => s.id);
-
-                                // Load images for each slide
-                                sortedSliders.forEach((slider, i) => {
-                                    if (slider.image_url) {
-                                        prevImgs[i].src = slider.image_url;
-                                        prevImgs[i].style.display = 'block';
-                                        phs[i].style.display = 'none';
-                                    } else {
-                                        prevImgs[i].src = '';
-                                        prevImgs[i].style.display = 'none';
-                                        phs[i].style.display = 'block';
-                                    }
-                                    // Load video URL
-                                    if (videoInputs[i]) videoInputs[i].value = slider.video_url || '';
-                                });
-
-                                // Fill remaining slots
-                                for (let i = sortedSliders.length; i < 3; i++) {
-                                    prevImgs[i].src = '';
-                                    prevImgs[i].style.display = 'none';
-                                    phs[i].style.display = 'block';
-                                    currentSliders[i] = null;
-                                }
-                            } else {
-                                // No sliders, clear all (except tagline which is loaded separately)
-                                [inputs.title, inputs.subtitle, inputs.pText, inputs.pLink, inputs.sText, inputs.sLink].forEach(i => i.value = '');
-                                prevImgs.forEach((img, i) => {
-                                    img.src = '';
-                                    img.style.display = 'none';
-                                    phs[i].style.display = 'block';
-                                    currentSliders[i] = null;
-                                });
+                        card.innerHTML = `
+                            <button class="remove-slide-btn" data-idx="${idx}"><i class="fas fa-times"></i></button>
+                            <div style="font-weight:600;font-size:13px;color:#374151;margin-bottom:8px;">স্লাইড ${idx+1}</div>
+                            <div style="display:flex;gap:8px;margin-bottom:10px;">
+                                <button class="type-btn ${slide.type==='image'?'active':''}" data-idx="${idx}" data-type="image">🖼 ইমেজ</button>
+                                <button class="type-btn ${slide.type==='video'?'active':''}" data-idx="${idx}" data-type="video">🎬 ভিডিও</button>
+                            </div>
+                            <div class="slide-preview">${previewHtml}</div>
+                            ${slide.type === 'image'
+                                ? '<input type="file" accept="image/*" data-idx="' + idx + '" class="slide-file-input" style="width:100%;font-size:13px;">'
+                                : '<input type="url" placeholder="YouTube / Vimeo URL" value="' + (slide.videoUrl||'')+'" data-idx="' + idx + '" class="slide-video-input" style="width:100%;padding:8px 10px;border:1px solid #cbd5e1;border-radius:8px;font-size:13px;margin-top:4px;">'
                             }
-                        } catch (error) {
-                            console.error('Error loading hero sliders:', error);
-                            if (typeof showNotification === 'function') {
-                                showNotification('হিরো স্লাইডার লোড করতে ব্যর্থ', 'error');
-                            }
-                        }
-                    }
+                        `;
+                        container.appendChild(card);
+                    });
 
-                    // Save hero tagline to header settings
-                    async function saveHeroTagline() {
-                        try {
-                            const formData = new FormData();
-                            formData.append('hero_tagline', inputs.tagline.value || '');
-
-                            const response = await fetch('/admin/header-settings', {
-                                method: 'POST',
-                                headers: {
-                                    'X-CSRF-TOKEN': csrfToken
-                                },
-                                body: formData
-                            });
-
-                            if (!response.ok) {
-                                throw new Error('Failed to save hero tagline');
-                            }
-
-                            // Trigger refresh on frontend
-                            try {
-                                const timestamp = Date.now().toString();
-                                localStorage.setItem('refreshHeroTagline', timestamp);
-                                window.dispatchEvent(new StorageEvent('storage', {
-                                    key: 'refreshHeroTagline',
-                                    newValue: timestamp,
-                                    storageArea: localStorage
-                                }));
-                                window.dispatchEvent(new Event('headerSettingsUpdated'));
-                            } catch (e) { }
-                        } catch (error) {
-                            console.error('Error saving hero tagline:', error);
-                            throw error;
-                        }
-                    }
-
-                    // Save hero sliders to API
-                    async function saveSliders() {
-                        try {
-                            const saveBtn = qs('saveHeroBtn');
-                            saveBtn.disabled = true;
-                            saveBtn.textContent = 'সংরক্ষণ হচ্ছে...';
-
-                            // Save hero tagline first
-                            await saveHeroTagline();
-
-                            // Prepare data for all 3 slides
-                            const slidesData = [];
-
-                            for (let i = 0; i < 3; i++) {
-                                const formData = new FormData();
-                                formData.append('title', inputs.title.value || '');
-                                formData.append('subtitle', inputs.subtitle.value || '');
-                                formData.append('primary_button_text', inputs.pText.value || '');
-                                formData.append('primary_button_link', inputs.pLink.value || '');
-                                formData.append('secondary_button_text', inputs.sText.value || '');
-                                formData.append('secondary_button_link', inputs.sLink.value || '');
-                                formData.append('order', i + 1);
-                                formData.append('is_active', '1');
-                                // Add video URL if provided
-                                if (videoInputs[i]) formData.append('video_url', videoInputs[i].value || '');
-
-                                // Add image if uploaded
-                                if (fileInputs[i].files && fileInputs[i].files[0]) {
-                                    formData.append('image', fileInputs[i].files[0]);
-                                }
-
-                                const sliderId = currentSliders[i];
-                                let response;
-
-                                if (sliderId) {
-                                    // Update existing slider
-                                    formData.append('_method', 'PUT');
-                                    response = await fetch(`/admin/hero-sliders/${sliderId}`, {
-                                        method: 'POST',
-                                        headers: {
-                                            'X-CSRF-TOKEN': csrfToken
-                                        },
-                                        body: formData
-                                    });
-                                } else {
-                                    // Create new slider
-                                    response = await fetch('/admin/hero-sliders', {
-                                        method: 'POST',
-                                        headers: {
-                                            'X-CSRF-TOKEN': csrfToken
-                                        },
-                                        body: formData
-                                    });
-                                }
-
-                                if (!response.ok) {
-                                    const errorData = await response.json();
-                                    throw new Error(errorData.message || 'Failed to save slider ' + (i + 1));
-                                }
-
-                                const result = await response.json();
-                                if (result.slider) {
-                                    currentSliders[i] = result.slider.id;
-                                }
-                            }
-
-                            // Trigger refresh on frontend
-                            try {
-                                const timestamp = Date.now().toString();
-                                localStorage.setItem('refreshHeroSlider', timestamp);
-                                window.dispatchEvent(new CustomEvent('heroSliderUpdated'));
-                            } catch (e) { }
-
-                            // Reload to show updated images
-                            await loadSliders();
-
-                            if (typeof showNotification === 'function') {
-                                showNotification('হিরো সেকশন সফলভাবে সংরক্ষিত হয়েছে!', 'success');
-                            }
-
-                            saveBtn.disabled = false;
-                            saveBtn.textContent = 'সেভ';
-
-                        } catch (error) {
-                            console.error('Error saving hero sliders:', error);
-                            if (typeof showNotification === 'function') {
-                                showNotification('সংরক্ষণ করতে ব্যর্থ: ' + error.message, 'error');
-                            }
-                            const saveBtn = qs('saveHeroBtn');
-                            saveBtn.disabled = false;
-                            saveBtn.textContent = 'সেভ';
-                        }
-                    }
-
-                    // Wire file inputs for preview
-                    function wireFile(i) {
-                        const input = fileInputs[i];
-                        input?.addEventListener('change', (e) => {
-                            const f = e.target.files && e.target.files[0];
+                    container.querySelectorAll('.remove-slide-btn').forEach(btn => {
+                        btn.addEventListener('click', function() { slides.splice(parseInt(this.dataset.idx),1); renderSlides(); });
+                    });
+                    container.querySelectorAll('.type-btn').forEach(btn => {
+                        btn.addEventListener('click', function() { slides[parseInt(this.dataset.idx)].type = this.dataset.type; renderSlides(); });
+                    });
+                    container.querySelectorAll('.slide-file-input').forEach(input => {
+                        input.addEventListener('change', function() {
+                            const i = parseInt(this.dataset.idx), f = this.files[0];
                             if (!f) return;
-                            const url = URL.createObjectURL(f);
-                            prevImgs[i].src = url;
-                            prevImgs[i].style.display = 'block';
-                            phs[i].style.display = 'none';
+                            slides[i].file = f; slides[i].imageUrl = URL.createObjectURL(f); renderSlides();
                         });
-                    }
+                    });
+                    container.querySelectorAll('.slide-video-input').forEach(input => {
+                        input.addEventListener('input', function() { slides[parseInt(this.dataset.idx)].videoUrl = this.value; });
+                        input.addEventListener('blur', function() { slides[parseInt(this.dataset.idx)].videoUrl = this.value; renderSlides(); });
+                    });
+                }
 
-                    // Reset form
-                    async function resetForm() {
-                        const confirmed = await showHomeConfirm('আপনি কি নিশ্চিত? এটি সব হিরো স্লাইডার ডিলিট করবে।', 'সতর্কতা');
-                        if (!confirmed) return;
+                qs('addSlideBtn').addEventListener('click', () => {
+                    slides.push({id:null, type:'image', imageUrl:'', videoUrl:'', file:null}); renderSlides();
+                });
 
-                        try {
-                            // Delete existing sliders
-                            for (let i = 0; i < currentSliders.length; i++) {
-                                if (currentSliders[i]) {
-                                    await fetch(`/admin/hero-sliders/${currentSliders[i]}`, {
-                                        method: 'DELETE',
-                                        headers: {
-                                            'X-CSRF-TOKEN': csrfToken,
-                                            'Content-Type': 'application/json'
-                                        }
-                                    });
-                                }
-                            }
+                async function loadHeroTagline() {
+                    try { const r = await fetch('/api/header-settings'); if(r.ok){const d=await r.json(); if(inputs.tagline&&d.hero_tagline) inputs.tagline.value=d.hero_tagline;} } catch(e){}
+                }
 
-                            // Clear form (except tagline which is managed separately)
-                            [inputs.title, inputs.subtitle, inputs.pText, inputs.pLink, inputs.sText, inputs.sLink].forEach(i => i.value = '');
-                            prevImgs.forEach((img, i) => {
-                                img.src = '';
-                                img.style.display = 'none';
-                                phs[i].style.display = 'block';
-                                fileInputs[i].value = '';
-                                currentSliders[i] = null;
-                            });
+                async function loadSliders() {
+                    try {
+                        const r = await fetch('/admin/hero-sliders');
+                        if (!r.ok) return;
+                        const data = await r.json();
+                        const sorted = data.sort((a,b)=>(a.order||0)-(b.order||0));
+                        slides = sorted.map(s => ({id:s.id, type:s.video_url?'video':'image', imageUrl:s.image_url||s.image_path||'', videoUrl:s.video_url||'', file:null}));
+                        if (sorted.length > 0) {
+                            inputs.title.value = sorted[0].title||'';
+                            inputs.subtitle.value = sorted[0].subtitle||'';
+                            inputs.pText.value = sorted[0].primary_button_text||'';
+                            inputs.pLink.value = sorted[0].primary_button_link||'';
+                            inputs.sText.value = sorted[0].secondary_button_text||'';
+                            inputs.sLink.value = sorted[0].secondary_button_link||'';
+                        }
+                        renderSlides();
+                    } catch(e){ console.error(e); }
+                }
 
-                            // Trigger refresh
-                            try {
-                                const timestamp = Date.now().toString();
-                                localStorage.setItem('refreshHeroSlider', timestamp);
-                                window.dispatchEvent(new StorageEvent('storage', {
-                                    key: 'refreshHeroSlider',
-                                    newValue: timestamp,
-                                    storageArea: localStorage
-                                }));
-                            } catch (e) { }
+                async function saveSliders() {
+                    const btn = qs('saveHeroBtn');
+                    btn.disabled = true; btn.textContent = 'সংরক্ষণ হচ্ছে...';
+                    try {
+                        const tfd = new FormData();
+                        tfd.append('hero_tagline', inputs.tagline.value||'');
+                        await fetch('/admin/header-settings', {method:'POST', headers:{'X-CSRF-TOKEN':csrf}, body:tfd});
 
-                            if (typeof showNotification === 'function') {
-                                showNotification('হিরো সেকশন রিসেট হয়েছে', 'success');
-                            }
-                        } catch (error) {
-                            console.error('Error resetting:', error);
-                            if (typeof showNotification === 'function') {
-                                showNotification('রিসেট করতে ব্যর্থ', 'error');
+                        const existingR = await fetch('/admin/hero-sliders');
+                        const existing = existingR.ok ? await existingR.json() : [];
+                        const keepIds = slides.filter(s=>s.id).map(s=>s.id);
+                        for (const ex of existing) {
+                            if (!keepIds.includes(ex.id)) {
+                                await fetch(`/admin/hero-sliders/${ex.id}`, {method:'DELETE', headers:{'X-CSRF-TOKEN':csrf}});
                             }
                         }
-                    }
 
-                    // Event listeners
-                    qs('saveHeroBtn').addEventListener('click', saveSliders);
-                    qs('resetHeroBtn').addEventListener('click', resetForm);
+                        for (let i = 0; i < slides.length; i++) {
+                            const slide = slides[i];
+                            const fd = new FormData();
+                            fd.append('title', inputs.title.value||'');
+                            fd.append('subtitle', inputs.subtitle.value||'');
+                            fd.append('primary_button_text', inputs.pText.value||'');
+                            fd.append('primary_button_link', inputs.pLink.value||'');
+                            fd.append('secondary_button_text', inputs.sText.value||'');
+                            fd.append('secondary_button_link', inputs.sLink.value||'');
+                            fd.append('order', i+1);
+                            fd.append('is_active', '1');
+                            fd.append('video_url', slide.type==='video' ? (slide.videoUrl||'') : '');
+                            if (slide.type==='image' && slide.file) fd.append('image', slide.file);
 
-                    // Wire file inputs
-                    for (let i = 0; i < 3; i++) wireFile(i);
+                            let resp;
+                            if (slide.id) {
+                                fd.append('_method', 'PUT');
+                                resp = await fetch(`/admin/hero-sliders/${slide.id}`, {method:'POST', headers:{'X-CSRF-TOKEN':csrf}, body:fd});
+                            } else {
+                                resp = await fetch('/admin/hero-sliders', {method:'POST', headers:{'X-CSRF-TOKEN':csrf}, body:fd});
+                            }
+                            if (resp && resp.ok) { const res = await resp.json(); if(res.slider) slides[i].id = res.slider.id; }
+                        }
 
-                    // Lazy load when home tab is first opened
-                    if (window.registerTabLoader) {
-                        registerTabLoader('home', loadHeroTagline);
-                        registerTabLoader('home', loadSliders);
-                    } else { loadHeroTagline(); loadSliders(); }
-                })();
+                        localStorage.setItem('refreshHeroSlider', Date.now().toString());
+                        window.dispatchEvent(new CustomEvent('heroSliderUpdated'));
+                        await loadSliders();
+                        if (window.showSuccess) window.showSuccess('হিরো সেকশন সংরক্ষিত হয়েছে');
+                    } catch(e) {
+                        if (window.showError) window.showError('সংরক্ষণ ব্যর্থ: ' + e.message);
+                    } finally { btn.disabled=false; btn.textContent='সেভ করুন'; }
+                }
+
+                qs('saveHeroBtn').addEventListener('click', saveSliders);
+                if (window.registerTabLoader) { registerTabLoader('home', loadHeroTagline); registerTabLoader('home', loadSliders); }
+                else { loadHeroTagline(); loadSliders(); }
+            })();
             </script>
         </div>
     </div>
