@@ -569,7 +569,7 @@ function showTab(tabId) {
       } catch (e) {
         console.error("Error loading footer settings:", e);
       }
-    }, 100);
+    }, 300);
   }
 
   // Save current tab to localStorage
@@ -1158,7 +1158,7 @@ function loadFooterSettings() {
       // Map API data to form fields
       const setVal = (id, val) => {
         const el = document.getElementById(id);
-        if (el) el.value = val;
+        if (el && val !== null && val !== undefined) el.value = val;
       };
 
       setVal("footerTitle", data.title || "");
@@ -1789,10 +1789,12 @@ function saveFooterSettings() {
     .then((data) => {
       if (data && data.success) {
         showSuccess("ফুটার সেটিংস সফলভাবে সংরক্ষণ করা হয়েছে।");
-        // Reload settings in admin
-        if (typeof loadFooterSettings === "function") {
-          loadFooterSettings();
-        }
+        // Reload settings in admin after short delay
+        setTimeout(() => {
+          if (typeof loadFooterSettings === "function") {
+            loadFooterSettings();
+          }
+        }, 500);
         // Update preview
         if (typeof updateFooterPreview === "function") {
           updateFooterPreview();

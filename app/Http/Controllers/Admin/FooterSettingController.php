@@ -68,11 +68,11 @@ class FooterSettingController extends Controller
         ];
 
         $social = [
-            'facebook'  => $data['socialFacebook']  ?? null,
-            'instagram' => $data['socialInstagram'] ?? null,
-            'twitter'   => $data['socialTwitter']   ?? null,
-            'linkedin'  => $data['socialLinkedin']  ?? null,
-            'youtube'   => $data['socialYouTube']   ?? null,
+            'facebook'  => ($data['socialFacebook']  ?? '') !== '' ? $data['socialFacebook']  : ($fs->social_links['facebook']  ?? null),
+            'instagram' => ($data['socialInstagram'] ?? '') !== '' ? $data['socialInstagram'] : ($fs->social_links['instagram'] ?? null),
+            'twitter'   => ($data['socialTwitter']   ?? '') !== '' ? $data['socialTwitter']   : ($fs->social_links['twitter']   ?? null),
+            'linkedin'  => ($data['socialLinkedin']  ?? '') !== '' ? $data['socialLinkedin']  : ($fs->social_links['linkedin']  ?? null),
+            'youtube'   => ($data['socialYouTube']   ?? '') !== '' ? $data['socialYouTube']   : ($fs->social_links['youtube']   ?? null),
         ];
 
         // Ensure all social URLs have https:// prefix
