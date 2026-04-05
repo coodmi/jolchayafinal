@@ -776,7 +776,7 @@
 
             function restart() {
                 clearInterval(timer);
-                timer = setInterval(() => go(1), 7000);
+                timer = setInterval(() => go(1), 60000);
             }
 
             function buildDots() {
