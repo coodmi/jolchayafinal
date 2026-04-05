@@ -1239,6 +1239,9 @@
 
                         for (let i = 0; i < slides.length; i++) {
                             const slide = slides[i];
+                            // Read current value from DOM input if exists
+                            const videoInput = document.querySelector('.slide-video-input[data-idx="' + i + '"]');
+                            if (videoInput) slide.videoUrl = videoInput.value;
                             const fd = new FormData();
                             fd.append('title', inputs.title.value||'');
                             fd.append('subtitle', inputs.subtitle.value||'');
