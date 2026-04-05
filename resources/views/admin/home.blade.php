@@ -1186,6 +1186,8 @@
                             } else if (url.match(/\.(mp4|webm|ogg)$/i)) {
                                 // Direct video
                                 preview.innerHTML = '<video src="' + url + '" style="width:100%;height:100%;object-fit:cover;" muted></video>';
+                            } else if (url.includes('facebook.com')) {
+                                preview.innerHTML = '<div style="color:#ef4444;font-size:12px;text-align:center;padding:12px;"><i class=\'fas fa-exclamation-triangle\'></i><br>Facebook video embed করা যায় না।<br>YouTube বা MP4 URL ব্যবহার করুন।</div>';
                             } else {
                                 preview.innerHTML = '<div style="color:#6b7280;font-size:12px;text-align:center;padding:8px;">YouTube বা MP4 URL দিন</div>';
                             }
