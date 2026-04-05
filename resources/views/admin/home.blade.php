@@ -1171,8 +1171,17 @@
                         });
                     });
                     container.querySelectorAll('.slide-video-input').forEach(input => {
-                        input.addEventListener('input', function() { slides[parseInt(this.dataset.idx)].videoUrl = this.value; });
-                        input.addEventListener('blur', function() { slides[parseInt(this.dataset.idx)].videoUrl = this.value; renderSlides(); });
+                        input.addEventListener('input', function() {
+                            const i = parseInt(this.dataset.idx);
+                            slides[i].videoUrl = this.value;
+                            // Show YouTube thumbnail preview
+                            const preview = this.closest('.hero-slide-card').querySelector('.slide-preview');
+                            const url = this.value;
+                            const ym = url.match(/(?:v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+                            if (ym && preview) {
+                                preview.innerHTML = '<img src="https://img.youtube.com/vi/' + ym[1] + '/hqdefault.jpg" style="width:100%;height:100%;object-fit:cover;">';
+                            }
+                        });
                     });
                 }
 
