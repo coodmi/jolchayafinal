@@ -761,7 +761,7 @@
             const next = document.getElementById('homeNext');
 
             // Per-slide data from PHP
-            const slideData = @json(($heroSliders ?? collect())->map(fn($s) => [
+            const slideData = @json(($heroSliders ?? collect())->map(function($s) { return [
                 'title' => $s->title ?? '',
                 'subtitle' => $s->subtitle ?? '',
                 'tagline' => $s->tagline ?? '',
@@ -770,7 +770,7 @@
                 'primary_button_link' => $s->primary_button_link ?? '',
                 'secondary_button_text' => $s->secondary_button_text ?? '',
                 'secondary_button_link' => $s->secondary_button_link ?? '',
-            ])->values());
+            ]; })->values());
 
             function updateOverlay(i) {
                 const data = slideData[i] || {};
