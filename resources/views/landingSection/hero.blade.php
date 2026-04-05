@@ -752,6 +752,20 @@
         <div class="slider-dots" id="homeDots"></div>
     </div>
 
+    @php
+        $slideDataJson = json_encode(($heroSliders ?? collect())->map(function($s) {
+            return [
+                'title' => $s->title ?? '',
+                'subtitle' => $s->subtitle ?? '',
+                'tagline' => $s->tagline ?? '',
+                'description' => $s->description ?? '',
+                'primary_button_text' => $s->primary_button_text ?? '',
+                'primary_button_link' => $s->primary_button_link ?? '',
+                'secondary_button_text' => $s->secondary_button_text ?? '',
+                'secondary_button_link' => $s->secondary_button_link ?? '',
+            ];
+        })->values()->toArray());
+    @endphp
     <script>
         (function () {
             let idx = 0, timer = null;
@@ -761,16 +775,7 @@
             const next = document.getElementById('homeNext');
 
             // Per-slide data from PHP
-            const slideData = @json(($heroSliders ?? collect())->map(function($s) { return [
-                'title' => $s->title ?? '',
-                'subtitle' => $s->subtitle ?? '',
-                'tagline' => $s->tagline ?? '',
-                'description' => $s->description ?? '',
-                'primary_button_text' => $s->primary_button_text ?? '',
-                'primary_button_link' => $s->primary_button_link ?? '',
-                'secondary_button_text' => $s->secondary_button_text ?? '',
-                'secondary_button_link' => $s->secondary_button_link ?? '',
-            ]; })->values());
+            const slideData = {!! $slideDataJson !!};
 
             function updateOverlay(i) {
                 const data = slideData[i] || {};
