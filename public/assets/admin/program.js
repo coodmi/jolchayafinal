@@ -1307,12 +1307,15 @@ function loadFooterSettings() {
       }
 
       // Bind listeners for live preview
-      Array.from(form.querySelectorAll("input, textarea")).forEach((el) => {
-        if (!el.dataset.bound) {
-          el.addEventListener("input", updateFooterPreview);
-          el.dataset.bound = "true";
-        }
-      });
+      const footerForm = document.getElementById("footerSettingsForm");
+      if (footerForm) {
+        Array.from(footerForm.querySelectorAll("input, textarea")).forEach((el) => {
+          if (!el.dataset.bound) {
+            el.addEventListener("input", updateFooterPreview);
+            el.dataset.bound = "true";
+          }
+        });
+      }
 
       // Update preview
       updateFooterPreview();
