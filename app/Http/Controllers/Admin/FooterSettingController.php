@@ -67,12 +67,16 @@ class FooterSettingController extends Controller
             ['label' => $data['legalTermsLabel'] ?? null, 'href' => $data['legalTermsHref'] ?? null],
         ];
 
+        // Load $fs FIRST so we can merge existing social links
+        $fs = FooterSetting::first() ?? new FooterSetting();
+        $existingSocial = $fs->social_links ?? [];
+
         $social = [
-            'facebook'  => ($data['socialFacebook']  ?? '') !== '' ? $data['socialFacebook']  : ($fs->social_links['facebook']  ?? null),
-            'instagram' => ($data['socialInstagram'] ?? '') !== '' ? $data['socialInstagram'] : ($fs->social_links['instagram'] ?? null),
-            'twitter'   => ($data['socialTwitter']   ?? '') !== '' ? $data['socialTwitter']   : ($fs->social_links['twitter']   ?? null),
-            'linkedin'  => ($data['socialLinkedin']  ?? '') !== '' ? $data['socialLinkedin']  : ($fs->social_links['linkedin']  ?? null),
-            'youtube'   => ($data['socialYouTube']   ?? '') !== '' ? $data['socialYouTube']   : ($fs->social_links['youtube']   ?? null),
+            'facebook'  => ($data['socialFacebook']  ?? '') !== '' ? $data['socialFacebook']  : ($existingSocial['facebook']  ?? null),
+            'instagram' => ($data['socialInstagram'] ?? '') !== '' ? $data['socialInstagram'] : ($existingSocial['instagram'] ?? null),
+            'twitter'   => ($data['socialTwitter']   ?? '') !== '' ? $data['socialTwitter']   : ($existingSocial['twitter']   ?? null),
+            'linkedin'  => ($data['socialLinkedin']  ?? '') !== '' ? $data['socialLinkedin']  : ($existingSocial['linkedin']  ?? null),
+            'youtube'   => ($data['socialYouTube']   ?? '') !== '' ? $data['socialYouTube']   : ($existingSocial['youtube']   ?? null),
         ];
 
         // Ensure all social URLs have https:// prefix
@@ -89,7 +93,6 @@ class FooterSettingController extends Controller
               $data['qr_image'], $data['logo_image'],
               $data['brochure_file'], $data['master_plan_file'], $data['price_list_file']);
 
-        $fs = FooterSetting::first() ?? new FooterSetting();
         $fs->fill($data);
         $fs->quick_links  = $quickLinks;
         $fs->legal_links  = $legalLinks;
