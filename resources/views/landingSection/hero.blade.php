@@ -318,7 +318,7 @@
             left: 0 !important;
             right: 0 !important;
             width: 100% !important;
-            height: 100% !important;
+            height: auto !important;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -326,7 +326,8 @@
             pointer-events: none;
             z-index: 6;
             margin: 0 !important;
-            top: 0 !important;
+            top: 50% !important;
+            transform: translateY(-50%) !important;
             max-width: 100% !important
         }
 
