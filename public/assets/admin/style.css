@@ -480,6 +480,8 @@ body {
     overflow-x: hidden;
     margin-left: 280px;
     transition: margin-left var(--transition-slow);
+    height: 100vh;
+    overflow: hidden;
 }
 
 /* Header */
@@ -645,9 +647,11 @@ body {
 .content-area {
     flex: 1;
     overflow-y: auto;
-    padding: 0 1.5rem 1.5rem 1.5rem;
+    overflow-x: hidden;
+    padding: 1.5rem;
     background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
     position: relative;
+    height: 0; /* forces flex child to scroll properly */
 }
 
 .content-area::before {

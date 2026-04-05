@@ -1,6 +1,12 @@
 <div id="site-settings" class="tab-content">
+    <style>
+        .form-label { display: block; margin-bottom: 8px; }
+        .btn-save:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(13,61,41,0.3); }
+        .search-input:focus { border-color: #0d3d29; box-shadow: 0 0 0 3px rgba(13,61,41,0.1); }
+    </style>
+
     <div class="table-card">
-        <div style="display:flex; align-items:center; gap:12px; margin-bottom:8px;">
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom:20px;">
             <div style="width:40px; height:40px; background:linear-gradient(135deg,#0d3d29 0%,#1a7a4a 100%); border-radius:10px; display:flex; align-items:center; justify-content:center; color:white; font-size:20px;">
                 <i class="fas fa-cog"></i>
             </div>
@@ -12,7 +18,6 @@
 
         <input type="hidden" id="csrfSiteSettings" value="{{ csrf_token() }}">
 
-        <!-- Site Name & Title -->
         <div style="background:#f9fafb; border-radius:12px; padding:20px; margin-bottom:24px; border:1px solid #e5e7eb;">
             <div style="display:flex; align-items:center; gap:8px; margin-bottom:20px; padding-bottom:12px; border-bottom:2px solid #e5e7eb;">
                 <span style="font-size:18px;"><i class="fas fa-globe"></i></span>
@@ -36,7 +41,6 @@
             </div>
         </div>
 
-        <!-- Favicon -->
         <div style="background:#f9fafb; border-radius:12px; padding:20px; margin-bottom:24px; border:1px solid #e5e7eb;">
             <div style="display:flex; align-items:center; gap:8px; margin-bottom:20px; padding-bottom:12px; border-bottom:2px solid #e5e7eb;">
                 <span style="font-size:18px;"><i class="fas fa-image"></i></span>
@@ -55,7 +59,6 @@
             </div>
         </div>
 
-        <!-- Dashboard Logo -->
         <div style="background:#f9fafb; border-radius:12px; padding:20px; margin-bottom:24px; border:1px solid #e5e7eb;">
             <div style="display:flex; align-items:center; gap:8px; margin-bottom:20px; padding-bottom:12px; border-bottom:2px solid #e5e7eb;">
                 <span style="font-size:18px;"><i class="fas fa-tag"></i></span>
@@ -76,7 +79,6 @@
             </div>
         </div>
 
-        <!-- Popup Settings -->
         <div style="background:#f9fafb; border-radius:12px; padding:20px; margin-bottom:24px; border:1px solid #e5e7eb;">
             <div style="display:flex; align-items:center; gap:8px; margin-bottom:20px; padding-bottom:12px; border-bottom:2px solid #e5e7eb;">
                 <span style="font-size:18px;"><i class="fas fa-bullhorn"></i></span>
@@ -129,7 +131,6 @@
             </div>
         </div>
 
-        <!-- Save Button -->
         <div style="display:flex; align-items:center; gap:16px; padding-top:8px;">
             <button id="saveSiteSettingsBtn" onclick="saveSiteSettings()" class="btn-save" style="background:linear-gradient(135deg,#0d3d29,#1a7a4a); color:#fff; border:none; padding:12px 32px; border-radius:10px; font-size:15px; font-weight:600; cursor:pointer;">
                 <i class="fas fa-save" style="margin-right:8px;"></i> সংরক্ষণ করুন
@@ -139,12 +140,13 @@
 
     <script>
     (function () {
-        var csrf = document.getElementById('csrfSiteSettings')?.value || '';
+        var csrf = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content')
+                || document.getElementById('csrfSiteSettings')?.value || '';
 
         function loadSiteSettings() {
             fetch('/admin/site-settings', { cache: 'no-store' })
-                .then(function(r){ return r.json(); })
-                .then(function(d){
+                .then(r => r.json())
+                .then(d => {
                     if (d.site_name)  document.getElementById('siteNameInput').value  = d.site_name;
                     if (d.site_title) document.getElementById('siteTitleInput').value = d.site_title;
                     if (d.favicon_url) {
@@ -169,7 +171,7 @@
                         document.getElementById('popupImagePreviewImg').src = d.popup_image;
                         document.getElementById('popupImagePreview').style.display = 'block';
                     }
-                }).catch(function(e){ console.error(e); });
+                }).catch(e => console.error(e));
         }
 
         document.getElementById('faviconInput').addEventListener('change', function () {
@@ -184,11 +186,7 @@
         });
         document.getElementById('popupImageInput').addEventListener('change', function () {
             if (!this.files[0]) return;
-            if (this.files[0].size > 5 * 1024 * 1024) {
-                if (window.showError) window.showError('ছবির আকার ৫MB এর বেশি। ছোট ছবি বেছে নিন।');
-                this.value = '';
-                return;
-            }
+            if (this.files[0].size > 5 * 1024 * 1024) { if (window.showError) window.showError('ছবির আকার ৫MB এর বেশি।'); this.value = ''; return; }
             document.getElementById('popupImagePreviewImg').src = URL.createObjectURL(this.files[0]);
             document.getElementById('popupImagePreview').style.display = 'block';
         });
@@ -214,38 +212,40 @@
             var l = document.getElementById('dashboardLogoInput').files[0]; if (l) fd.append('dashboard_logo', l);
             var p = document.getElementById('popupImageInput').files[0];    if (p) fd.append('popup_image', p);
             fetch('/admin/site-settings', { method:'POST', headers:{'X-CSRF-TOKEN': csrf}, body: fd })
-                .then(function(r){
-                    if (!r.ok) return r.text().then(function(t){ throw new Error('HTTP ' + r.status + ': ' + t.substring(0,200)); });
+                .then(r => {
+                    if (!r.ok) return r.text().then(t => { throw new Error('Server error ' + r.status + ': ' + t.substring(0, 200)); });
                     return r.json();
                 })
-                .then(function(d){
-                    if (d.success) { if (window.showSuccess) window.showSuccess('সাইট সেটিংস সংরক্ষিত হয়েছে'); }
-                    else {
+                .then(d => {
+                    if (d.success) {
+                        if (window.showSuccess) window.showSuccess('সাইট সেটিংস সংরক্ষিত হয়েছে');
+                        // update favicon in browser tab live
+                        if (d.data && d.data.favicon_url) {
+                            var link = document.querySelector("link[rel='icon']");
+                            if (link) link.href = d.data.favicon_url;
+                        }
+                    } else {
                         var msg = d.message || 'সংরক্ষণ ব্যর্থ হয়েছে';
                         if (d.errors) msg = Object.values(d.errors).flat().join(' | ');
                         if (window.showError) window.showError(msg);
                     }
-                }).catch(function(e){ if (window.showError) window.showError('ত্রুটি: ' + (e.message || 'সার্ভার সমস্যা')); })
-                .finally(function(){
+                }).catch(e => { if (window.showError) window.showError('ত্রুটি: ' + (e.message || 'সার্ভার সমস্যা')); })
+                .finally(() => {
                     btn.disabled = false;
                     btn.innerHTML = '<i class="fas fa-save" style="margin-right:8px;"></i> সংরক্ষণ করুন';
                 });
         };
 
-        // Load when tab becomes active
         var tab = document.getElementById('site-settings');
         if (tab) {
             var obs = new MutationObserver(function () {
-                if (tab.classList.contains('active') && !tab.dataset.ssLoaded) {
+                if ((tab.classList.contains('active') || tab.style.display === 'block') && !tab.dataset.ssLoaded) {
                     tab.dataset.ssLoaded = '1';
                     loadSiteSettings();
-                    // Scroll content-area to top
-                    var ca = document.querySelector('.content-area');
-                    if (ca) ca.scrollTop = 0;
                 }
             });
-            obs.observe(tab, { attributes: true, attributeFilter: ['class'] });
-            if (tab.classList.contains('active')) { loadSiteSettings(); }
+            obs.observe(tab, { attributes: true, attributeFilter: ['class', 'style'] });
+            if (tab.classList.contains('active') || tab.style.display === 'block') loadSiteSettings();
         }
     })();
     </script>

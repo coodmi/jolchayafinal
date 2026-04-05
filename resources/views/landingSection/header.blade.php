@@ -17,14 +17,14 @@
         <!-- Navigation Items -->
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a class="nav-link" href="/">{{ $headerSettings->home_label ?? '' }}</a></li>
-                <li class="nav-item"><a class="nav-link" href="/about">{{ $headerSettings->about_label ?? '' }}</a></li>
-                <li class="nav-item"><a class="nav-link" href="/#features">{{ $headerSettings->features_label ?? '' }}</a></li>
-                <li class="nav-item"><a class="nav-link" href="/#pricing">{{ $headerSettings->pricing_label ?? '' }}</a></li>
-                <li class="nav-item"><a class="nav-link" href="/#testimonials">{{ $headerSettings->testimonials_label ?? '' }}</a></li>
+                @if(!empty($headerSettings->home_label))<li class="nav-item"><a class="nav-link" href="/">{{ $headerSettings->home_label }}</a></li>@endif
+                @if(!empty($headerSettings->about_label))<li class="nav-item"><a class="nav-link" href="/about">{{ $headerSettings->about_label }}</a></li>@endif
+                @if(!empty($headerSettings->features_label))<li class="nav-item"><a class="nav-link" href="/#features">{{ $headerSettings->features_label }}</a></li>@endif
+                @if(!empty($headerSettings->pricing_label))<li class="nav-item"><a class="nav-link" href="/#pricing">{{ $headerSettings->pricing_label }}</a></li>@endif
+                @if(!empty($headerSettings->testimonials_label))<li class="nav-item"><a class="nav-link" href="/#testimonials">{{ $headerSettings->testimonials_label }}</a></li>@endif
                 <li class="nav-item"><a class="nav-link" href="/gallery">গ্যালারি</a></li>
-                <li class="nav-item"><a class="nav-link" href="/projects">{{ $headerSettings->other_projects_label ?? '' }}</a></li>
-                <li class="nav-item"><a class="nav-link" href="/news">{{ $headerSettings->news_label ?? '' }}</a></li>
+                @if(!empty($headerSettings->other_projects_label))<li class="nav-item"><a class="nav-link" href="/projects">{{ $headerSettings->other_projects_label }}</a></li>@endif
+                <li class="nav-item"><a class="nav-link" href="/news">{{ $headerSettings->news_label ?? 'সংবাদ' }}</a></li>
                 <li class="nav-item"><a class="nav-link" href="/#faq-section">প্রশ্নাবলী</a></li>
             </ul>
 

@@ -2,12 +2,15 @@
 (function () {
     'use strict';
 
-    // Smooth scrolling
+    // Smooth scrolling - only for internal anchor links (not external URLs)
     document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
         anchor.addEventListener("click", function (e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute("href"));
+            const href = this.getAttribute("href");
+            // Skip if href is just "#" or an external URL somehow got here
+            if (!href || href === '#' || href.startsWith('http') || href.startsWith('//')) return;
+            const target = document.querySelector(href);
             if (target) {
+                e.preventDefault();
                 target.scrollIntoView({
                     behavior: "smooth",
                     block: "start",

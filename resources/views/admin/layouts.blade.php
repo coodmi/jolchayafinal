@@ -74,6 +74,38 @@
      <script src="{{ asset('assets/admin/program.js') }}"></script>
 
     <script>
+    // Initialize dashboard: restore last active tab from URL param or localStorage
+    (function() {
+      function init() {
+        var params = new URLSearchParams(window.location.search);
+        var tab = params.get('tab');
+        var section = params.get('section');
+
+        if (!tab) {
+          try { tab = localStorage.getItem('adminActiveTab'); } catch(e) {}
+        }
+
+        if (tab && tab !== 'overview') {
+          if (section) {
+            navigateTo(tab, section, true);
+          } else {
+            showTab(tab);
+          }
+        } else {
+          // default: show overview
+          showTab('overview');
+        }
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+    })();
+    </script>
+
+    <script>
     // Prevent screen from dimming/sleeping on the admin dashboard
     (function() {
         let wakeLock = null;

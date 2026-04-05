@@ -154,8 +154,17 @@
     container.appendChild(toast);
 
     function dismiss() {
+      const container = document.getElementById('adminToastContainer');
       toast.classList.add('toast-out');
-      setTimeout(() => toast.remove(), 320);
+      if (container) container.classList.add('hiding');
+      setTimeout(() => {
+        toast.remove();
+        // remove container when no toasts left so backdrop disappears
+        const c = document.getElementById('adminToastContainer');
+        if (c && c.querySelectorAll('.admin-toast').length === 0) {
+          c.remove();
+        }
+      }, 320);
     }
     toast.querySelector('.admin-toast-close').addEventListener('click', dismiss);
     setTimeout(dismiss, duration);
@@ -332,9 +341,12 @@ const pageTitles = {
   about: "আমাদের সম্পর্কে",
   projects: "প্রকল্প",
   bookings: "বুকিং তথ্য",
+  "visit-bookings": "ভিজিট বুকিং",
+  registrations: "প্লট রেজিস্ট্রেশন",
   news: "নিউজ ম্যানেজমেন্ট",
   header: "হেডার",
-  footer: "ফুটার",
+  footer: "ফুটার সেটিংস",
+  "site-settings": "সাইট সেটিংস",
   "footer-preview": "ফুটার প্রিভিউ",
   contact: "কন্ট্যাক্ট প্রিভিউ",
   plots: "প্লট তালিকা",
@@ -349,45 +361,42 @@ function toggleSidebar() {
   sidebar.classList.toggle("collapsed");
 }
 
-// Toggle Home submenu with fade/expand only (do not switch tab)
+// Toggle Home submenu — open submenu AND switch to home tab
 function toggleHomeMenu() {
   const submenu = document.getElementById("homeSubmenu");
   if (submenu) {
+    const isOpen = submenu.classList.contains("open");
     submenu.classList.toggle("open");
     const trigger = document.querySelector('.nav-item[data-tab="home"]');
     if (trigger)
-      trigger.setAttribute(
-        "aria-expanded",
-        submenu.classList.contains("open") ? "true" : "false"
-      );
+      trigger.setAttribute("aria-expanded", !isOpen ? "true" : "false");
+    if (!isOpen) showTab("home");
   }
 }
 
-// Toggle About submenu with fade/expand only (do not switch tab)
+// Toggle About submenu — open submenu AND switch to about tab
 function toggleAboutMenu() {
   const submenu = document.getElementById("aboutSubmenu");
   if (submenu) {
+    const isOpen = submenu.classList.contains("open");
     submenu.classList.toggle("open");
     const trigger = document.querySelector('.nav-item[data-tab="about"]');
     if (trigger)
-      trigger.setAttribute(
-        "aria-expanded",
-        submenu.classList.contains("open") ? "true" : "false"
-      );
+      trigger.setAttribute("aria-expanded", !isOpen ? "true" : "false");
+    if (!isOpen) showTab("about");
   }
 }
 
-// Toggle Projects submenu with fade/expand only (do not switch tab)
+// Toggle Projects submenu — open submenu AND switch to projects tab
 function toggleProjectsMenu() {
   const submenu = document.getElementById("projectsSubmenu");
   if (submenu) {
+    const isOpen = submenu.classList.contains("open");
     submenu.classList.toggle("open");
     const trigger = document.querySelector('.nav-item[data-tab="projects"]');
     if (trigger)
-      trigger.setAttribute(
-        "aria-expanded",
-        submenu.classList.contains("open") ? "true" : "false"
-      );
+      trigger.setAttribute("aria-expanded", !isOpen ? "true" : "false");
+    if (!isOpen) showTab("projects");
   }
 }
 
@@ -412,7 +421,8 @@ function updateActiveSubmenu(tabId, sectionId) {
 // Navigate to a tab and scroll to a section smoothly
 function navigateTo(tabId, sectionId, skipAnimation = false) {
   // Check if we're on the dashboard page - if not, redirect to dashboard with tab and section
-  const isDashboardPage = window.location.pathname === "/dashboard";
+  const path = window.location.pathname.replace(/\/$/, '');
+  const isDashboardPage = path === "/dashboard" || path.endsWith("/dashboard");
   if (!isDashboardPage) {
     window.location.href =
       "/dashboard?tab=" + tabId + (sectionId ? "&section=" + sectionId : "");
@@ -490,7 +500,8 @@ function navigateTo(tabId, sectionId, skipAnimation = false) {
 
 function showTab(tabId) {
   // Check if we're on the dashboard page - if not, redirect to dashboard with tab
-  const isDashboardPage = window.location.pathname === "/dashboard";
+  const path = window.location.pathname.replace(/\/$/, '');
+  const isDashboardPage = path === "/dashboard" || path.endsWith("/dashboard");
   if (!isDashboardPage) {
     window.location.href = "/dashboard?tab=" + tabId;
     return;
@@ -513,12 +524,14 @@ function showTab(tabId) {
   // Hide all tab content
   document.querySelectorAll(".tab-content").forEach((content) => {
     content.classList.remove("active");
+    content.style.display = "none";
   });
 
   // Show current tab content
   const currentTab = document.getElementById(tabId);
   if (currentTab) {
     currentTab.classList.add("active");
+    currentTab.style.display = "block";
 
     // Reset subsection visibility - show all subsections within this tab
     const subsections = currentTab.querySelectorAll('[id^="' + tabId + '-"]');
@@ -531,13 +544,17 @@ function showTab(tabId) {
   document.getElementById("pageTitle").textContent =
     pageTitles[tabId] || "ড্যাশবোর্ড";
 
-  // Auto-collapse submenus when switching to other tabs
+  // Auto-collapse submenus when switching to other tabs, keep open for matching tab
   const homeSub = document.getElementById("homeSubmenu");
   const aboutSub = document.getElementById("aboutSubmenu");
   const projectsSub = document.getElementById("projectsSubmenu");
   if (homeSub && tabId !== "home") homeSub.classList.remove("open");
   if (aboutSub && tabId !== "about") aboutSub.classList.remove("open");
   if (projectsSub && tabId !== "projects") projectsSub.classList.remove("open");
+  // Open the matching submenu
+  if (tabId === "home" && homeSub) homeSub.classList.add("open");
+  if (tabId === "about" && aboutSub) aboutSub.classList.add("open");
+  if (tabId === "projects" && projectsSub) projectsSub.classList.add("open");
 
   // Re-render charts/data for the visible tab
   if (tabId === "overview") {
@@ -546,11 +563,13 @@ function showTab(tabId) {
     renderPlotsGrid();
   } else if (tabId === "footer") {
     // Load footer settings when footer tab is shown
-    try {
-      loadFooterSettings();
-    } catch (e) {
-      console.error("Error loading footer settings:", e);
-    }
+    setTimeout(() => {
+      try {
+        if (typeof loadFooterSettings === 'function') loadFooterSettings();
+      } catch (e) {
+        console.error("Error loading footer settings:", e);
+      }
+    }, 100);
   }
 
   // Save current tab to localStorage
@@ -564,7 +583,10 @@ function showTab(tabId) {
 
   // Scroll content-area to top on every tab switch
   var ca = document.querySelector('.content-area');
-  if (ca) ca.scrollTop = 0;
+  if (ca) {
+    ca.scrollTop = 0;
+    setTimeout(function() { ca.scrollTop = 0; }, 10);
+  }
 }
 
 // 2. Overview Tab Logic
@@ -1120,13 +1142,7 @@ const footerDefaults = {
 let footerQrDataUrl = "";
 
 function loadFooterSettings() {
-  const form = document.getElementById("footerSettingsForm");
-  if (!form) {
-    console.warn("Footer form not found, skipping load");
-    return;
-  }
-
-  // Load from API
+  // Load from API regardless of form visibility
   fetch("/api/footer-settings")
     .then((response) => {
       if (!response.ok) {
@@ -1216,7 +1232,7 @@ function loadFooterSettings() {
 
       // Social links
       if (data.social_links && typeof data.social_links === "object") {
-        const cleanUrl = v => (vercel login || v === "#") ? "" : v;
+        const cleanUrl = v => (!v || v === "#") ? "" : v;
         setVal("socialFacebook",  cleanUrl(data.social_links.facebook));
         setVal("socialInstagram", cleanUrl(data.social_links.instagram));
         setVal("socialTwitter",   cleanUrl(data.social_links.twitter));
@@ -2292,12 +2308,11 @@ window.onload = function () {
     }
 
     // Show the saved tab/section
-    // If we have a section, navigate to it; otherwise show overview
+    // If we have a section, navigate to it; otherwise show the saved tab
     if (savedSection && savedSection.trim() !== "") {
       navigateTo(savedTab, savedSection, true);
     } else {
-      // Default to overview
-      showTab("overview");
+      showTab(savedTab || "overview");
     }
   }
 

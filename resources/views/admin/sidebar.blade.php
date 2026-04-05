@@ -105,6 +105,17 @@
             <span>ভিজিট বুকিং</span>
         </div>
 
+        <div class="nav-item" data-tab="registrations" onclick="showTab('registrations')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="16" y1="13" x2="8" y2="13"></line>
+                <line x1="16" y1="17" x2="8" y2="17"></line>
+                <polyline points="10 9 9 9 8 9"></polyline>
+            </svg>
+            <span>প্লট রেজিস্ট্রেশন</span>
+        </div>
+
         <div class="nav-item" data-tab="news" onclick="showTab('news')">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10l4 4v10a2 2 0 01-2 2z"></path>
@@ -221,55 +232,10 @@
     </script>
 
     <script>
-        (function () {
-            function cancel(e) {
-                if (e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                }
-            }
-            // Intercept clicks on active nav items so they do nothing
-            document.addEventListener('click', function (e) {
-                var el = e.target && e.target.closest ? e.target.closest(
-                    '.nav-item.active:not([onclick^="toggle"])') : null;
-                if (el) {
-                    cancel(e);
-                }
-            }, true);
-            // Prevent keyboard activation (Enter/Space) on active items
-            document.addEventListener('keydown', function (e) {
-                if ((e.key === 'Enter' || e.key === ' ') && e.target && e.target.closest) {
-                    var el = e.target.closest('.nav-item.active:not([onclick^="toggle"])');
-                    if (el) {
-                        cancel(e);
-                    }
-                }
-            }, true);
-        })();
-    </script>
-
-    <script>
-        function navigateTo(section, tab) {
-            // hide all tab contents
-            document.querySelectorAll('.tab-content').forEach(div => div.style.display = 'none');
-
-            // show the selected tab
-            const el = document.getElementById(tab);
-            if (el) {
-                el.style.display = 'block';
-            }
-
-            // update active classes
-            document.querySelectorAll('.nav-subitem').forEach(item => item.classList.remove('active'));
-            const active = document.querySelector(`[onclick="navigateTo('${section}','${tab}')"]`);
-            if (active) active.classList.add('active');
-        }
-
         // external navigation (Laravel routes)
         function goto(url) {
             window.location.href = url;
         }
-
     </script>
 
 </aside>
