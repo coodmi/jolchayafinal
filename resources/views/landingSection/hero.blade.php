@@ -321,13 +321,15 @@
             height: auto !important;
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            padding: 0 20px;
+            justify-content: center;
+            gap: 16px;
+            padding: 0;
             pointer-events: none;
             z-index: 6;
             margin: 0 !important;
-            top: 50% !important;
-            transform: translateY(-50%) !important;
+            bottom: 40px !important;
+            top: auto !important;
+            transform: none !important;
             max-width: 100% !important
         }
 
