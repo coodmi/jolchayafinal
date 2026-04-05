@@ -732,19 +732,18 @@
             @endif
             @endforeach
         </div>
-        <div class="overlay">
+        <div class="overlay" id="heroOverlay">
             <div class="overlay-content" id="heroContent">
                 @php $firstSlider = ($heroSliders ?? collect())->first(); @endphp
                 <h1 id="heroTitle">{{ $firstSlider->title ?? '' }}</h1>
                 <h2 id="heroSubtitle">{{ $firstSlider->subtitle ?? '' }}</h2>
                 @if(!empty($headerSettings->hero_tagline))
-                <p class="hero-subtitle" style="font-size: clamp(13px, 2vw, 17px); color: rgba(255,255,255,0.92); font-weight: 400; margin: 0.5rem 0 1rem; text-shadow: 1px 1px 4px rgba(0,0,0,0.5); line-height: 1.6;">{{ $headerSettings->hero_tagline }}</p>
+                <p class="hero-subtitle" id="heroTagline" style="font-size: clamp(13px, 2vw, 17px); color: rgba(255,255,255,0.92); font-weight: 400; margin: 0.5rem 0 1rem; text-shadow: 1px 1px 4px rgba(0,0,0,0.5); line-height: 1.6;">{{ $headerSettings->hero_tagline }}</p>
                 @endif
                 <div class="cta-buttons" id="heroButtons">
                     <a id="heroBtnPrimary" href="{{ $firstSlider->primary_button_link ?? '/registration' }}" class="btn btn-primary">{{ $firstSlider->primary_button_text ?? '' }}</a>
                     <a id="heroBtnSecondary" href="{{ $firstSlider->secondary_button_link ?? '#contact' }}" class="btn btn-secondary">{{ $firstSlider->secondary_button_text ?? '' }}</a>
                 </div>
-
             </div>
         </div>
 
@@ -763,11 +762,50 @@
             const prev = document.getElementById('homePrev');
             const next = document.getElementById('homeNext');
 
+            // Per-slide data from PHP
+            const slideData = @json(($heroSliders ?? collect())->map(fn($s) => [
+                'title' => $s->title ?? '',
+                'subtitle' => $s->subtitle ?? '',
+                'description' => $s->description ?? '',
+                'primary_button_text' => $s->primary_button_text ?? '',
+                'primary_button_link' => $s->primary_button_link ?? '',
+                'secondary_button_text' => $s->secondary_button_text ?? '',
+                'secondary_button_link' => $s->secondary_button_link ?? '',
+            ])->values());
+
+            function updateOverlay(i) {
+                const data = slideData[i] || {};
+                const hasText = data.title || data.subtitle || data.primary_button_text;
+                const overlay = document.getElementById('heroOverlay');
+                if (overlay) overlay.style.display = hasText ? '' : 'none';
+
+                const titleEl = document.getElementById('heroTitle');
+                const subtitleEl = document.getElementById('heroSubtitle');
+                const btnPrimary = document.getElementById('heroBtnPrimary');
+                const btnSecondary = document.getElementById('heroBtnSecondary');
+                const btnsWrap = document.getElementById('heroButtons');
+
+                if (titleEl) titleEl.textContent = data.title || '';
+                if (subtitleEl) subtitleEl.textContent = data.subtitle || '';
+                if (btnPrimary) {
+                    btnPrimary.textContent = data.primary_button_text || '';
+                    btnPrimary.href = data.primary_button_link || '#';
+                    btnPrimary.style.display = data.primary_button_text ? '' : 'none';
+                }
+                if (btnSecondary) {
+                    btnSecondary.textContent = data.secondary_button_text || '';
+                    btnSecondary.href = data.secondary_button_link || '#';
+                    btnSecondary.style.display = data.secondary_button_text ? '' : 'none';
+                }
+                if (btnsWrap) btnsWrap.style.display = (data.primary_button_text || data.secondary_button_text) ? '' : 'none';
+            }
+
             function setActive(i) {
                 if (!slides.length) return;
                 idx = (i + slides.length) % slides.length;
                 slides.forEach((el, k) => el.classList.toggle('active', k === idx));
                 Array.from(dotsWrap.children).forEach((d, k) => d.classList.toggle('active', k === idx));
+                updateOverlay(idx);
             }
 
             function go(n) {

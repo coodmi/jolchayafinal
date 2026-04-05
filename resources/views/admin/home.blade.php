@@ -1090,14 +1090,9 @@
                 #heroSlidesContainer { display:grid; grid-template-columns:repeat(auto-fill, minmax(280px,1fr)); gap:16px; margin-bottom:16px; }
             </style>
             <div class="form-grid" style="display:grid; grid-template-columns:1fr; gap:16px;">
-                <div class="form-group"><label>শিরোনাম</label><input type="text" id="heroTitleInput" placeholder="হিরো শিরোনাম"></div>
-                <div class="form-group"><label>সাব-শিরোনাম</label><input type="text" id="heroSubtitleInput" placeholder="সাব-শিরোনাম"></div>
-                <div class="form-group"><label>হিরো ট্যাগলাইন</label><textarea id="heroTaglineInput" placeholder="প্রকৃতির কোলে নির্মিত আধুনিক আবাসিক প্রকল্প।"></textarea></div>
-                <div class="form-row" style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
-                    <div class="form-group"><label>প্রাইমারি বাটন টেক্সট</label><input type="text" id="heroPrimaryTextInput" placeholder="মূল্য দেখুন"></div>
-                    <div class="form-group"><label>প্রাইমারি বাটন লিংক</label><input type="text" id="heroPrimaryLinkInput" placeholder="#pricing"></div>
-                    <div class="form-group"><label>সেকেন্ডারি বাটন টেক্সট</label><input type="text" id="heroSecondaryTextInput" placeholder="যোগাযোগ করুন"></div>
-                    <div class="form-group"><label>সেকেন্ডারি বাটন লিংক</label><input type="text" id="heroSecondaryLinkInput" placeholder="#contact"></div>
+                <div class="form-group">
+                    <label>হিরো ট্যাগলাইন <small style="color:#6b7280;">(সব slide এ দেখাবে)</small></label>
+                    <textarea id="heroTaglineInput" placeholder="প্রকৃতির কোলে নির্মিত আধুনিক আবাসিক প্রকল্প।"></textarea>
                 </div>
                 <div>
                     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
@@ -1113,10 +1108,7 @@
                 const qs = id => document.getElementById(id);
                 const csrf = document.querySelector('meta[name="csrf-token"]')?.content || '';
                 const inputs = {
-                    title: qs('heroTitleInput'), subtitle: qs('heroSubtitleInput'),
-                    tagline: qs('heroTaglineInput'), pText: qs('heroPrimaryTextInput'),
-                    pLink: qs('heroPrimaryLinkInput'), sText: qs('heroSecondaryTextInput'),
-                    sLink: qs('heroSecondaryLinkInput')
+                    tagline: qs('heroTaglineInput')
                 };
                 let slides = [];
 
@@ -1137,7 +1129,9 @@
                         card.className = 'hero-slide-card';
                         let previewHtml = '<span style="color:#94a3b8;font-size:13px;">স্লাইড ' + (idx+1) + '</span>';
                         if (slide.type === 'video' && slide.videoUrl) {
-                            previewHtml = '<iframe src="' + getEmbed(slide.videoUrl) + '" allowfullscreen></iframe>';
+                            const ym = slide.videoUrl.match(/(?:v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+                            if (ym) previewHtml = '<img src="https://img.youtube.com/vi/' + ym[1] + '/hqdefault.jpg" style="width:100%;height:100%;object-fit:cover;"><div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;"><div style="background:rgba(0,0,0,0.6);border-radius:50%;width:40px;height:40px;display:flex;align-items:center;justify-content:center;"><i class=\'fas fa-play\' style=\'color:#fff;\'></i></div></div>';
+                            else previewHtml = '<div style="color:#6b7280;font-size:12px;text-align:center;padding:8px;">ভিডিও URL দিন</div>';
                         } else if (slide.imageUrl) {
                             previewHtml = '<img src="' + slide.imageUrl + '" alt="Slide">';
                         }
@@ -1148,11 +1142,25 @@
                                 <button class="type-btn ${slide.type==='image'?'active':''}" data-idx="${idx}" data-type="image">🖼 ইমেজ</button>
                                 <button class="type-btn ${slide.type==='video'?'active':''}" data-idx="${idx}" data-type="video">🎬 ভিডিও</button>
                             </div>
-                            <div class="slide-preview">${previewHtml}</div>
+                            <div class="slide-preview" style="position:relative;">${previewHtml}</div>
                             ${slide.type === 'image'
-                                ? '<input type="file" accept="image/*" data-idx="' + idx + '" class="slide-file-input" style="width:100%;font-size:13px;">'
-                                : '<input type="url" placeholder="YouTube / Vimeo URL" value="' + (slide.videoUrl||'')+'" data-idx="' + idx + '" class="slide-video-input" style="width:100%;padding:8px 10px;border:1px solid #cbd5e1;border-radius:8px;font-size:13px;margin-top:4px;">'
+                                ? '<input type="file" accept="image/*" data-idx="' + idx + '" class="slide-file-input" style="width:100%;font-size:13px;margin-bottom:10px;">'
+                                : '<input type="url" placeholder="YouTube URL দিন" value="' + (slide.videoUrl||'')+'" data-idx="' + idx + '" class="slide-video-input" style="width:100%;padding:8px 10px;border:1px solid #cbd5e1;border-radius:8px;font-size:13px;margin-top:4px;margin-bottom:10px;">'
                             }
+                            <details style="margin-top:4px;">
+                                <summary style="cursor:pointer;font-size:13px;color:#0d3d29;font-weight:600;padding:6px 0;">📝 টেক্সট ও বাটন (ঐচ্ছিক)</summary>
+                                <div style="margin-top:10px;display:grid;gap:8px;">
+                                    <input type="text" placeholder="শিরোনাম (ঐচ্ছিক)" value="${slide.title||''}" data-idx="${idx}" class="slide-title-input" style="width:100%;padding:8px 10px;border:1px solid #cbd5e1;border-radius:8px;font-size:13px;">
+                                    <input type="text" placeholder="সাব-শিরোনাম (ঐচ্ছিক)" value="${slide.subtitle||''}" data-idx="${idx}" class="slide-subtitle-input" style="width:100%;padding:8px 10px;border:1px solid #cbd5e1;border-radius:8px;font-size:13px;">
+                                    <textarea placeholder="বিবরণ (ঐচ্ছিক)" data-idx="${idx}" class="slide-desc-input" style="width:100%;padding:8px 10px;border:1px solid #cbd5e1;border-radius:8px;font-size:13px;min-height:60px;resize:vertical;">${slide.description||''}</textarea>
+                                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+                                        <input type="text" placeholder="বাটন ১ টেক্সট" value="${slide.pText||''}" data-idx="${idx}" class="slide-ptext-input" style="padding:8px 10px;border:1px solid #cbd5e1;border-radius:8px;font-size:12px;">
+                                        <input type="text" placeholder="বাটন ১ লিংক" value="${slide.pLink||''}" data-idx="${idx}" class="slide-plink-input" style="padding:8px 10px;border:1px solid #cbd5e1;border-radius:8px;font-size:12px;">
+                                        <input type="text" placeholder="বাটন ২ টেক্সট" value="${slide.sText||''}" data-idx="${idx}" class="slide-stext-input" style="padding:8px 10px;border:1px solid #cbd5e1;border-radius:8px;font-size:12px;">
+                                        <input type="text" placeholder="বাটন ২ লিংক" value="${slide.sLink||''}" data-idx="${idx}" class="slide-slink-input" style="padding:8px 10px;border:1px solid #cbd5e1;border-radius:8px;font-size:12px;">
+                                    </div>
+                                </div>
+                            </details>
                         `;
                         container.appendChild(card);
                     });
@@ -1174,17 +1182,14 @@
                         input.addEventListener('input', function() {
                             const i = parseInt(this.dataset.idx);
                             slides[i].videoUrl = this.value;
-                            // Show preview based on URL type
                             const preview = this.closest('.hero-slide-card').querySelector('.slide-preview');
                             const url = this.value.trim();
                             if (!url || !preview) return;
                             const ym = url.match(/(?:v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
                             if (ym) {
-                                // YouTube thumbnail
                                 preview.innerHTML = '<img src="https://img.youtube.com/vi/' + ym[1] + '/hqdefault.jpg" style="width:100%;height:100%;object-fit:cover;"><div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;"><div style="background:rgba(0,0,0,0.6);border-radius:50%;width:48px;height:48px;display:flex;align-items:center;justify-content:center;"><i class=\'fas fa-play\' style=\'color:#fff;font-size:18px;\'></i></div></div>';
                                 preview.style.position = 'relative';
                             } else if (url.match(/\.(mp4|webm|ogg)$/i)) {
-                                // Direct video
                                 preview.innerHTML = '<video src="' + url + '" style="width:100%;height:100%;object-fit:cover;" muted></video>';
                             } else if (url.includes('facebook.com')) {
                                 preview.innerHTML = '<div style="color:#ef4444;font-size:12px;text-align:center;padding:12px;"><i class=\'fas fa-exclamation-triangle\'></i><br>Facebook video embed করা যায় না।<br>YouTube বা MP4 URL ব্যবহার করুন।</div>';
@@ -1193,10 +1198,20 @@
                             }
                         });
                     });
+                    // Text field listeners
+                    container.querySelectorAll('.slide-title-input').forEach(i => i.addEventListener('input', function() { slides[parseInt(this.dataset.idx)].title = this.value; }));
+                    container.querySelectorAll('.slide-subtitle-input').forEach(i => i.addEventListener('input', function() { slides[parseInt(this.dataset.idx)].subtitle = this.value; }));
+                    container.querySelectorAll('.slide-desc-input').forEach(i => i.addEventListener('input', function() { slides[parseInt(this.dataset.idx)].description = this.value; }));
+                    container.querySelectorAll('.slide-ptext-input').forEach(i => i.addEventListener('input', function() { slides[parseInt(this.dataset.idx)].pText = this.value; }));
+                    container.querySelectorAll('.slide-plink-input').forEach(i => i.addEventListener('input', function() { slides[parseInt(this.dataset.idx)].pLink = this.value; }));
+                    container.querySelectorAll('.slide-stext-input').forEach(i => i.addEventListener('input', function() { slides[parseInt(this.dataset.idx)].sText = this.value; }));
+                    container.querySelectorAll('.slide-slink-input').forEach(i => i.addEventListener('input', function() { slides[parseInt(this.dataset.idx)].sLink = this.value; }));
                 }
 
                 qs('addSlideBtn').addEventListener('click', () => {
-                    slides.push({id:null, type:'image', imageUrl:'', videoUrl:'', file:null}); renderSlides();
+                    slides.push({id:null, type:'image', imageUrl:'', videoUrl:'', file:null,
+                        title:'', subtitle:'', description:'', pText:'', pLink:'', sText:'', sLink:''
+                    }); renderSlides();
                 });
 
                 async function loadHeroTagline() {
@@ -1209,14 +1224,13 @@
                         if (!r.ok) return;
                         const data = await r.json();
                         const sorted = data.sort((a,b)=>(a.order||0)-(b.order||0));
-                        slides = sorted.map(s => ({id:s.id, type:s.video_url?'video':'image', imageUrl:s.image_url||s.image_path||'', videoUrl:s.video_url||'', file:null}));
+                        slides = sorted.map(s => ({id:s.id, type:s.video_url?'video':'image', imageUrl:s.image_url||s.image_path||'', videoUrl:s.video_url||'', file:null,
+                            title:s.title||'', subtitle:s.subtitle||'', description:s.description||'',
+                            pText:s.primary_button_text||'', pLink:s.primary_button_link||'',
+                            sText:s.secondary_button_text||'', sLink:s.secondary_button_link||''
+                        }));
                         if (sorted.length > 0) {
-                            inputs.title.value = sorted[0].title||'';
-                            inputs.subtitle.value = sorted[0].subtitle||'';
-                            inputs.pText.value = sorted[0].primary_button_text||'';
-                            inputs.pLink.value = sorted[0].primary_button_link||'';
-                            inputs.sText.value = sorted[0].secondary_button_text||'';
-                            inputs.sLink.value = sorted[0].secondary_button_link||'';
+                            // tagline loaded separately
                         }
                         renderSlides();
                     } catch(e){ console.error(e); }
@@ -1227,7 +1241,7 @@
                     btn.disabled = true; btn.textContent = 'সংরক্ষণ হচ্ছে...';
                     try {
                         const tfd = new FormData();
-                        tfd.append('hero_tagline', inputs.tagline.value||'');
+                        tfd.append('hero_tagline', inputs.tagline?.value||'');
                         await fetch('/admin/header-settings', {method:'POST', headers:{'X-CSRF-TOKEN':csrf}, body:tfd});
 
                         const existingR = await fetch('/admin/hero-sliders');
@@ -1241,16 +1255,32 @@
 
                         for (let i = 0; i < slides.length; i++) {
                             const slide = slides[i];
-                            // Read current value from DOM input if exists
+                            // Read current values from DOM
                             const videoInput = document.querySelector('.slide-video-input[data-idx="' + i + '"]');
                             if (videoInput) slide.videoUrl = videoInput.value;
+                            const titleInput = document.querySelector('.slide-title-input[data-idx="' + i + '"]');
+                            if (titleInput) slide.title = titleInput.value;
+                            const subtitleInput = document.querySelector('.slide-subtitle-input[data-idx="' + i + '"]');
+                            if (subtitleInput) slide.subtitle = subtitleInput.value;
+                            const descInput = document.querySelector('.slide-desc-input[data-idx="' + i + '"]');
+                            if (descInput) slide.description = descInput.value;
+                            const ptInput = document.querySelector('.slide-ptext-input[data-idx="' + i + '"]');
+                            if (ptInput) slide.pText = ptInput.value;
+                            const plInput = document.querySelector('.slide-plink-input[data-idx="' + i + '"]');
+                            if (plInput) slide.pLink = plInput.value;
+                            const stInput = document.querySelector('.slide-stext-input[data-idx="' + i + '"]');
+                            if (stInput) slide.sText = stInput.value;
+                            const slInput = document.querySelector('.slide-slink-input[data-idx="' + i + '"]');
+                            if (slInput) slide.sLink = slInput.value;
+
                             const fd = new FormData();
-                            fd.append('title', inputs.title.value||'');
-                            fd.append('subtitle', inputs.subtitle.value||'');
-                            fd.append('primary_button_text', inputs.pText.value||'');
-                            fd.append('primary_button_link', inputs.pLink.value||'');
-                            fd.append('secondary_button_text', inputs.sText.value||'');
-                            fd.append('secondary_button_link', inputs.sLink.value||'');
+                            fd.append('title', slide.title||'');
+                            fd.append('subtitle', slide.subtitle||'');
+                            fd.append('description', slide.description||'');
+                            fd.append('primary_button_text', slide.pText||'');
+                            fd.append('primary_button_link', slide.pLink||'');
+                            fd.append('secondary_button_text', slide.sText||'');
+                            fd.append('secondary_button_link', slide.sLink||'');
                             fd.append('order', i+1);
                             fd.append('is_active', '1');
                             fd.append('video_url', slide.type==='video' ? (slide.videoUrl||'') : '');
