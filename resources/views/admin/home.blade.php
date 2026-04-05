@@ -1139,6 +1139,7 @@
                                 <span id="heroSlidePh1" style="color:#94a3b8;">Slide 1</span>
                             </div>
                             <input type="file" id="heroSlideInput1" accept="image/*" style="margin-top:6px;">
+                            <input type="url" id="heroSlideVideo1" placeholder="Video URL (YouTube/Vimeo)" style="margin-top:6px; width:100%; padding:6px 10px; border:1px solid #cbd5e1; border-radius:6px; font-size:13px;">
                         </div>
                         <div>
                             <div
@@ -1148,6 +1149,7 @@
                                 <span id="heroSlidePh2" style="color:#94a3b8;">Slide 2</span>
                             </div>
                             <input type="file" id="heroSlideInput2" accept="image/*" style="margin-top:6px;">
+                            <input type="url" id="heroSlideVideo2" placeholder="Video URL (YouTube/Vimeo)" style="margin-top:6px; width:100%; padding:6px 10px; border:1px solid #cbd5e1; border-radius:6px; font-size:13px;">
                         </div>
                         <div>
                             <div
@@ -1157,6 +1159,7 @@
                                 <span id="heroSlidePh3" style="color:#94a3b8;">Slide 3</span>
                             </div>
                             <input type="file" id="heroSlideInput3" accept="image/*" style="margin-top:6px;">
+                            <input type="url" id="heroSlideVideo3" placeholder="Video URL (YouTube/Vimeo)" style="margin-top:6px; width:100%; padding:6px 10px; border:1px solid #cbd5e1; border-radius:6px; font-size:13px;">
                         </div>
                     </div>
                 </div>
@@ -1179,6 +1182,7 @@
                         sLink: qs('heroSecondaryLinkInput')
                     };
                     const fileInputs = [qs('heroSlideInput1'), qs('heroSlideInput2'), qs('heroSlideInput3')];
+                    const videoInputs = [qs('heroSlideVideo1'), qs('heroSlideVideo2'), qs('heroSlideVideo3')];
                     const prevImgs = [qs('heroSlidePrev1'), qs('heroSlidePrev2'), qs('heroSlidePrev3')];
                     const phs = [qs('heroSlidePh1'), qs('heroSlidePh2'), qs('heroSlidePh3')];
                     let currentSliders = [null, null, null]; // Store current slider IDs
@@ -1232,6 +1236,8 @@
                                         prevImgs[i].style.display = 'none';
                                         phs[i].style.display = 'block';
                                     }
+                                    // Load video URL
+                                    if (videoInputs[i]) videoInputs[i].value = slider.video_url || '';
                                 });
 
                                 // Fill remaining slots
@@ -1317,6 +1323,8 @@
                                 formData.append('secondary_button_link', inputs.sLink.value || '');
                                 formData.append('order', i + 1);
                                 formData.append('is_active', '1');
+                                // Add video URL if provided
+                                if (videoInputs[i]) formData.append('video_url', videoInputs[i].value || '');
 
                                 // Add image if uploaded
                                 if (fileInputs[i].files && fileInputs[i].files[0]) {

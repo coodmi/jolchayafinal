@@ -116,6 +116,29 @@
             opacity: 1
         }
 
+        /* Video slide */
+        #home .slides .slide-video {
+            position: absolute !important;
+            inset: 0 !important;
+            width: 100% !important;
+            height: 100% !important;
+            opacity: 0;
+            transition: opacity .3s ease;
+            pointer-events: none;
+        }
+        #home .slides .slide-video.active {
+            opacity: 1;
+        }
+        #home .slides .slide-video iframe,
+        #home .slides .slide-video video {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border: none;
+        }
+
         /* Professional Overlay with Full Width Breakout */
         #home .overlay {
             position: absolute !important;
@@ -679,7 +702,30 @@
     <div class="slider-wrap">
         <div class="slides" id="homeSlides">
             @foreach($heroSliders ?? [] as $i => $slider)
+            @if(!empty($slider->video_url))
+            <div class="slide-video {{ $i === 0 ? 'active' : '' }}" id="homeSlide{{ $i+1 }}" data-video="{{ $slider->video_url }}">
+                @php
+                    $videoUrl = $slider->video_url;
+                    $embedUrl = '';
+                    if (str_contains($videoUrl, 'youtube.com') || str_contains($videoUrl, 'youtu.be')) {
+                        preg_match('/(?:v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/', $videoUrl, $m);
+                        $vid = $m[1] ?? '';
+                        $embedUrl = "https://www.youtube.com/embed/{$vid}?autoplay=1&mute=1&loop=1&playlist={$vid}&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1";
+                    } elseif (str_contains($videoUrl, 'vimeo.com')) {
+                        preg_match('/vimeo\.com\/(\d+)/', $videoUrl, $m);
+                        $vid = $m[1] ?? '';
+                        $embedUrl = "https://player.vimeo.com/video/{$vid}?autoplay=1&muted=1&loop=1&background=1";
+                    }
+                @endphp
+                @if($embedUrl)
+                <iframe src="{{ $embedUrl }}" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+                @else
+                <video src="{{ $videoUrl }}" autoplay muted loop playsinline></video>
+                @endif
+            </div>
+            @else
             <img src="{{ $slider->image_url }}" alt="{{ $slider->title }}" class="{{ $i === 0 ? 'active' : '' }}" id="homeSlide{{ $i+1 }}" loading="{{ $i === 0 ? 'eager' : 'lazy' }}">
+            @endif
             @endforeach
         </div>
         <div class="overlay">
@@ -716,7 +762,7 @@
             function setActive(i) {
                 if (!slides.length) return;
                 idx = (i + slides.length) % slides.length;
-                slides.forEach((im, k) => im.classList.toggle('active', k === idx));
+                slides.forEach((el, k) => el.classList.toggle('active', k === idx));
                 Array.from(dotsWrap.children).forEach((d, k) => d.classList.toggle('active', k === idx));
             }
 
@@ -740,7 +786,7 @@
             }
 
             function initSlider() {
-                slides = Array.from(document.querySelectorAll('#homeSlides img'));
+                slides = Array.from(document.querySelectorAll('#homeSlides img, #homeSlides .slide-video'));
                 if (!slides.length) return;
                 idx = 0;
                 buildDots();

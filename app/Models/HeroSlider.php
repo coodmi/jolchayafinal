@@ -18,6 +18,7 @@ class HeroSlider extends Model
         'secondary_button_text',
         'secondary_button_link',
         'image_url',
+        'video_url',
         'order',
         'is_active',
     ];

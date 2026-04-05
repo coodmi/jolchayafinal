@@ -108,6 +108,7 @@ Route::get('/api/hero-sliders', function () {
                 'secondary_button_text' => $slider->secondary_button_text ?? '',
                 'secondary_button_link' => $slider->secondary_button_link ?? '',
                 'image_url' => $imageUrl,
+                'video_url' => $slider->video_url ?? '',
                 'order' => $slider->order ?? 0,
                 'is_active' => $slider->is_active ?? false,
             ];
