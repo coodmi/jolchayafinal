@@ -514,3 +514,72 @@
         <div style="background:#0a1220; padding:10px 16px; color:#94a3b8; text-align:center;" id="pvBottom">© ২০২৫ জলছায়া। সর্বস্বত্ব সংরক্ষিত। | NEX Real Estate এর একটি প্রকল্প</div>
     </div>
 </div>
+
+<script>
+// Footer tab self-contained loader — runs whenever tab becomes visible
+(function() {
+    function fillFooterFields() {
+        fetch('/api/footer-settings?_=' + Date.now(), { cache: 'no-store' })
+            .then(r => r.json())
+            .then(function(d) {
+                if (!d || d.error) return;
+                var set = function(id, val) {
+                    var el = document.getElementById(id);
+                    if (el && val != null && val !== '') el.value = val;
+                };
+                set('footerTitle',       d.title);
+                set('footerDescription', d.description);
+                set('phone1',            d.phone1);
+                set('phone2',            d.phone2);
+                set('email',             d.email);
+                set('projectAddress',    d.project_address);
+                set('contactAddress',    d.contact_address);
+                set('mapUrl',            d.map_url);
+                set('bottomText',        d.bottom_text);
+                set('qrSectionTitle',    d.qr_section_title);
+                set('mapButtonText',     d.map_button_text);
+                set('concernTitle',      d.concern_title);
+                set('nexRealEstateUrl',  d.nex_real_estate_url);
+
+                // Social links
+                if (d.social_links) {
+                    var clean = function(v) { return (!v || v === '#') ? '' : v; };
+                    set('socialFacebook',  clean(d.social_links.facebook));
+                    set('socialInstagram', clean(d.social_links.instagram));
+                    set('socialTwitter',   clean(d.social_links.twitter));
+                    set('socialLinkedin',  clean(d.social_links.linkedin));
+                    set('socialYouTube',   clean(d.social_links.youtube));
+                }
+
+                // Quick links
+                if (d.quick_links && d.quick_links.length) {
+                    var ql = d.quick_links;
+                    if (ql[0]) { set('qlHomeLabel', ql[0].label); set('qlHomeHref', ql[0].href); }
+                    if (ql[1]) { set('qlFeaturesLabel', ql[1].label); set('qlFeaturesHref', ql[1].href); }
+                    if (ql[2]) { set('qlPricingLabel', ql[2].label); set('qlPricingHref', ql[2].href); }
+                    if (ql[3]) { set('qlContactLabel', ql[3].label); set('qlContactHref', ql[3].href); }
+                    if (ql[4]) { set('qlGalleryLabel', ql[4].label); set('qlGalleryHref', ql[4].href); }
+                }
+
+                // Legal links
+                if (d.legal_links && d.legal_links.length) {
+                    var ll = d.legal_links;
+                    if (ll[0]) { set('legalPrivacyLabel', ll[0].label); set('legalPrivacyHref', ll[0].href); }
+                    if (ll[1]) { set('legalTermsLabel', ll[1].label); set('legalTermsHref', ll[1].href); }
+                }
+            })
+            .catch(function(e) { console.error('Footer load error:', e); });
+    }
+
+    // Watch for tab becoming visible
+    var tab = document.getElementById('footer');
+    if (tab) {
+        var observer = new MutationObserver(function() {
+            if (tab.style.display === 'block' || tab.classList.contains('active')) {
+                fillFooterFields();
+            }
+        });
+        observer.observe(tab, { attributes: true, attributeFilter: ['style', 'class'] });
+    }
+})();
+</script>
