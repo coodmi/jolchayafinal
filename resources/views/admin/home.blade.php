@@ -1090,10 +1090,6 @@
                 #heroSlidesContainer { display:grid; grid-template-columns:repeat(auto-fill, minmax(280px,1fr)); gap:16px; margin-bottom:16px; }
             </style>
             <div class="form-grid" style="display:grid; grid-template-columns:1fr; gap:16px;">
-                <div class="form-group">
-                    <label>হিরো ট্যাগলাইন <small style="color:#6b7280;">(সব slide এ দেখাবে)</small></label>
-                    <textarea id="heroTaglineInput" placeholder="প্রকৃতির কোলে নির্মিত আধুনিক আবাসিক প্রকল্প।"></textarea>
-                </div>
                 <div>
                     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
                         <label style="font-weight:600; font-size:15px;">স্লাইডসমূহ</label>
@@ -1107,9 +1103,7 @@
             (function () {
                 const qs = id => document.getElementById(id);
                 const csrf = document.querySelector('meta[name="csrf-token"]')?.content || '';
-                const inputs = {
-                    tagline: qs('heroTaglineInput')
-                };
+                const inputs = {};
                 let slides = [];
 
                 function getEmbed(url) {
@@ -1152,6 +1146,7 @@
                                 <div style="margin-top:10px;display:grid;gap:8px;">
                                     <input type="text" placeholder="শিরোনাম (ঐচ্ছিক)" value="${slide.title||''}" data-idx="${idx}" class="slide-title-input" style="width:100%;padding:8px 10px;border:1px solid #cbd5e1;border-radius:8px;font-size:13px;">
                                     <input type="text" placeholder="সাব-শিরোনাম (ঐচ্ছিক)" value="${slide.subtitle||''}" data-idx="${idx}" class="slide-subtitle-input" style="width:100%;padding:8px 10px;border:1px solid #cbd5e1;border-radius:8px;font-size:13px;">
+                                    <textarea placeholder="ট্যাগলাইন (ঐচ্ছিক)" data-idx="${idx}" class="slide-tagline-input" style="width:100%;padding:8px 10px;border:1px solid #cbd5e1;border-radius:8px;font-size:13px;min-height:60px;resize:vertical;">${slide.tagline||''}</textarea>
                                     <textarea placeholder="বিবরণ (ঐচ্ছিক)" data-idx="${idx}" class="slide-desc-input" style="width:100%;padding:8px 10px;border:1px solid #cbd5e1;border-radius:8px;font-size:13px;min-height:60px;resize:vertical;">${slide.description||''}</textarea>
                                     <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
                                         <input type="text" placeholder="বাটন ১ টেক্সট" value="${slide.pText||''}" data-idx="${idx}" class="slide-ptext-input" style="padding:8px 10px;border:1px solid #cbd5e1;border-radius:8px;font-size:12px;">
@@ -1201,6 +1196,7 @@
                     // Text field listeners
                     container.querySelectorAll('.slide-title-input').forEach(i => i.addEventListener('input', function() { slides[parseInt(this.dataset.idx)].title = this.value; }));
                     container.querySelectorAll('.slide-subtitle-input').forEach(i => i.addEventListener('input', function() { slides[parseInt(this.dataset.idx)].subtitle = this.value; }));
+                    container.querySelectorAll('.slide-tagline-input').forEach(i => i.addEventListener('input', function() { slides[parseInt(this.dataset.idx)].tagline = this.value; }));
                     container.querySelectorAll('.slide-desc-input').forEach(i => i.addEventListener('input', function() { slides[parseInt(this.dataset.idx)].description = this.value; }));
                     container.querySelectorAll('.slide-ptext-input').forEach(i => i.addEventListener('input', function() { slides[parseInt(this.dataset.idx)].pText = this.value; }));
                     container.querySelectorAll('.slide-plink-input').forEach(i => i.addEventListener('input', function() { slides[parseInt(this.dataset.idx)].pLink = this.value; }));
@@ -1210,7 +1206,7 @@
 
                 qs('addSlideBtn').addEventListener('click', () => {
                     slides.push({id:null, type:'image', imageUrl:'', videoUrl:'', file:null,
-                        title:'', subtitle:'', description:'', pText:'', pLink:'', sText:'', sLink:''
+                        title:'', subtitle:'', tagline:'', description:'', pText:'', pLink:'', sText:'', sLink:''
                     }); renderSlides();
                 });
 
@@ -1225,7 +1221,7 @@
                         const data = await r.json();
                         const sorted = data.sort((a,b)=>(a.order||0)-(b.order||0));
                         slides = sorted.map(s => ({id:s.id, type:s.video_url?'video':'image', imageUrl:s.image_url||s.image_path||'', videoUrl:s.video_url||'', file:null,
-                            title:s.title||'', subtitle:s.subtitle||'', description:s.description||'',
+                            title:s.title||'', subtitle:s.subtitle||'', tagline:s.tagline||'', description:s.description||'',
                             pText:s.primary_button_text||'', pLink:s.primary_button_link||'',
                             sText:s.secondary_button_text||'', sLink:s.secondary_button_link||''
                         }));
@@ -1241,7 +1237,7 @@
                     btn.disabled = true; btn.textContent = 'সংরক্ষণ হচ্ছে...';
                     try {
                         const tfd = new FormData();
-                        tfd.append('hero_tagline', inputs.tagline?.value||'');
+                        tfd.append('hero_tagline', '');
                         await fetch('/admin/header-settings', {method:'POST', headers:{'X-CSRF-TOKEN':csrf}, body:tfd});
 
                         const existingR = await fetch('/admin/hero-sliders');
@@ -1262,6 +1258,8 @@
                             if (titleInput) slide.title = titleInput.value;
                             const subtitleInput = document.querySelector('.slide-subtitle-input[data-idx="' + i + '"]');
                             if (subtitleInput) slide.subtitle = subtitleInput.value;
+                            const taglineInput = document.querySelector('.slide-tagline-input[data-idx="' + i + '"]');
+                            if (taglineInput) slide.tagline = taglineInput.value;
                             const descInput = document.querySelector('.slide-desc-input[data-idx="' + i + '"]');
                             if (descInput) slide.description = descInput.value;
                             const ptInput = document.querySelector('.slide-ptext-input[data-idx="' + i + '"]');
@@ -1277,6 +1275,7 @@
                             fd.append('title', slide.title||'');
                             fd.append('subtitle', slide.subtitle||'');
                             fd.append('description', slide.description||'');
+                            fd.append('tagline', slide.tagline||'');
                             fd.append('primary_button_text', slide.pText||'');
                             fd.append('primary_button_link', slide.pLink||'');
                             fd.append('secondary_button_text', slide.sText||'');

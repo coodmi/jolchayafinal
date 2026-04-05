@@ -14,12 +14,13 @@ class HeroSliderController extends Controller
         return response()->json(HeroSlider::ordered()->get());
     }
 
-    public function store(Request $request)
+    private function rules(): array
     {
-        $validator = Validator::make($request->all(), [
+        return [
             'title'                => 'nullable|string|max:255',
             'subtitle'             => 'nullable|string|max:255',
             'description'          => 'nullable|string',
+            'tagline'              => 'nullable|string',
             'primary_button_text'  => 'nullable|string|max:100',
             'primary_button_link'  => 'nullable|string|max:255',
             'secondary_button_text'=> 'nullable|string|max:100',
@@ -28,14 +29,15 @@ class HeroSliderController extends Controller
             'video_url'            => 'nullable|string|max:500',
             'order'                => 'nullable|integer',
             'is_active'            => 'nullable|boolean',
-        ]);
+        ];
+    }
 
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
-        }
+    public function store(Request $request)
+    {
+        $validator = Validator::make($request->all(), $this->rules());
+        if ($validator->fails()) return response()->json(['errors' => $validator->errors()], 422);
 
         $data = $request->except('image');
-
         if ($request->hasFile('image')) {
             $image = $request->file('image');
             $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
@@ -45,34 +47,16 @@ class HeroSliderController extends Controller
 
         $slider = HeroSlider::create($data);
         cache()->forget('landing_v3');
-
         return response()->json(['message' => 'Slider created successfully', 'slider' => $slider->fresh()], 201);
     }
 
     public function update(Request $request, $id)
     {
         $slider = HeroSlider::findOrFail($id);
-
-        $validator = Validator::make($request->all(), [
-            'title'                => 'nullable|string|max:255',
-            'subtitle'             => 'nullable|string|max:255',
-            'description'          => 'nullable|string',
-            'primary_button_text'  => 'nullable|string|max:100',
-            'primary_button_link'  => 'nullable|string|max:255',
-            'secondary_button_text'=> 'nullable|string|max:100',
-            'secondary_button_link'=> 'nullable|string|max:255',
-            'image'                => 'nullable|image|mimes:jpeg,png,jpg,gif,webp,avif|max:5120',
-            'video_url'            => 'nullable|string|max:500',
-            'order'                => 'nullable|integer',
-            'is_active'            => 'nullable|boolean',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
-        }
+        $validator = Validator::make($request->all(), $this->rules());
+        if ($validator->fails()) return response()->json(['errors' => $validator->errors()], 422);
 
         $data = $request->except('image');
-
         if ($request->hasFile('image')) {
             if ($slider->image_url && file_exists(public_path($slider->image_url))) {
                 unlink(public_path($slider->image_url));
@@ -85,7 +69,6 @@ class HeroSliderController extends Controller
 
         $slider->update($data);
         cache()->forget('landing_v3');
-
         return response()->json(['message' => 'Slider updated successfully', 'slider' => $slider->fresh()]);
     }
 

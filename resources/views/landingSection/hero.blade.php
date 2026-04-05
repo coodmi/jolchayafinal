@@ -737,9 +737,7 @@
                 @php $firstSlider = ($heroSliders ?? collect())->first(); @endphp
                 <h1 id="heroTitle">{{ $firstSlider->title ?? '' }}</h1>
                 <h2 id="heroSubtitle">{{ $firstSlider->subtitle ?? '' }}</h2>
-                @if(!empty($headerSettings->hero_tagline))
-                <p class="hero-subtitle" id="heroTagline" style="font-size: clamp(13px, 2vw, 17px); color: rgba(255,255,255,0.92); font-weight: 400; margin: 0.5rem 0 1rem; text-shadow: 1px 1px 4px rgba(0,0,0,0.5); line-height: 1.6;">{{ $headerSettings->hero_tagline }}</p>
-                @endif
+                <p class="hero-subtitle" id="heroTagline" style="font-size: clamp(13px, 2vw, 17px); color: rgba(255,255,255,0.92); font-weight: 400; margin: 0.5rem 0 1rem; text-shadow: 1px 1px 4px rgba(0,0,0,0.5); line-height: 1.6; {{ empty($firstSlider->tagline) ? 'display:none;' : '' }}">{{ $firstSlider->tagline ?? '' }}</p>
                 <div class="cta-buttons" id="heroButtons">
                     <a id="heroBtnPrimary" href="{{ $firstSlider->primary_button_link ?? '/registration' }}" class="btn btn-primary">{{ $firstSlider->primary_button_text ?? '' }}</a>
                     <a id="heroBtnSecondary" href="{{ $firstSlider->secondary_button_link ?? '#contact' }}" class="btn btn-secondary">{{ $firstSlider->secondary_button_text ?? '' }}</a>
@@ -766,6 +764,7 @@
             const slideData = @json(($heroSliders ?? collect())->map(fn($s) => [
                 'title' => $s->title ?? '',
                 'subtitle' => $s->subtitle ?? '',
+                'tagline' => $s->tagline ?? '',
                 'description' => $s->description ?? '',
                 'primary_button_text' => $s->primary_button_text ?? '',
                 'primary_button_link' => $s->primary_button_link ?? '',
@@ -781,12 +780,17 @@
 
                 const titleEl = document.getElementById('heroTitle');
                 const subtitleEl = document.getElementById('heroSubtitle');
+                const taglineEl = document.getElementById('heroTagline');
                 const btnPrimary = document.getElementById('heroBtnPrimary');
                 const btnSecondary = document.getElementById('heroBtnSecondary');
                 const btnsWrap = document.getElementById('heroButtons');
 
                 if (titleEl) titleEl.textContent = data.title || '';
                 if (subtitleEl) subtitleEl.textContent = data.subtitle || '';
+                if (taglineEl) {
+                    taglineEl.textContent = data.tagline || '';
+                    taglineEl.style.display = data.tagline ? '' : 'none';
+                }
                 if (btnPrimary) {
                     btnPrimary.textContent = data.primary_button_text || '';
                     btnPrimary.href = data.primary_button_link || '#';
